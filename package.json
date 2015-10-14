@@ -1,0 +1,21 @@
+{
+  "name": "one",
+  "version": "0.0.0",
+  "description": "a single source of all social media truths",
+  "main": "server/server.py",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jauntymanatee/one.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/jauntymanatee/one/issues"
+  },
+  "dependencies": {
+    "bower": "~1.5.3"
+  }
+}
