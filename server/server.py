@@ -4,7 +4,7 @@ app = Flask(__name__, static_folder='../client')
  
 @app.route('/')
 def home():
-  return "hey"
+  return app.send_static_file('index.html')
  
 if __name__ == '__main__':
   app.run(debug=True)
