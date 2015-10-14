@@ -1,4 +1,4 @@
-angular
+var app = angular
   .module('app', [
     'ui.router'
   ])
@@ -9,7 +9,7 @@ angular
       .state('home',{
         url: '/',
         templateUrl: 'views/home.html',
-        controller: homeController
+        controller: 'homeController'
       })
       .state('feed',{
         url: '/feed',
