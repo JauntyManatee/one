@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/JauntyManatee/one.png?label=ready&title=Ready)](https://waffle.io/JauntyManatee/one)
 # one
 
 > Pithy project description: a single source of all social media
