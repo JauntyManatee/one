@@ -1,6 +1,6 @@
 from flask import Flask, request
  
-app = Flask(__name__, static_folder='./client')      
+app = Flask(__name__, static_folder='../client')      
  
 @app.route('/')
 def home():
