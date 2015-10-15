@@ -1,0 +1,15 @@
+LOG:  database system was shut down at 2015-10-14 16:27:23 PDT
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  database "rjforloine" does not exist
+FATAL:  database "rjforloine" does not exist
+FATAL:  database "rjforloine" does not exist
+FATAL:  role "postgres" does not exist
+FATAL:  database "list" does not exist
+FATAL:  database "rjforloine" does not exist
+FATAL:  database "l" does not exist
+LOG:  received smart shutdown request
+LOG:  autovacuum launcher shutting down
+LOG:  shutting down
+LOG:  database system is shut down
