@@ -1,12 +1,14 @@
-app.factory('APIfactory',['$http', function ($http) {
+app.factory('APIFactory',['$http', function ($http) {
 
-  var getIG = function () {
+  var getTweets = function () {
     return $http({
-      
+      method: 'GET',
+      url: 'https://api.twitter.com/1.1/statuses/home_timeline.json'
     });
   };
 
   return {
-    getIG: getIG
+    getTweets: getTweets
   };
+
 }]);

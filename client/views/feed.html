@@ -1,5 +1,5 @@
 <div ng-controller="FeedController">
- <ul>
+ <ul ng-init="getTweets()">
   <li ng-repeat="post in feed"> 
     {{ post }}
   </li> 
