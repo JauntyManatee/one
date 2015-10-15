@@ -9,10 +9,11 @@ var app = angular
       .state('home',{
         url: '/',
         templateUrl: 'views/home.html',
-        controller: 'homeController'
+        controller: 'HomeController'
       })
       .state('feed',{
         url: '/feed',
-        templateUrl: 'views/feed.html'
+        templateUrl: 'views/feed.html',
+        controller: 'FeedController'
       });
   }]);
