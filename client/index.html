@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>ONE</title>
-  <link rel="stylesheet" src="lib/bootstrap/dist/css/bootstrap-theme.css">
 </head>
 <body>
 
@@ -10,15 +9,24 @@
     <header>Note to self: Eventually ng-include some banner html here</header>
     <div ui-view></div>
   </div>
+  <div></div>
 
 
 
-<!-- Dependencies -->
+  <!-- Dependencies -->
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="lib/d3/d3.js"></script>
 
+  <!-- front end routing -->
   <script src="app.js"></script>
+
+  <!-- Factories -->
+  <script src="factories/APIFactory.js"></script>
+
+  <!-- Controllers -->
   <script src="controllers/homeController.js"></script>
+  <script src="controllers/feedController.js"></script>
 </body>
 </html>
+
