@@ -4,3 +4,4 @@ myApp/
 .DS_store
 venv
 .env
+server/auth.py
