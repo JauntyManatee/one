@@ -3,3 +3,4 @@ client/lib
 myApp/
 .DS_store
 venv
+.env
