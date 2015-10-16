@@ -2,4 +2,8 @@ node_modules
 client/lib
 myApp/
 .DS_store
+<<<<<<< HEAD
 venv
+=======
+.env
+>>>>>>> start front end api work
