@@ -1,0 +1,38 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <title>ONE</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div ng-app="app">
+    <header>Note to self: Eventually ng-include some banner html here</header>
+    <div ui-view></div>
+  </div>
+
+  
+
+
+  <!-- Dependencies -->
+  <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}" id='i'></script>
+  <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='bower_components/angular-ui-router/release/angular-ui-router.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='bower_components/d3/d3.min.js') }}"></script>
+
+  <!-- front end routing -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+  <!-- Factories -->
+  <script src="{{ url_for('static', filename='js/factories/APIFactory.js') }}"></script>
+
+  <!-- Controllers -->
+  <script src="{{ url_for('static', filename='js/controllers/homeController.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/controllers/feedController.js') }}"></script>
+</body>
+</html>
+
