@@ -1,7 +1,10 @@
 node_modules
+project/static/bower_components
 client/lib
 myApp/
-.DS_store
+*.DS_store
+*.pyc
+__pycache__
 venv
 .env
 server/auth.py

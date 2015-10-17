@@ -1,5 +1,11 @@
 {
   "name": "ONE",
+	"authors":["Niraj Vora, Brian Graham, Robert Forloine, Ryan Wholey"],
+	"ignore":[
+		"node_modules",
+		"bower_components",
+		"test"
+	],
   "dependencies": {
     "angular": "~1.4.7",
     "d3": "~3.5.6",
