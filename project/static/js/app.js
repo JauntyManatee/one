@@ -8,12 +8,12 @@ var app = angular
     $stateProvider
       .state('home',{
         url: '/',
-        templateUrl: 'views/home.html',
+        templateUrl: 'static/views/home.html',
         controller: 'HomeController'
       })
       .state('feed',{
         url: '/feed',
-        templateUrl: 'views/feed.html',
+        templateUrl: '..static/views/feed.html',
         controller: 'FeedController'
       });
   }]);
