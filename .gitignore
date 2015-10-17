@@ -7,3 +7,4 @@ myApp/
 venv
 .env
 .module-cache
+project/auth.py
