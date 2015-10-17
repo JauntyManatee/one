@@ -15,9 +15,9 @@ conn = engine.connect()
 metadata = MetaData(engine)
 
 users = Table('users', metadata,
-    Column('user_id', Integer, primary_key=True),
+    Column('userID', Integer, primary_key=True),
     Column('username', String(16), nullable=False),
-    Column('email_address', String(60), key='email'),
+    Column('emailAddress', String(60), nullable=False),
     Column('password', String(20), nullable=False),
     Column('token', String(16), nullable=False)
 )
@@ -33,8 +33,8 @@ users = Table('users', metadata,
 metadata.create_all()
 
 conn.execute(users.insert(), [
-  {"username": "nvora", "email_address":"j@hooplife.com", "password":"madj"},
-  {"username": "code", "email_address":"code@code.com", "password":"code&beats"}
+  {"username": "nvora", "email_address":"j@hooplife.com", "password":"madj", "token": "code"},
+  {"username": "code", "email_address":"code@code.com", "password":"code&beats", "token": "code"}
 ])
 
 from sqlalchemy.sql import select
