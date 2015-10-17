@@ -1,0 +1,10 @@
+All commands assume you are in db directory: one/project/data
+All db schemas and commands are written in one/project/db.py
+db.py is imported into the server to establish the connection.
+The database has been assigned to the environmental variable PGDATA.
+
+To initialize the db:     initdb PGDATA
+To start postgres run:    postgres -D PGDATA or pg_ctl -D ./ start
+To interact with app db:  psql one_db 
+To show users in table:   SELECT * FROM users;
+ 

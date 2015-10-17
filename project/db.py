@@ -30,15 +30,15 @@ users = Table('users', metadata,
 
 metadata.create_all()
 
-conn.execute(users.insert(), [
-  {"username": "nvora", "email_address":"j@hooplife.com", "password":"madj", "token": "code"},
-  {"username": "code", "email_address":"code@code.com", "password":"code&beats", "token": "code"}
-])
-
-from sqlalchemy.sql import select
-s = select([users])
-result = s.execute()
-print(result)
-
-for row in result:
- print row
+#conn.execute(users.insert(), [
+#  {"username": "nvora", "emailAddress":"j@hooplife.com", "password":"madj", "token": "code"},
+#  {"username": "code", "emailAddress":"code@code.com", "password":"code&beats", "token": "code"}
+#])
+#
+#from sqlalchemy.sql import select
+#s = select([users])
+#result = s.execute()
+#print(result)
+#
+#for row in result:
+# print row

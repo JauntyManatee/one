@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from db import *
+from db import engine
  
 app = Flask(__name__)      
 
@@ -13,3 +13,6 @@ def home():
 #	return app.send_static_file(path);
 
 
+if __name__ == '__main__':
+    app.run(debug=True)
+    
