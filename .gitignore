@@ -9,4 +9,4 @@ venv
 .env
 .module_cache
 project/server_logic/auth.py
-project/data/PGDATA
+project/PGDATA
