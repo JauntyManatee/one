@@ -4,6 +4,8 @@ client/lib
 myApp/
 *.DS_store
 *.pyc
+__pycache__
 venv
 .env
 .module-cache
+project/server_logic/auth.py
