@@ -7,4 +7,5 @@ myApp/
 __pycache__
 venv
 .env
-server/auth.py
+.module_cache
+project/server_logic/auth.py
