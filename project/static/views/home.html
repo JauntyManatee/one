@@ -1,8 +1,12 @@
 <div ng-controller="HomeController">  
-  <form>
-    <input ng-model="username" type="text" placeholder="username">
-    <input ng-model="password" type="password" placeholder="password">
-    <button ng-click="logIn(username, password)">Log In</button>
-    <button class="btn-primary" ng-click="signUp(username, password)">Sign Up</button>
-  </form>
+  <div class="row">
+    <div class="center-block text-center">
+      <form class="">
+        <input ng-model="username" type="text" placeholder="username">
+        <input ng-model="password" type="password" placeholder="password">
+        <button ng-click="logIn(username, password)">Log In</button>
+        <button class="btn-primary" ng-click="signUp(username, password)">Sign Up</button>
+      </form>
+    </div>
+  </div>
 </div>
