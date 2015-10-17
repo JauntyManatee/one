@@ -3,6 +3,7 @@ import psycopg2
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy import create_engine
+
 engine = create_engine('postgresql://localhost:5432/one_db')
 conn = engine.connect() 
 metadata = MetaData(engine)
