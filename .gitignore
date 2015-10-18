@@ -8,5 +8,9 @@ __pycache__
 venv
 .env
 .module_cache
+<<<<<<< HEAD
+project/auth.py
+=======
 project/server_logic/auth.py
 project/PGDATA
+>>>>>>> 1a79c549257d9972edb527026b3449bb6b65c574
