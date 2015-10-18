@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect
 import oauth2 as oauth
 import urlparse, webbrowser, flask, sys, os
 from db import engine
-sys.path.append('server_logic')
 
 app = Flask(__name__)      
 
