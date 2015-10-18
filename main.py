@@ -1,7 +1,7 @@
 import sys
 sys.path.append('project')
 
-from server import *
+from project import *
 from flask.ext.bower import Bower
 
 Bower(app)

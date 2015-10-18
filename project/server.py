@@ -13,8 +13,10 @@ def home():
 #@app.route('/<path:path>')
 #def seeStaticFile(path):
 #	return app.send_static_file(path);
-consumer_key = os.environ['TWITTER_API_KEY']
-consumer_secret = os.environ['TWITTER_API_SECRET']
+from auth import *
+
+consumer_key = TWITTER_API_KEY
+consumer_secret = TWITTER_API_SECRET
 
 request_token_url = 'https://api.twitter.com/oauth/request_token'
 access_token_url = 'https://api.twitter.com/oauth/access_token'
