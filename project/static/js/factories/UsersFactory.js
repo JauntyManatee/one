@@ -1,0 +1,26 @@
+app.factory('UsersFactory', ['$http', 
+  function($http, $location, $window) {
+    return {
+
+      checkUserExists: function(user) {
+        return $http({
+          method: 'POST',
+          url: '/login'
+        });
+      },
+
+      addUser: function(user) {
+        return $http({
+          method: 'POST',
+          url: '/signup'
+        });
+      },
+
+      logout: function(user) {
+        return $http({
+          method: 'POST',
+          url: '/logout'
+        });
+      }
+    };
+}]);

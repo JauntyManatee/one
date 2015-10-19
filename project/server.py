@@ -22,7 +22,7 @@ access_token_url = 'https://api.twitter.com/oauth/access_token'
 authorize_url = 'https://api.twitter.com/oauth/authorize'
 
 # This Route will redirect user for Twitter Verification, then redirect when Authorized
-@app.route('/buttholez')
+@app.route('/activate')
 def getTweets():
   global request_token
   global consumer
@@ -70,3 +70,9 @@ def theTweets():
    
   home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', access_token['oauth_token'], access_token['oauth_token_secret'])
   return home_timeline
+
+#Authenticate on login
+#@app.route('/login')
+#def authenticate():
+  
+
