@@ -1,8 +1,10 @@
 from flask import Flask, render_template, redirect
 import oauth2 as oauth
 import urlparse, webbrowser, flask, sys, os
+
 from auth import *
 # from db import engine
+
 
 app = Flask(__name__)      
 
