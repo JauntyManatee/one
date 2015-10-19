@@ -1,8 +1,10 @@
 from flask import Flask, render_template, redirect
 import oauth2 as oauth
 import urlparse, webbrowser, flask, sys, os
-from db import engine
+
 from auth import *
+# from db import engine
+
 
 app = Flask(__name__)      
 
@@ -14,8 +16,9 @@ def home():
 #@app.route('/<path:path>')
 #def seeStaticFile(path):
 #	return app.send_static_file(path);
-consumer_key = os.environ['TWITTER_API_KEY']
-consumer_secret = os.environ['TWITTER_API_SECRET']
+
+consumer_key = TWITTER_API_KEY
+consumer_secret = TWITTER_API_SECRET
 
 request_token_url = 'https://api.twitter.com/oauth/request_token'
 access_token_url = 'https://api.twitter.com/oauth/access_token'
