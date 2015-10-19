@@ -1,15 +1,5 @@
 app.factory('APIFactory',['$http', function ($http) {
 
-  var getTwitterToken = function () {
-    return $http({
-      method: 'POST',
-      url: 'https://api.twitter.com/oauth/request_token',
-      data: {
-        oauth_callback: ''
-      }
-    });
-  };
-
   var getTweets = function () {
     return $http({
       method: 'GET',
@@ -17,9 +7,16 @@ app.factory('APIFactory',['$http', function ($http) {
     });
   };
 
+  var favTweet = function (id) {
+    return $http({
+      method: 'POST',
+      url: 'https://api.twitter.com/1.1/favorites/create.json?id=' + id
+    });
+  };
+
   return {
     getTweets: getTweets,
-    getTwitterToken: getTwitterToken
+    favTweet: favTweet
   };
 
 }]);
