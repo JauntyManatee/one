@@ -4,6 +4,11 @@ app.controller('FeedController', ['$scope', 'APIFactory', function ($scope, APIF
   $scope.getTweets = function () {
     APIFactory.getTweets().then(function(data) {
       console.log(data);
+      $scope.feed = data.data;
     });
+  };
+
+  $scope.favTweet = function ( id ) {
+    APIFactory.favTweet(id);
   };
 }]);
