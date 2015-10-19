@@ -1,13 +1,9 @@
 from flask import Flask
+import psycopg2
 from flask.ext.sqlalchemy import SQLAlchemy
-##from flask.ext.heroku import Heroku #Probably for deployment.
 from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey
-#from sqlalchemy.orm import relationship, backref
-#from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-app = Flask(__name__, static_folder='../client')      
-#heroku = Heroku(app) #for deployment
-#engine = create_engine('postgresql://test:test@localhost:5432/postgres')
+
 engine = create_engine('postgresql://localhost:5432/one_db')
 conn = engine.connect() 
 metadata = MetaData(engine)
@@ -30,15 +26,14 @@ users = Table('users', metadata,
 
 metadata.create_all()
 
-#conn.execute(users.insert(), [
-#  {"username": "nvora", "emailAddress":"j@hooplife.com", "password":"madj", "token": "code"},
-#  {"username": "code", "emailAddress":"code@code.com", "password":"code&beats", "token": "code"}
-#])
-#
-#from sqlalchemy.sql import select
-#s = select([users])
-#result = s.execute()
-#print(result)
-#
-#for row in result:
-# print row
+conn.execute(users.insert(), [
+  {"username": "code", "emailAddress":"code@code.com", "password":"code&beats", "token": "code"}
+])
+
+from sqlalchemy.sql import select
+s = select([users])
+result = s.execute()
+print(result)
+
+for row in result:
+ print row
