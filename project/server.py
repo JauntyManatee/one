@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect
 import oauth2 as oauth
 import urlparse, webbrowser, flask, sys, os
 from db import engine
+from auth import *
 
 app = Flask(__name__)      
 
