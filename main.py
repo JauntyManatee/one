@@ -8,7 +8,6 @@ from flask.ext.bower import Bower
 from reddit import *
 from instagram import *
 
-
 Bower(app)
 Reddit(app)
 Instagram(app)
