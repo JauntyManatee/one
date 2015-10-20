@@ -11,6 +11,10 @@ class Reddit:
     self.REDDIT_STATE = str(uuid4())
     self.REDDIT_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by /u/huligan27'
     self.REDDIT_TOKEN = ''
+<<<<<<< 5dd130a2cc50b0bc9d06d8128eb59d941a797b3e
+=======
+    self.app = app
+>>>>>>> abstracted reddit out of server
 
     #initial auth route, sends user to reddit auth, we also send our server params
     @app.route('/redditAuth')
@@ -49,7 +53,11 @@ class Reddit:
 
       token_json = response.json();
       self.REDDIT_TOKEN = token_json['access_token']
+<<<<<<< 5dd130a2cc50b0bc9d06d8128eb59d941a797b3e
       print('reddit token, @~52:reddit.py, remove in production',token_json) 
+=======
+      print('reddit token:@~53,reddit.py',token_json) 
+>>>>>>> abstracted reddit out of server
       return token_json
 
     #take a look at current token
