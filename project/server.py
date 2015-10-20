@@ -7,17 +7,11 @@ import requests
 import requests.auth
 
 from auth import *
-#added below for reddit
-import urllib3
-import urllib.parse
-from uuid import uuid4
-import threading
-from functools import wraps
-#added above for reddit
+
 # from db import engine
 
 
-app = Flask(__name__)      
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -109,79 +103,5 @@ def reTweet():
       return content
    
   return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
-
-
-
-
-####################REDDIT#############################
-
-#need (imported above)
-#import urllib.parse
-#from uuid import uuid4
-#import threading
-#from functools import wraps
-#from flask import request
-#import requests
-
-REDDIT_REDIRECT_URI = 'http://localhost:5000/redditLand'
-REDDIT_STATE = str(uuid4())
-REDDIT_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by /u/huligan27'
-
-@app.route('/redditAuth')
-def redditAuth():
-  params = {
-    "client_id": os.environ['REDDIT_CLIENT_ID'],
-    "response_type": "code",
-    "state": REDDIT_STATE,
-    "redirect_uri": REDDIT_REDIRECT_URI,
-    "duration": "temporary",
-    "scope": "identity"
-  }
-  url = "https://www.reddit.com/api/v1/authorize?" + urllib.parse.urlencode(params)
-  return '<a href="%s">Authenticate with reddit</a>' % url
-
-@app.route('/redditLand')
-def redditLand():
-  params = request.args
-  REDDIT_CODE = params.get('code')
-  REDDIT_TOKEN = get_token(REDDIT_CODE)
-  return 'check your console for the token BRO!! \ncode: %s | token: %s' % (REDDIT_CODE, REDDIT_TOKEN)
-
-@app.route('/reddit/me')
-def redditMe():
-  headers = {'Authorization': 'bearer 14565753-IY2dR-aOU0Ol2EweaqoQThsrhuk', 'User-Agent': REDDIT_USER_AGENT}
-  response = requests.get('https://www.oauth.reddit.com/api/v1/me',headers=headers)
-  return response.text
-
-@app.route('/reddit/rss/<feed>')
-def rssFeed(feed='hot'):
-  response = requests.get('https://www.reddit.com/'+feed+'.json')
-  return response.text
-
-#similar to js setTimeout()
-def delay(delay=0.):
-  def wrap(f):
-    @wraps(f)
-    def delayed(*args, **kwargs):
-      timer = threading.Timer(delay, f, args=args, kwargs=kwargs)
-      timer.start()
-    return delayed
-  return wrap
-
-#add @delay tag to delay arg seconds
-@delay(1.0)
-def get_token(code):
-  headers = {'User-Agent' : 'Chrome-Python:ONE/1.0.1 by /u/huligan27'}
-  post_data = {
-    "grant_type" : "authorization_code",
-    "code" : code,
-    "redirect_uri" : REDDIT_REDIRECT_URI
-  }
-  response = requests.post('https://www.reddit.com/api/v1/access_token', 
-    headers=headers, auth=(os.environ['REDDIT_CLIENT_ID'], os.environ['REDDIT_CLIENT_SECRET']), data=post_data)
-
-  token_json = response.json();
-  print(token_json)
-  return token_json
 
 
