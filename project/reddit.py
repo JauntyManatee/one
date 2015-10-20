@@ -74,7 +74,7 @@ class Reddit:
     #path include 'prefs, trophies', note error thrown if no token available
     @app.route('/reddit/me/<path>')
     def redditMeExtras(path=''):
-      headers = {"Authorization": "bearer 14565753-zWTUe_uzkCeRRMkW4tP56kkvG78", "User-Agent": self.REDDIT_USER_AGENT}
+      headers = {"Authorization": "bearer " + self.REDDIT_TOKEN, "User-Agent": self.REDDIT_USER_AGENT}
       response = requests.get("https://oauth.reddit.com/api/v1/me/"+path, headers=headers)
       return response.text
     
