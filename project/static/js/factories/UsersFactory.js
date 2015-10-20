@@ -3,6 +3,7 @@ app.factory('UsersFactory', ['$http',
     return {
 
       checkUserExists: function(user) {
+       console.log('factory');
         return $http({
           method: 'POST',
           url: '/login',
