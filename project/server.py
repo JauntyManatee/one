@@ -5,7 +5,7 @@ import oauth2 as oauth
 import webbrowser, flask, sys, os, json
 import requests
 import requests.auth
-
+import soundcloud
 from auth import *
 #added below for reddit
 import urllib3
@@ -110,8 +110,21 @@ def reTweet():
    
   return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
 
+client = soundcloud.Client(
+  client_id= os.environ['SOUNDCLOUD_API_KEY'],
+  client_secret= os.environ['SOUNDCLOUD_API_SECRET'],
+  redirect_uri='http://127.0.0.1:5000/soundAuth',
+  )
+@app.route('/sound')
+def sound():
+  return redirect(client.authorize_url())
 
-
+@app.route('/soundAuth')
+def soundAuth():
+  code = request.args.get('code')
+  access_token= client.exchange_token(code)
+  print(access_token)
+  print("Hi there, %s" % client.get('/me').username)
 
 ####################REDDIT#############################
 
