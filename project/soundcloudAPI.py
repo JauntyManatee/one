@@ -19,3 +19,10 @@ class Soundcloud:
       access_token= client.exchange_token(code)
       print(access_token)
       print("Hi there, %s" % client.get('/me').username)
+
+    @app.route('/soundEmbed')
+    def soundEmbed():
+      track_url = 'http://soundcloud.com/brightmatter/stay-where-near'
+      embed_info = client.get('/oembed', url=track_url)
+      return embed_info.html
+      
