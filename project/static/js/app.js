@@ -13,7 +13,7 @@ var app = angular
       })
       .state('feed',{
         url: '/feed',
-        templateUrl: '..static/views/feed.html',
+        templateUrl: 'static/views/feed.html',
         controller: 'FeedController'
       });
   }]);

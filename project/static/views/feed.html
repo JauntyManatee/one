@@ -1,7 +1,14 @@
 <div ng-controller="FeedController">
- <ul ng-init="getTweets()">
-  <li ng-repeat="post in feed"> 
-    {{ post }}
+  <input type="text" placeholder=
+  "post new tweet">
+  <input type="submit" value="Post">
+ <ul class="row" ng-init="getTweets()">
+  <li class="center-block" ng-repeat="post in feed"> 
+    <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+    <span> {{ post.text }} </span>
+    <span> {{ post.created_at }} </span>
+    <button ng-click="favTweet(post.id_str)">Favorite</button>
+    <button ng-click="reTweet(post.id_str)">Re-Tweet</button>
   </li> 
  </ul>
 </div>
