@@ -6,7 +6,7 @@ import oauth2 as oauth
 import webbrowser, flask, sys, os, json
 import requests
 import requests.auth
->>>>>>> ef4c7e518c264cc1e97ee7ddf405ea0e5fa18337
+
 from auth import *
 #added below for reddit
 import urllib.parse
@@ -40,6 +40,9 @@ def getTweets():
   resp, content = client.request(request_token_url, "GET")
   if resp['status'] != '200':
       raise Exception("Invalid response %s." % resp['status'])
+
+  print('CONTENT')
+  print(content)
 
   request_token = dict(urlparse.parse_qsl(content))
   
