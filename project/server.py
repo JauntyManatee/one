@@ -1,11 +1,13 @@
 from flask import Flask, render_template, redirect, request
 import oauth2 as oauth
+import urllib.parse
 #removed urlparse due to conflict w/py3, 
 #http://askubuntu.com/questions/511650/cannot-install-python-module-urlparse
+from soundcloud import *
 import webbrowser, flask, sys, os, json
 import requests
 import requests.auth
-
+import soundcloud
 from auth import *
 
 # from db import engine
