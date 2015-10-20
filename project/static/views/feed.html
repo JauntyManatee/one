@@ -7,8 +7,8 @@
     <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
     <span> {{ post.text }} </span>
     <span> {{ post.created_at }} </span>
-    <button ng-click="favTweet(post.id)">Favorite</button>
-    <button>Re-Tweet</button>
+    <button ng-click="favTweet(post.id_str)">Favorite</button>
+    <button ng-click="reTweet(post.id_str)">Re-Tweet</button>
   </li> 
  </ul>
 </div>

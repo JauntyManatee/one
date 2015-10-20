@@ -10,13 +10,23 @@ app.factory('APIFactory',['$http', function ($http) {
   var favTweet = function (id) {
     return $http({
       method: 'POST',
-      url: 'https://api.twitter.com/1.1/favorites/create.json?id=' + id
+      url: '/favtweet',
+      data: { id: id }
+    });
+  };
+
+  var reTweet = function (id) {
+    return $http({
+      method: 'POST',
+      url: '/retweet',
+      data: { id: id }
     });
   };
 
   return {
     getTweets: getTweets,
-    favTweet: favTweet
+    favTweet: favTweet,
+    reTweet: reTweet
   };
 
 }]);
