@@ -1,8 +1,10 @@
 app.controller('HomeController', ['$scope', 'UsersFactory', function ($scope, UsersFactory) {
   $scope.logIn = function( username, password ) {
     console.log(username, password);
-    UsersFactory.checkUserExists()
+    var user = {'username': username, 'password': password};
+    UsersFactory.checkUserExists(user)
       .then(function(res) {
+        return res.data;
       })
       .catch(function(err) {
         throw(err)
