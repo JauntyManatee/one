@@ -3,7 +3,6 @@ sys.path.append('project')
 
 from server import *
 
-from reddit import *
 from soundcloudAPI import *
 from flask.ext.bower import Bower
 from reddit import *
