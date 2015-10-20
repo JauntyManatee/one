@@ -53,7 +53,6 @@ def getTweets():
 @app.route('/authorized')
 def getToken():
   global access_token
-  print('literally')
   token = oauth.Token(request_token[b'oauth_token'].decode('utf-8'),
       request_token[b'oauth_token_secret'].decode('utf-8'))
   token.set_verifier(request.args.get('oauth_verifier'))
@@ -74,9 +73,8 @@ def theTweets():
     client = oauth.Client(consumer, token)
     resp, content = client.request( url, method=http_method)
     return content
-  auth_token = access_token[b'oauth_token']
-  auth_secret = access_token[b'oauth_token_secret'] 
-  home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', auth_token, auth_secret)
+     
+  home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
   return home_timeline
 
 
