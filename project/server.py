@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, request
 import oauth2 as oauth
-# import urlparse, webbrowser, flask, sys, os
 #removed urlparse due to conflict w/py3, 
 #http://askubuntu.com/questions/511650/cannot-install-python-module-urlparse
 import webbrowser, flask, sys, os, json
@@ -9,6 +8,7 @@ import requests.auth
 
 from auth import *
 #added below for reddit
+import urllib3
 import urllib.parse
 from uuid import uuid4
 import threading
@@ -39,19 +39,15 @@ def getTweets():
   client = oauth.Client(consumer)
   resp, content = client.request(request_token_url, "GET")
   if resp['status'] != '200':
-      raise Exception("Invalid response %s." % resp['status'])
+    raise Exception("Invalid response %s." % resp['status'])
 
-  print('CONTENT')
-  print(content)
 
-  request_token = dict(urlparse.parse_qsl(content))
+  request_token = dict(urllib.parse.parse_qsl(content))
+  print("Request Token:")
+  print("    - oauth_token        = %s" % request_token[b'oauth_token'].decode('utf-8'))
+  print("    - oauth_token_secret = %s" % request_token[b'oauth_token_secret'].decode('utf-8')) 
   
-  # print"Request Token:"
-  # print "    - oauth_token        = %s" % request_token['oauth_token']
-  # print "    - oauth_token_secret = %s" % request_token['oauth_token_secret']
-  # print 
-  
-  Rurl = "%s?oauth_token=%s" % (authorize_url, request_token['oauth_token'])
+  Rurl = "%s?oauth_token=%s" % (authorize_url, request_token[b'oauth_token'].decode('utf-8'))
 
   return redirect(Rurl)
 
@@ -59,60 +55,60 @@ def getTweets():
 @app.route('/authorized')
 def getToken():
   global access_token
-  print(flask.request.args)
-  token = oauth.Token(request_token['oauth_token'],
-      request_token['oauth_token_secret'])
-  token.set_verifier(flask.request.args.get('oauth_verifier'))
+  token = oauth.Token(request_token[b'oauth_token'].decode('utf-8'),
+      request_token[b'oauth_token_secret'].decode('utf-8'))
+  token.set_verifier(request.args.get('oauth_verifier'))
   client = oauth.Client(consumer, token)
-
+  
   resp, content2 = client.request(access_token_url, "POST")
-  access_token = dict(urlparse.parse_qsl(content2))
+  access_token = dict(urllib.parse.parse_qsl(content2))
+  print(access_token)
   return redirect('http://localhost:5000/#/feed')
 
 # After Authorized...redirect to tweetsfeed which will make a call
 # to grab the users TimeLine (from APIfactory)
 @app.route('/tweetsfeed')
 def theTweets():
-  def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=None):
-      consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
-      token = oauth.Token(key=key, secret=secret)
-      client = oauth.Client(consumer, token)
-      resp, content = client.request( url, method=http_method, body=post_body, headers=http_headers )
-      return content
-   
-  home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', access_token['oauth_token'], access_token['oauth_token_secret'])
+  def oauth_req(url, key, secret, http_method="GET"):
+    consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
+    token = oauth.Token(key=key, secret=secret)
+    client = oauth.Client(consumer, token)
+    resp, content = client.request( url, method=http_method)
+    return content
+     
+  home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
   return home_timeline
 
 
 @app.route('/favtweet', methods=['GET','POST'])
 def favTweet():
-  request_data = json.loads(request.data)
+  request_data = json.loads(request.data.decode('utf-8'))
   tweet_id = str(request_data['id'])
   fav_url = 'https://api.twitter.com/1.1/favorites/create.json?id=' + tweet_id
   
-  def oauth_req(url, key, secret, http_method="POST", post_body="", http_headers=None):
+  def oauth_req(url, key, secret, http_method="POST"):
       consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
       token = oauth.Token(key=key, secret=secret)
       client = oauth.Client(consumer, token)
-      resp, content = client.request( url, method=http_method, body=post_body, headers=http_headers )
+      resp, content = client.request( url, method=http_method)
       return content
    
-  return oauth_req( fav_url, access_token['oauth_token'], access_token['oauth_token_secret'])
+  return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
 
 @app.route('/retweet', methods=['GET','POST'])
 def reTweet():
-  request_data = json.loads(request.data)
+  request_data = json.loads(request.data.decode('utf-8'))
   tweet_id = str(request_data['id'])
   fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json' 
   
-  def oauth_req(url, key, secret, http_method="POST", post_body="", http_headers=None):
+  def oauth_req(url, key, secret, http_method="POST"):
       consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
       token = oauth.Token(key=key, secret=secret)
       client = oauth.Client(consumer, token)
-      resp, content = client.request( url, method=http_method, body=post_body, headers=http_headers )
+      resp, content = client.request( url, method=http_method)
       return content
    
-  return oauth_req( fav_url, access_token['oauth_token'], access_token['oauth_token_secret'])
+  return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
 
 
 
