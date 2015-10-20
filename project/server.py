@@ -2,9 +2,10 @@ from flask import Flask, render_template, redirect, request
 import oauth2 as oauth
 #removed urlparse due to conflict w/py3, 
 #http://askubuntu.com/questions/511650/cannot-install-python-module-urlparse
-import webbrowser, flask, sys, os
+import webbrowser, flask, sys, os, json
 import requests
 import requests.auth
+
 from auth import *
 #added below for reddit
 import urllib3
@@ -39,6 +40,7 @@ def getTweets():
   resp, content = client.request(request_token_url, "GET")
   if resp['status'] != '200':
     raise Exception("Invalid response %s." % resp['status'])
+
 
   request_token = dict(urllib.parse.parse_qsl(content))
   print("Request Token:")
@@ -76,6 +78,37 @@ def theTweets():
      
   home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
   return home_timeline
+
+
+@app.route('/favtweet', methods=['GET','POST'])
+def favTweet():
+  request_data = json.loads(request.data.decode('utf-8'))
+  tweet_id = str(request_data['id'])
+  fav_url = 'https://api.twitter.com/1.1/favorites/create.json?id=' + tweet_id
+  
+  def oauth_req(url, key, secret, http_method="POST"):
+      consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
+      token = oauth.Token(key=key, secret=secret)
+      client = oauth.Client(consumer, token)
+      resp, content = client.request( url, method=http_method)
+      return content
+   
+  return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
+
+@app.route('/retweet', methods=['GET','POST'])
+def reTweet():
+  request_data = json.loads(request.data.decode('utf-8'))
+  tweet_id = str(request_data['id'])
+  fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json' 
+  
+  def oauth_req(url, key, secret, http_method="POST"):
+      consumer = oauth.Consumer(key=consumer_key, secret=consumer_secret)
+      token = oauth.Token(key=key, secret=secret)
+      client = oauth.Client(consumer, token)
+      resp, content = client.request( url, method=http_method)
+      return content
+   
+  return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
 
 
 
@@ -150,21 +183,5 @@ def get_token(code):
   token_json = response.json();
   print(token_json)
   return token_json
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
