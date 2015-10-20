@@ -7,17 +7,11 @@ import requests
 import requests.auth
 import soundcloud
 from auth import *
-#added below for reddit
-import urllib3
-import urllib.parse
-from uuid import uuid4
-import threading
-from functools import wraps
-#added above for reddit
+
 # from db import engine
 
 
-app = Flask(__name__)      
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -109,108 +103,5 @@ def reTweet():
       return content
    
   return oauth_req( fav_url, access_token[b'oauth_token'], access_token[b'oauth_token_secret'])
-
-client = soundcloud.Client(
-  client_id= os.environ['SOUNDCLOUD_API_KEY'],
-  client_secret= os.environ['SOUNDCLOUD_API_SECRET'],
-  redirect_uri='http://127.0.0.1:5000/soundAuth',
-  )
-@app.route('/sound')
-def sound():
-  return redirect(client.authorize_url())
-
-@app.route('/soundAuth')
-def soundAuth():
-  code = request.args.get('code')
-  access_token= client.exchange_token(code)
-  print(access_token)
-  print("Hi there, %s" % client.get('/me').username)
-
-####################REDDIT#############################
-
-#need (imported above)
-#import urllib.parse
-#from uuid import uuid4
-#import threading
-#from functools import wraps
-#from flask import request
-#import requests
-
-REDDIT_REDIRECT_URI = 'http://localhost:5000/redditLand'
-REDDIT_STATE = str(uuid4())
-REDDIT_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by /u/huligan27'
-
-@app.route('/redditAuth')
-def redditAuth():
-  params = {
-    "client_id": os.environ['REDDIT_CLIENT_ID'],
-    "response_type": "code",
-    "state": REDDIT_STATE,
-    "redirect_uri": REDDIT_REDIRECT_URI,
-    "duration": "temporary",
-    "scope": "identity"
-  }
-  url = "https://www.reddit.com/api/v1/authorize?" + urllib.parse.urlencode(params)
-  return '<a href="%s">Authenticate with reddit</a>' % url
-
-@app.route('/redditLand')
-def redditLand():
-  params = request.args
-  REDDIT_CODE = params.get('code')
-  token = get_token(REDDIT_CODE)
-  return 'check your console for the token BRO!! \ncode: %s' % (REDDIT_CODE)
-
-@app.route('/reddit/token')
-def printToken():
-  return REDDIT_TOKEN
-
-#pulls JSON object of feed your choice
-#paths inclue hot(homefeed),confidence, top, new, controversial, old, random, qa, blank
-@app.route('/reddit/rss/<feed>')
-def rssFeed(feed='hot'):
-  response = requests.get('https://www.reddit.com/' + feed + '.json')
-  return response.text
-
-#Grab user preferences
-@app.route('/reddit/me')
-def redditMe():
-  headers = {"Authorization": "bearer 14565753-zWTUe_uzkCeRRMkW4tP56kkvG78", "User-Agent": REDDIT_USER_AGENT}
-  response = requests.get("https://oauth.reddit.com/api/v1/me", headers=headers)
-  return response.text
-
-#path include 'prefs, trophies'
-@app.route('/reddit/me/<path>')
-def redditMeExtras(path=''):
-  headers = {"Authorization": "bearer 14565753-zWTUe_uzkCeRRMkW4tP56kkvG78", "User-Agent": REDDIT_USER_AGENT}
-  response = requests.get("https://oauth.reddit.com/api/v1/me/"+path, headers=headers)
-  return response.text
-
-#similar to js setTimeout()
-def delay(delay=0.):
-  def wrap(f):
-    @wraps(f)
-    def delayed(*args, **kwargs):
-      timer = threading.Timer(delay, f, args=args, kwargs=kwargs)
-      timer.start()
-    return delayed
-  return wrap
-
-#add @delay tag to delay arg seconds
-@delay(1.0)
-def get_token(code):
-  global REDDIT_TOKEN
-  headers = {'User-Agent' : 'Chrome-Python:ONE/1.0.1 by /u/huligan27'}
-  post_data = {
-    "grant_type" : "authorization_code",
-    "code" : code,
-    "redirect_uri" : REDDIT_REDIRECT_URI
-  }
-  response = requests.post('https://www.reddit.com/api/v1/access_token', 
-    headers=headers, auth=(os.environ['REDDIT_CLIENT_ID'], os.environ['REDDIT_CLIENT_SECRET']), data=post_data)
-
-  token_json = response.json();
-  REDDIT_TOKEN = token_json['access_token']
-  print(token_json)
-  return token_json
 
 
