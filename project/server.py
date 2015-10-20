@@ -1,8 +1,19 @@
 from flask import Flask, render_template, redirect, request
 import oauth2 as oauth
-import urlparse, webbrowser, flask, sys, os, json
-
+# import urlparse, webbrowser, flask, sys, os
+#removed urlparse due to conflict w/py3, 
+#http://askubuntu.com/questions/511650/cannot-install-python-module-urlparse
+import webbrowser, flask, sys, os, json
+import requests
+import requests.auth
+>>>>>>> ef4c7e518c264cc1e97ee7ddf405ea0e5fa18337
 from auth import *
+#added below for reddit
+import urllib.parse
+from uuid import uuid4
+import threading
+from functools import wraps
+#added above for reddit
 # from db import engine
 
 
@@ -12,13 +23,8 @@ app = Flask(__name__)
 def home():
   return render_template('index.html')
 
-#not sure if we need this anymore...
-#@app.route('/<path:path>')
-#def seeStaticFile(path):
-#	return app.send_static_file(path);
-
-consumer_key = TWITTER_API_KEY
-consumer_secret = TWITTER_API_SECRET
+consumer_key = os.environ['TWITTER_API_KEY']
+consumer_secret = os.environ['TWITTER_API_SECRET']
 
 request_token_url = 'https://api.twitter.com/oauth/request_token'
 access_token_url = 'https://api.twitter.com/oauth/access_token'
@@ -37,7 +43,7 @@ def getTweets():
 
   request_token = dict(urlparse.parse_qsl(content))
   
-  # print "Request Token:"
+  # print"Request Token:"
   # print "    - oauth_token        = %s" % request_token['oauth_token']
   # print "    - oauth_token_secret = %s" % request_token['oauth_token_secret']
   # print 
@@ -74,6 +80,7 @@ def theTweets():
   home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', access_token['oauth_token'], access_token['oauth_token_secret'])
   return home_timeline
 
+
 @app.route('/favtweet', methods=['GET','POST'])
 def favTweet():
   request_data = json.loads(request.data)
@@ -103,3 +110,79 @@ def reTweet():
       return content
    
   return oauth_req( fav_url, access_token['oauth_token'], access_token['oauth_token_secret'])
+
+
+
+
+####################REDDIT#############################
+
+#need (imported above)
+#import urllib.parse
+#from uuid import uuid4
+#import threading
+#from functools import wraps
+#from flask import request
+#import requests
+
+REDDIT_REDIRECT_URI = 'http://localhost:5000/redditLand'
+REDDIT_STATE = str(uuid4())
+REDDIT_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by /u/huligan27'
+
+@app.route('/redditAuth')
+def redditAuth():
+  params = {
+    "client_id": os.environ['REDDIT_CLIENT_ID'],
+    "response_type": "code",
+    "state": REDDIT_STATE,
+    "redirect_uri": REDDIT_REDIRECT_URI,
+    "duration": "temporary",
+    "scope": "identity"
+  }
+  url = "https://www.reddit.com/api/v1/authorize?" + urllib.parse.urlencode(params)
+  return '<a href="%s">Authenticate with reddit</a>' % url
+
+@app.route('/redditLand')
+def redditLand():
+  params = request.args
+  REDDIT_CODE = params.get('code')
+  REDDIT_TOKEN = get_token(REDDIT_CODE)
+  return 'check your console for the token BRO!! \ncode: %s | token: %s' % (REDDIT_CODE, REDDIT_TOKEN)
+
+@app.route('/reddit/me')
+def redditMe():
+  headers = {'Authorization': 'bearer 14565753-IY2dR-aOU0Ol2EweaqoQThsrhuk', 'User-Agent': REDDIT_USER_AGENT}
+  response = requests.get('https://www.oauth.reddit.com/api/v1/me',headers=headers)
+  return response.text
+
+@app.route('/reddit/rss/<feed>')
+def rssFeed(feed='hot'):
+  response = requests.get('https://www.reddit.com/'+feed+'.json')
+  return response.text
+
+#similar to js setTimeout()
+def delay(delay=0.):
+  def wrap(f):
+    @wraps(f)
+    def delayed(*args, **kwargs):
+      timer = threading.Timer(delay, f, args=args, kwargs=kwargs)
+      timer.start()
+    return delayed
+  return wrap
+
+#add @delay tag to delay arg seconds
+@delay(1.0)
+def get_token(code):
+  headers = {'User-Agent' : 'Chrome-Python:ONE/1.0.1 by /u/huligan27'}
+  post_data = {
+    "grant_type" : "authorization_code",
+    "code" : code,
+    "redirect_uri" : REDDIT_REDIRECT_URI
+  }
+  response = requests.post('https://www.reddit.com/api/v1/access_token', 
+    headers=headers, auth=(os.environ['REDDIT_CLIENT_ID'], os.environ['REDDIT_CLIENT_SECRET']), data=post_data)
+
+  token_json = response.json();
+  print(token_json)
+  return token_json
+
+
