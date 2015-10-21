@@ -1,6 +1,6 @@
-import scrypt
-import bcrypt
 import json
+from Crypto.hash import SHA256
+
 
 class DB_Route:
 
