@@ -1,41 +1,38 @@
-app.controller('FeedController', ['$scope', 'APIFactory', function ( $scope, APIFactory ) {
-  $scope.feed = ["test1", "test2"];
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', function ( $scope, TwitterFactory, InstagramFactory ) {
+  $scope.TwitterFeed = [];
+  $scope.InstagramFeed = [];
+  $scope.times = [];
 
-  $scope.getTweets = function () {
-    APIFactory.getTweets().then(function ( data ) {
+  $scope.getTweets = function ( ) {
+    TwitterFactory.getTweets().then(function ( data ) {
       console.log(data);
-      $scope.feed = data.data;
+      if(Array.isArray(data.data)){
+        $scope.TwitterFeed = data.data;
+      }
     });
   };
 
   $scope.favTweet = function ( id ) {
-    APIFactory.favTweet(id).then(function ( response ) {
+    TwitterFactory.favTweet(id).then(function ( response ) {
       console.log(response);
     });
   };
 
   $scope.reTweet = function ( id ) {
-    APIFactory.reTweet(id).then(function ( response ) {
+    TwitterFactory.reTweet(id).then(function ( response ) {
       console.log(response);
     });
   };
-}])
-  .filter('tweetLinky',['$filter', function($filter) {
-    return function(text, target) {
-      if (!text) return text;
 
-      var replacedText = $filter('linky')(text, target);
-      var targetAttr = "";
-      if (angular.isDefined(target)) {
-          targetAttr = ' target="' + target + '"';
+  $scope.getInstaFeed = function ( ) {
+    InstagramFactory.getInstaFeed().then(function ( data ) {
+      if(typeof data.data !== 'string') {
+        for (var i = 0; i < data.data.data.length; i++) {
+          var date = new Date(data.data.data.created_time*1000);
+          $scope.times[$scope.times.length] = date.getHours() + ":" + date.getMinutes();
+        }
+        $scope.InstagramFeed = data.data.data;
       }
-      // replace #hashtags and send them to twitter
-      var replacePattern1 = /(^|\s)#(\w*[a-zA-Z_]+\w*)/gim;
-      replacedText = text.replace(replacePattern1, '$1<a href="https://twitter.com/search?q=%23$2"' + targetAttr + '>#$2</a>');
-      // replace @mentions but keep them to our site
-      var replacePattern2 = /(^|\s)\@(\w*[a-zA-Z_]+\w*)/gim;
-      replacedText = replacedText.replace(replacePattern2, '$1<a href="https://twitter.com/$2"' + targetAttr + '>@$2</a>');
-      return replacedText;
-    };
-  }
-]);
+    });
+  };
+}]);
