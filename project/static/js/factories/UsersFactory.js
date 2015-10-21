@@ -2,19 +2,29 @@ app.factory('UsersFactory', ['$http',
   function($http, $location, $window) {
     return {
 
-      checkUserExists: function(user) {
+//      checkUserExists: function(user) {
+//       console.log('factory');
+//        return $http({
+//          method: 'POST',
+//          url: '/usercheck',
+//          data: user
+//        });
+//      },
+
+      signup: function(user) {
+        return $http({
+          method: 'POST',
+          url: '/signup',
+          data: user
+        });
+      },
+
+      login: function(user) {
        console.log('factory');
         return $http({
           method: 'POST',
           url: '/login',
           data: user
-        });
-      },
-
-      addUser: function(user) {
-        return $http({
-          method: 'POST',
-          url: '/signup'
         });
       },
 
