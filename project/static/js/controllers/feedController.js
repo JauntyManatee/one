@@ -26,8 +26,11 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
-      console.log(data);
       if(typeof data.data !== 'string') {
+        for (var i = 0; i < data.data.data.length; i++) {
+          var date = new Date(data.data.data.created_time*1000);
+          $scope.times[$scope.times.length] = date.getHours() + ":" + date.getMinutes();
+        }
         $scope.InstagramFeed = data.data.data;
       }
     });

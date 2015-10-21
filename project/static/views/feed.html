@@ -15,7 +15,7 @@
     <span><b> {{ "@" + post.user.username + ":" }} </b></span>
     <span ng-bind-html="post.link | linky"> {{ post.link }} </span>
     <span ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
-    <span> {{ post.created_time }} </span>
+    {{ post.created_time }} </span>
   </li>
  </ul>
 
