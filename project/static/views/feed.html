@@ -4,7 +4,7 @@
   <input type="submit" value="Post">
 
  <ul class="row" ng-init="getInstaFeed(); getTweets();">
-  <li class="center-block" ng-repeat="post in feed | orderBy:'post.created_at'"> 
+  <li class="center-block" ng-repeat="post in feed | orderBy:'-created_at'"> 
 
     <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
     <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
