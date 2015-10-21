@@ -8,9 +8,9 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       if(Array.isArray(data.data)){
         for (var i = 0; i < data.data.length; i++) {
           data.data[i].created_at = new Date(data.data[i].created_at);
+          data.data[i].twitter = true;
         }
         $scope.feed.push.apply($scope.feed, data.data);
-        
         console.log($scope.feed);
       }
     });
@@ -34,6 +34,7 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
         for (var i = 0; i < data.data.data.length; i++) {
           var theDate = new Date(data.data.data[i].created_time*1000);
           data.data.data[i].created_at = theDate;
+          data.data.data[i].instagram = true;
         }
         $scope.feed.push.apply($scope.feed, data.data.data);
         console.log($scope.feed);
