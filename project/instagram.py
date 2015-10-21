@@ -1,5 +1,5 @@
 import os, requests, flask
-from flask import request
+from flask import request, redirect
 
 class Instagram:
 
@@ -13,14 +13,15 @@ class Instagram:
     @app.route('/igAuth')
     def igAuth():
       link = 'https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code' % (os.environ['IG_CLIENT_ID'], self.IG_REDIRECT_URI)
-      return '<a href="%s">Authorize your twitter account</a>' % link
+      return redirect(link)
 
     @app.route('/igLand')
     def igLand():
       params = request.args
       CODE = params.get('code')
       token = getIGToken(CODE)
-      return 'check your console for token bro!!!  <a href="http://127.0.0.1:5000/instagram/feed">get own feed</a>code: %s ' % CODE
+      return redirect('http://localhost:5000/#/feed')
+      # return 'check your console for token bro!!!  <a href="http://127.0.0.1:5000/instagram/feed">get own feed</a>code: %s ' % CODE
 
     def getIGToken(code):
       headers = {'User-Agent' : self.IG_USER_AGENT}
@@ -40,6 +41,7 @@ class Instagram:
       print('instagram token, @~38:instagram.py, remove in production',token_json)
       self.IG_TOKEN = token_json['access_token']
       self.IG_USER = token_json['user']
+
 
     @app.route('/instagram/feed')
     def getOwnFeed():
