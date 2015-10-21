@@ -1,5 +1,4 @@
 from flask import Flask
-import psycopg2
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy import create_engine, orm
