@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from auth import *
-# from db import engine
+#from db import engine
+from db import conn
 
 app = Flask(__name__)
 
