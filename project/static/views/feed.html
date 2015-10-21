@@ -1,14 +1,25 @@
 <div ng-controller="FeedController">
-  <input type="text" placeholder=
-  "post new tweet">
+
+  <input type="text" placeholder="post new tweet">
   <input type="submit" value="Post">
- <ul class="row" ng-init="getTweets()">
-  <li class="center-block" ng-repeat="post in feed"> 
+
+ <ul class="row" ng-init="getInstaFeed(); getTweets();">
+  <li class="center-block" ng-repeat="post in feed | orderBy:'post.created_at'"> 
+
     <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-    <span> {{ post.text }} </span>
+    <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+    
+    <!-- <button ng-click="favTweet(post.id_str)">Favorite</button>
+    <button ng-click="reTweet(post.id_str)">Re-Tweet</button> -->
+
+    <span><b> {{ "@" + post.user.username + ":" }} </b></span>
+    <span ng-bind-html="post.link | linky"> {{ post.link }} </span>
+    <span ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
     <span> {{ post.created_at }} </span>
-    <button ng-click="favTweet(post.id)">Favorite</button>
-    <button>Re-Tweet</button>
+
   </li> 
+ <!--  <li class="center-block" ng-repeat="post in InstagramFeed">
+  </li> -->
  </ul>
+
 </div>
