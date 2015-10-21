@@ -6,7 +6,7 @@ from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('postgresql://localhost:5432/one_db', convert_unicode=True)
+engine = create_engine('mysql://127.0.0.1:3306/one_db', convert_unicode=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 conn = engine.connect() 
