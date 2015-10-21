@@ -1,5 +1,3 @@
-import scrypt
-import bcrypt
 import json
 
 class DB_Route:

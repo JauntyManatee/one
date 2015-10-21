@@ -6,20 +6,18 @@
  <ul class="row" ng-init="getInstaFeed(); getTweets();">
   <li class="center-block" ng-repeat="post in feed | orderBy:'-created_at'"> 
 
-    <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-    <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+    <span ng-if="post.twitter" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+    <span ng-if="post.twitter" ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+    <span ng-if="post.twitter"> {{ post.created_at }} </span>
+    <button ng-if="post.twitter" ng-click="favTweet(post.id_str)">Favorite</button>
+    <button ng-if="post.twitter" ng-click="reTweet(post.id_str)">Re-Tweet</button>
     
-    <!-- <button ng-click="favTweet(post.id_str)">Favorite</button>
-    <button ng-click="reTweet(post.id_str)">Re-Tweet</button> -->
-
-    <span><b> {{ "@" + post.user.username + ":" }} </b></span>
-    <span ng-bind-html="post.link | linky"> {{ post.link }} </span>
-    <span ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
-    <span> {{ post.created_at }} </span>
+    <span ng-if="post.instagram" ><b> {{ "@" + post.user.username + ":" }} </b></span>
+    <span ng-if="post.instagram" ng-bind-html="post.link | linky"> {{ post.link }} </span>
+    <span ng-if="post.instagram" ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
+    <span ng-if="post.instagram"> {{ post.created_at }} </span>
 
   </li> 
- <!--  <li class="center-block" ng-repeat="post in InstagramFeed">
-  </li> -->
  </ul>
 
 </div>
