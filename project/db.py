@@ -30,25 +30,4 @@ Table('users', MetaData(bind=None),
     Column('password', String(300), nullable=False),
     Column('salt', String(60), nullable=False), schema=None)
 
-#sites = Table('sites', metadata,
-#    Column('site_id', Integer, primary_key=True),
-#    Column('user_id', None, ForeignKey('users.user_id')),
-#    Column('site_name', String(16), nullable=False),
-#    Column('token', String(16), nullable=False),
-#    Column('password', String(20), nullable=False)
-#)
-
 Base.metadata.create_all(engine)
-#session.commit()
-
-#conn.execute(users.insert(), [
-#  {"username": "code", "emailAddress":"code@code.com", "password":"code&beats", "token": "code"}
-#])
-
-#from sqlalchemy.sql import select
-#s = select([users])
-#result = s.execute()
-#print(result)
-#
-#for row in result:
-# print(row)
