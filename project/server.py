@@ -21,8 +21,7 @@ from db import *
 import scrypt
 import json
 
-
-app = Flask(__name__)      
+app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -203,9 +202,3 @@ def get_token(code):
   token_json = response.json();
   print(token_json)
   return token_json
-
-
-
-
-
-
