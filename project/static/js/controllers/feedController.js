@@ -1,13 +1,13 @@
 app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', function ( $scope, TwitterFactory, InstagramFactory ) {
   $scope.TwitterFeed = [];
   $scope.InstagramFeed = [];
-  $scope.times = [];
+  $scope.feed = [];
 
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
-      console.log(data);
       if(Array.isArray(data.data)){
-        $scope.TwitterFeed = data.data;
+        $scope.feed.push.apply($scope.feed, data.data);
+        console.log($scope.feed);
       }
     });
   };
@@ -27,11 +27,11 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
       if(typeof data.data !== 'string') {
-        for (var i = 0; i < data.data.data.length; i++) {
-          var date = new Date(data.data.data.created_time*1000);
-          $scope.times[$scope.times.length] = date.getHours() + ":" + date.getMinutes();
-        }
-        $scope.InstagramFeed = data.data.data;
+        // for (var i = 0; i < data.data.data.length; i++) {
+        //   data.data.data.created_time = new Date(data.data.data.created_time*1000);
+        // }
+        $scope.feed.push.apply($scope.feed, data.data.data);
+        console.log($scope.feed);
       }
     });
   };
