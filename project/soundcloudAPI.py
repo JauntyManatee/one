@@ -29,12 +29,8 @@ class Soundcloud:
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
       theGoods = client.get('/me/activities/tracks/affiliated')
       theList = []
-      theTimes = []
       for good in theGoods.collection:
-        theTimes.append(good.origin.created_at)
         embed_info = client.get('/oembed', url=good.origin.permalink_url)
-        theList.append(embed_info.html)
-      data = json.dumps({'data': theList, 'times': theTimes})
-      print(data)
+        theList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
+      data = json.dumps({'data': theList})
       return data
-
