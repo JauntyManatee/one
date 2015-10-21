@@ -1,11 +1,16 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+import pymysql
 from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('mysql://127.0.0.1:3306/one_db', convert_unicode=True)
+
+conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='hr33', db='one_db')
+print(conn)
+"""
+engine = create_engine('mysql+pymsql://127.0.0.1:3306/one_db', convert_unicode=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 conn = engine.connect() 
@@ -31,3 +36,5 @@ Table('users', MetaData(bind=None),
     Column('salt', String(60), nullable=False), schema=None)
 
 Base.metadata.create_all(engine)
+"""
+
