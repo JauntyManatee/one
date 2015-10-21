@@ -3,7 +3,7 @@
   <input type="text" placeholder="post new tweet">
   <input type="submit" value="Post">
 
- <ul class="row" ng-init="getInstaFeed(); getTweets();">
+ <ul class="row" ng-init="getInstaFeed(); getTweets(); getSongs();">
   <li class="center-block" ng-repeat="post in feed | orderBy:'-created_at'"> 
 
     <span ng-if="post.twitter" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>

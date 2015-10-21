@@ -1,6 +1,5 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', function ( $scope, TwitterFactory, InstagramFactory ) {
-  $scope.TwitterFeed = [];
-  $scope.InstagramFeed = [];
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory ) {
+
   $scope.feed = [];
 
   $scope.getTweets = function ( ) {
@@ -39,6 +38,15 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
         $scope.feed.push.apply($scope.feed, data.data.data);
         console.log($scope.feed);
       }
+    });
+  };
+
+  $scope.getSongs = function ( ) {
+    SoundCloudFactory.getSongs().then(function ( data ) {
+      for (var i = 0; i < data.data.length; i++) {
+        data.data[i]
+      };
+      $scope.feed.push.apply($scope.feed, data.data);
     });
   };
 }]);
