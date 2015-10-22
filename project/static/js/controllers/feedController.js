@@ -1,4 +1,4 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', '$sce', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, $sce ) {
 
   $scope.feed = [];
 
@@ -41,12 +41,19 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
   };
 
-  $scope.getSongs = function ( ) {
-    SoundCloudFactory.getSongs().then(function ( data ) {
-      for (var i = 0; i < data.data.length; i++) {
-        data.data[i]
-      };
-      $scope.feed.push.apply($scope.feed, data.data);
+  $scope.getSoundFeed = function () {
+    
+    SoundCloudFactory.getSongs().then(function (data) {
+      var iFrame = data.data.data;
+      $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
+      var items = [];
+      for (var i = 0; i < iFrame.length; i++) {
+        var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
+        var theDate = new Date(iFrame[i].time);
+        items.push({frame: htmlFrame, created_at: theDate, soundcloud: true});
+      }
+      $scope.feed.push.apply($scope.feed, items);
+      console.log($scope.feed);
     });
   };
 }]);

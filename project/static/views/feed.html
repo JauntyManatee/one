@@ -2,22 +2,28 @@
 
   <input type="text" placeholder="post new tweet">
   <input type="submit" value="Post">
-
- <ul class="row" ng-init="getInstaFeed(); getTweets(); getSongs();">
-  <li class="center-block" ng-repeat="post in feed | orderBy:'-created_at'"> 
-
-    <span ng-if="post.twitter" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-    <span ng-if="post.twitter" ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-    <span ng-if="post.twitter"> {{ post.created_at }} </span>
-    <button ng-if="post.twitter" ng-click="favTweet(post.id_str)">Favorite</button>
-    <button ng-if="post.twitter" ng-click="reTweet(post.id_str)">Re-Tweet</button>
-    
-    <span ng-if="post.instagram" ><b> {{ "@" + post.user.username + ":" }} </b></span>
-    <span ng-if="post.instagram" ng-bind-html="post.link | linky"> {{ post.link }} </span>
-    <span ng-if="post.instagram" ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
-    <span ng-if="post.instagram"> {{ post.created_at }} </span>
-
-  </li> 
+  
+ <ul class="row" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
+   <div class="row">
+    <div class="col-md-4"> 
+    <li class="row center-block" ng-repeat="post in feed | orderBy:'-created_at'">
+      <span ng-if="post.twitter" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+      <span ng-if="post.twitter" ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+      <span ng-if="post.twitter"> {{ post.created_at }} </span>
+      <button ng-if="post.twitter" ng-click="favTweet(post.id_str)">Favorite</button>
+      <button ng-if="post.twitter" ng-click="reTweet(post.id_str)">Re-Tweet</button>
+      
+      <span ng-if="post.instagram" ><b> {{ "@" + post.user.username + ":" }} </b></span>
+      <span ng-if="post.instagram" ng-bind-html="post.link | linky"> {{ post.link }} </span>
+      <span ng-if="post.instagram" ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
+      <span ng-if="post.instagram"> {{ post.created_at }} </span>
+      
+      <span ng-if="post.soundcloud" ng-bind-html="post.frame"></span>
+      <span ng-if="post.soundcloud"> {{ post.created_at }} </span>
+    </div>
+   </div>
+    </li> 
+  <!-- <div ng-bind-html="htmlSafe"></div> -->
  </ul>
 
 </div>
