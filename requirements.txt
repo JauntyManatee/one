@@ -8,9 +8,11 @@ httplib2==0.9.2
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
+mysql-connector-python==2.0.4
 oauth2==1.9.0.post1
 pycparser==2.14
 pycrypto==2.6.1
+PyMySQL==0.6.7
 requests==2.8.1
 simplejson==3.8.0
 six==1.10.0
