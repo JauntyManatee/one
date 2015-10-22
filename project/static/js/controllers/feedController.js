@@ -1,6 +1,5 @@
 app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', '$sce', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, $sce ) {
-  $scope.TwitterFeed = [];
-  $scope.InstagramFeed = [];
+
   $scope.feed = [];
 
   $scope.getTweets = function ( ) {
