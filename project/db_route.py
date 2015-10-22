@@ -8,15 +8,15 @@ from sqlalchemy.ext.declarative import declarative_base
 try:
   runtime = sys.argv[1]
 except:
-  runtime = 'local'
+  runtime = 'deploy'
 
 class DB_Route:
 
   def __init__(self, app):
 
-    pw = ''
-    if(runtime == 'deploy'):
-      pw = ':hr33'
+    pw = ':hr33'
+    if(runtime == 'local'):
+      pw = ''
 
     engine = create_engine('mysql+pymysql://root%s@127.0.0.1:3306/one_db' % pw, convert_unicode=True)
     Session = sessionmaker(bind=engine)
