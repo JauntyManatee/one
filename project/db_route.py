@@ -1,14 +1,10 @@
-import json, os
+import json, os, hashlib, pymysql
 from db_route import *
-from flask import Flask, request
+from flask import request
 from flask.ext.sqlalchemy import SQLAlchemy
-#from sqlalchemy import *
-import pymysql
-from sqlalchemy import MetaData, Table, Column, String, Integer, ForeignKey
-from sqlalchemy import create_engine, orm
+from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-import hashlib
 
 class DB_Route:
 
