@@ -1,4 +1,4 @@
-app.controller('HomeController', ['$scope', 'UsersFactory', function ($scope, UsersFactory) {
+app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function ($scope, UsersFactory, $state) {
   $scope.logIn = function( username, password ) {
     var user = {'username': username, 'password': password};
     UsersFactory.login(user)

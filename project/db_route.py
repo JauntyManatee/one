@@ -1,7 +1,7 @@
 import json, os, hashlib, pymysql,sys
 from flask import request
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey
+from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey, Binary
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -54,18 +54,22 @@ class DB_Route:
       if search_result:
         return str.encode('User already exists.')
       else:
-        new_salt = os.urandom(16)
+#        new_salt = os.urandom(16)
+        new_salt = 'So Jaunty'
+        print(type(new_salt), 'new_salt', new_salt)
         password = data_string['password']
-        hash = hashlib.sha224()
+        hash = hashlib.sha256()
+        binary_new_salt = str.encode(new_salt)
         password = str.encode(password)
-        password += new_salt
+        password += binary_new_salt
+        print(type(password), 'password after salt added before hashing.', password)
         hash.update(password)
-        user_pass_hash = hash.digest()
+        user_pass_hash = hash.hexdigest()
+        print('user_pass_hash', user_pass_hash)
         newUser = User(username=username, password=user_pass_hash, salt=new_salt)
         session.add(newUser)
         session.commit()
         return str.encode('User added.')
-     
   
     #Authenticate on login
     @app.route('/login', methods=['POST'])
@@ -73,19 +77,27 @@ class DB_Route:
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
       username = data_string['username']
       search_result = session.query(User).filter_by(username=username).all()
-       # if search_result[0].username == username:
       if search_result:
-        user_salt = search_result[0].salt   
-        user_password = search_result[0].password
-        password = data_string['password']
-        user_pass_hash = scrypt.encrypt(user_salt, user_password, maxtime=0.001)
-        if search_result:
+        user_salt = str.encode(search_result[0].salt) #bytes 
+        print(type(user_salt), 'user_salt', user_salt)
+        user_password = search_result[0].password #string
+        print(type(user_password), 'user_password', user_password)
+        login_password = str.encode(data_string['password']) #bytes
+        login_password += user_salt
+        hash = hashlib.sha256(login_password)
+        login_password = hash.hexdigest()
+        print(type(login_password), 'login_password after hashing', login_password)
+        print(type(login_password), type(user_password))
+
+        if login_password == user_password:
+          print('Logged in')
           return str.encode('Succesful login.')
         else:
-          return str.encode('Incorrect login.')
+          print('Incorrect username or pass.')
+          return str.encode('Incorrect username or password.')
       else:
         print('User does not exist.')
-        return str.encode(username + ' user does not exist. Please create a user account.')
+        return str.encode('Incorrect username or password.')
   
   
   
