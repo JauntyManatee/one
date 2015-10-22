@@ -5,7 +5,7 @@ class Instagram:
 
   def __init__(self, app):
 
-    self.IG_REDIRECT_URI = 'http://127.0.0.1:5000/igLand'
+    self.IG_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/igLand'
     self.IG_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by huligan27'
     self.IG_TOKEN = ''
     self.IG_USER = ''
@@ -20,7 +20,7 @@ class Instagram:
       params = request.args
       CODE = params.get('code')
       token = getIGToken(CODE)
-      return redirect('http://localhost:5000/#/feed')
+      return redirect(os.environ['REDIRECT_URI']+'/#/feed')
       # return 'check your console for token bro!!!  <a href="http://127.0.0.1:5000/instagram/feed">get own feed</a>code: %s ' % CODE
 
     def getIGToken(code):
