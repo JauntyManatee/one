@@ -2,19 +2,20 @@
   <div class="row">
       <input class="center-block" type="text" placeholder="post new tweet">
       <input class="center-block" type="submit" value="Post">
+    
+      <label class="checkbox-inline center-block" ng-click="">
+        <input type="checkbox" checked data-toggle="toggle">Twitter
+      </label>
+      <label class="checkbox-inline center-block" ng-click="">
+        <input type="checkbox" checked data-toggle="toggle">Instagram
+      </label> 
+      <label class="checkbox-inline center-block" ng-click="">
+        <input type="checkbox" checked data-toggle="toggle">SoundCloud
+      </label>    
   </div>
 
-  <div class="row">
-    <label class="checkbox-inline center-block" ng-click="">
-      <input type="checkbox" checked data-toggle="toggle">Twitter
-    </label>
-    <label class="checkbox-inline center-block" ng-click="">
-      <input type="checkbox" checked data-toggle="toggle">Instagram
-    </label> 
-    <label class="checkbox-inline center-block" ng-click="">
-      <input type="checkbox" checked data-toggle="toggle">SoundCloud
-    </label>    
-  </div>
+  
+
 
   <div class="row">
    <div class="center-block" style="width:40%;" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
