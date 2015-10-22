@@ -7,7 +7,7 @@ class Reddit:
   
   def __init__(self, app):
     
-    self.REDDIT_REDIRECT_URI = os.environ['REDIRECT_URI'] + 'redditLand'
+    self.REDDIT_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/redditLand'
     #'http://localhost:5000/redditLand'
     self.REDDIT_STATE = str(uuid4())
     self.REDDIT_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by /u/huligan27'

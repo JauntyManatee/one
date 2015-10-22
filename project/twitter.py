@@ -43,7 +43,7 @@ class Twitter:
       client = oauth.Client(self.CONSUMER, token)
       resp, content2 = client.request(access_token_url, "POST")
       self.ACCESS_TOKEN = dict(urllib.parse.parse_qsl(content2))
-      return redirect(os.environ['REDIRECT_URI']+'#/feed')
+      return redirect(os.environ['REDIRECT_URI']+'/#/feed')
 
     # After Authorized...redirect to tweetsfeed which will make a call
     # to grab the users TimeLine (from APIfactory)
