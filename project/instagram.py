@@ -1,4 +1,4 @@
-import os, requests, flask
+import os, requests, flask, json
 from flask import request, redirect
 
 class Instagram:
@@ -21,7 +21,6 @@ class Instagram:
       CODE = params.get('code')
       token = getIGToken(CODE)
       return redirect('http://localhost:5000/#/feed')
-      # return 'check your console for token bro!!!  <a href="http://127.0.0.1:5000/instagram/feed">get own feed</a>code: %s ' % CODE
 
     def getIGToken(code):
       headers = {'User-Agent' : self.IG_USER_AGENT}
@@ -47,7 +46,18 @@ class Instagram:
     def getOwnFeed():
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
       response = requests.get(url)
-      return response.text
+      respObj = json.loads(response.text)
+      # print(respObj['data'][0]['caption']['created_time'])
+      theList = []
+      for link in respObj['data']:
+        embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
+        resp = requests.get(embedUrl)
+        embedObj = json.loads(resp.text)
+        theList.append({'embed': embedObj['html'], 'time': link['caption']['created_time'] })
+        # print(embedObj['html'])
+      print(theList)
+      data = json.dumps({'data': theList})
+      return data
 
 
 
