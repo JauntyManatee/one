@@ -1,7 +1,7 @@
 import json, os, hashlib, pymysql,sys
 from flask import request
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey, Binary
+from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
