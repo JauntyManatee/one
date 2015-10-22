@@ -23,6 +23,7 @@ class Soundcloud:
       print(access_token.access_token)
       self.SOUNDCLOUD_TOKEN = access_token.access_token
       print("Hi there, %s" % client.get('/me').username)
+      return redirect('/#/feed')
 
     @app.route('/soundStream')
     def soundStream():
@@ -31,6 +32,7 @@ class Soundcloud:
       theList = []
       for good in theGoods.collection:
         embed_info = client.get('/oembed', url=good.origin.permalink_url)
+        # print(dir(embed_info))
         theList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
       data = json.dumps({'data': theList})
       return data
