@@ -26,6 +26,7 @@ class Soundcloud:
       print("Hi there, %s" % client.get('/me').username)
       return redirect(os.environ['REDIRECT_URI'] +'/#/feed')
 
+
     @app.route('/soundStream')
     def soundStream():
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
