@@ -5,7 +5,7 @@ sys.path.append('project')
 try:
   os.environ['runtime'] = sys.argv[1]
 except:
-  os.environ['runtime'] = 'deploy'
+  os.environ['runtime'] = 'dev'
 
 from server import *
 
