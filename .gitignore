@@ -1,4 +1,5 @@
 node_modules
+project/npm-debug.log
 project/static/bower_components
 client/lib
 myApp/
