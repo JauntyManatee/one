@@ -4,8 +4,8 @@ from flask import request, redirect
 class Instagram:
 
   def __init__(self, app):
-
-    self.IG_REDIRECT_URI = 'http://127.0.0.1:5000/igLand'
+    
+    self.IG_REDIRECT_URI = os.environ['REDIRECT_URI'] + 'igLand'
     self.IG_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by huligan27'
     self.IG_TOKEN = ''
     self.IG_USER = ''

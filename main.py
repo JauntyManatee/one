@@ -1,7 +1,11 @@
-import sys
-
+import sys,os
 
 sys.path.append('project')
+
+try:
+  os.environ['runtime'] = sys.argv[1]
+except:
+  os.environ['runtime'] = 'deploy'
 
 from server import *
 
