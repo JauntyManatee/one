@@ -5,20 +5,15 @@ from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Inte
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-try:
-  runtime = sys.argv[1]
-except:
-  runtime = 'deploy'
-
 class DB_Route:
 
   def __init__(self, app):
 
-    pw = ':hr33'
-    if(runtime == 'local'):
-      pw = ''
-
-    engine = create_engine('mysql+pymysql://root%s@127.0.0.1:3306/one_db' % pw, convert_unicode=True)
+    # pw = ':hr33'
+    # if(os.environ['runtime'] == 'local'):
+    #   pw = ''
+    db_url = os.environ['DB_URL']
+    engine = create_engine(db_url, convert_unicode=True)
     Session = sessionmaker(bind=engine)
     session = Session()
     conn = engine.connect() 
