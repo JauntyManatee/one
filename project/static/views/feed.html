@@ -1,23 +1,29 @@
-<div ng-controller="FeedController">
+<div ng-controller="FeedController" >
+  <div class="row">
+      <input class="center-block" type="text" placeholder="post new tweet">
+      <input class="center-block" type="submit" value="Post">
+  </div>
 
-  <input type="text" placeholder="post new tweet">
-  <input type="submit" value="Post">
+  <div class="row">
+   <div class="center-block" style="width:40%;" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
+      <div style="padding: 15px;" ng-repeat="post in feed | orderBy:'-created_at'">
+        <span ng-if="post.twitter" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+        <span ng-if="post.twitter" ng-bind-html="post.text | divnky | tweetLinky"> {{ post.text }} </span>
+        <div><time ng-if="post.twitter"> {{ post.created_at }} </time></div>
+        <button ng-if="post.twitter" ng-click="favTweet(post.id_str)">Favorite</button>
+        <button ng-if="post.twitter" ng-click="reTweet(post.id_str)">Re-Tweet</button>
+        
+        <span ng-if="post.instagram" ><b> {{ "@" + post.user.username + ":" }} </b></span>
+        <span ng-if="post.instagram" ng-bind-html="post.link | linky"> {{ post.link }} </span>
+        <span ng-if="post.instagram" ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
+        <div><time ng-if="post.instagram"> {{ post.created_at }} </time></div>
 
- <ul class="row" ng-init="getInstaFeed(); getTweets();">
-  <li class="center-block" ng-repeat="post in feed | orderBy:'-created_at'"> 
+        <span ng-if="post.soundcloud" ng-bind-html="post.frame"></span>
+        <div><time ng-if="post.soundcloud"> {{ post.created_at }} </time></div>
+      </div> 
+    <!-- <div ng-bind-html="htmlSafe"></div> -->
+   </div>
+  </div>
 
-    <span ng-if="post.twitter" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-    <span ng-if="post.twitter" ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-    <span ng-if="post.twitter"> {{ post.created_at }} </span>
-    <button ng-if="post.twitter" ng-click="favTweet(post.id_str)">Favorite</button>
-    <button ng-if="post.twitter" ng-click="reTweet(post.id_str)">Re-Tweet</button>
-    
-    <span ng-if="post.instagram" ><b> {{ "@" + post.user.username + ":" }} </b></span>
-    <span ng-if="post.instagram" ng-bind-html="post.link | linky"> {{ post.link }} </span>
-    <span ng-if="post.instagram" ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
-    <span ng-if="post.instagram"> {{ post.created_at }} </span>
-
-  </li> 
- </ul>
 
 </div>
