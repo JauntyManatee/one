@@ -1,5 +1,5 @@
-app.factory('UsersFactory', ['$http', 
-  function($http, $location, $window) {
+app.factory('UsersFactory', ['$state', '$http',  
+  function($state, $http) {
     return {
 
       signup: function(user) {
@@ -7,7 +7,12 @@ app.factory('UsersFactory', ['$http',
           method: 'POST',
           url: '/signup',
           data: user
-        });
+        })
+        .then(function(res) {
+          console.log(res);
+          $state.go('feed')
+          
+        })
       },
 
       login: function(user) {
@@ -16,7 +21,15 @@ app.factory('UsersFactory', ['$http',
           method: 'POST',
           url: '/login',
           data: user
-        });
+        })
+        .then(function(res) {
+          console.log(res);
+          if(res.data === 'Succesful login.') {
+            $state.go('feed')
+          }
+          console.log(res);
+        })
+
       },
 
       logout: function(user) {
