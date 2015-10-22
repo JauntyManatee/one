@@ -20,7 +20,7 @@ class Instagram:
       params = request.args
       CODE = params.get('code')
       token = getIGToken(CODE)
-      return redirect('http://localhost:5000/#/feed')
+      return redirect(os.environ['REDIRECT_URI']+'/#/feed')
       # return 'check your console for token bro!!!  <a href="http://127.0.0.1:5000/instagram/feed">get own feed</a>code: %s ' % CODE
 
     def getIGToken(code):
