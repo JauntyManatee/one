@@ -7,6 +7,6 @@ app.factory('SoundCloudFactory', ['$http', function  ($http) {
   };
 
   return {
-    getSongs : getSongs
+    getSongs: getSongs
   };
 }]);

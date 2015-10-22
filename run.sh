@@ -1,1 +1,3 @@
-python main.py local
+#!/bin/bash
+source venv/bin/activate
+gunicorn -b 0.0.0.0:5000 main:app
