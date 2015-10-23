@@ -1,3 +1,8 @@
-app.controller('BannerController', ['$scope', function ( $scope ) {
-  $scope.postType
+app.controller('BannerController', ['$scope', 'PostType', function ( $scope, PostType ) {
+  $scope.postType = PostType;
+
+  $scope.toggle = function( type ) {
+    $scope.postType[type] = !$scope.postType[type];
+    return $scope.postType;
+  };
 }]);
