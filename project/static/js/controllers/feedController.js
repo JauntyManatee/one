@@ -2,12 +2,23 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.feed = [];
 
+  $scope.postType = {
+    'twitter': false,
+    'instagram': false,
+    'soundcloud': false
+  };
+
+  $scope.toggle = function( type ) {
+    $scope.postType[type] = !$scope.postType[type];
+    return $scope.postType;
+  };
+
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
       if(Array.isArray(data.data)){
         for (var i = 0; i < data.data.length; i++) {
           data.data[i].created_at = new Date(data.data[i].created_at);
-          data.data[i].twitter = true;
+          data.data[i].type = 'twitter';
         }
         $scope.feed.push.apply($scope.feed, data.data);
         console.log($scope.feed);
@@ -29,29 +40,15 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
-      var iFrame = data.data.data;
-      console.log(iFrame[0].embed);
-      $timeout(function(){
-          window.instgrm.Embeds.process();
-        });
-      // $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
-      var items = [];
-      for (var i = 0; i < iFrame.length; i++) {
-        var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
-        var theDate = new Date(iFrame[i].time * 1000);
-        items.push({frame: htmlFrame, created_at: theDate, instagram: true});
+      if(typeof data.data !== 'string') {
+        for (var i = 0; i < data.data.data.length; i++) {
+          var theDate = new Date(data.data.data[i].created_time*1000);
+          data.data.data[i].created_at = theDate;
+          data.data.data[i].type = 'instagram';
+        }
+        $scope.feed.push.apply($scope.feed, data.data.data);
+        console.log($scope.feed);
       }
-      $scope.feed.push.apply($scope.feed, items);
-      console.log($scope.feed);
-      // if(typeof data.data !== 'string') {
-      //   for (var i = 0; i < data.data.data.length; i++) {
-      //     var theDate = new Date(data.data.data[i].created_time*1000);
-      //     data.data.data[i].created_at = theDate;
-      //     data.data.data[i].instagram = true;
-      //   }
-      //   $scope.feed.push.apply($scope.feed, data.data.data);
-      //   console.log($scope.feed);
-      // }
     });
   };
 
@@ -64,10 +61,21 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       for (var i = 0; i < iFrame.length; i++) {
         var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
         var theDate = new Date(iFrame[i].time);
-        items.push({frame: htmlFrame, created_at: theDate, soundcloud: true});
+        items.push({frame: htmlFrame, created_at: theDate, type: 'soundcloud'});
       }
       $scope.feed.push.apply($scope.feed, items);
       console.log($scope.feed);
     });
   };
-}]);
+}]).filter('typeFilter', function ( ) {
+  return function ( input, postTypes ) {
+    var output = [];
+
+    angular.forEach(input, function ( post ) {
+      if ( postTypes[post.type] === false) {
+        output.push(post);
+      }
+    });
+    return output;
+  };
+});
