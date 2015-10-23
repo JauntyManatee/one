@@ -1,7 +1,10 @@
 <div ng-controller="FeedController" class="row">
   <div class="center-block" style="width:40%;">
 
-    <div id="feed" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
+  <div id="feed" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
+
+  <div class="row">
+    <div class="center-block" style="width:40%;" ng-init="getTweets(); getSoundFeed(); getInstaFeed();">
       <div style="padding: 15px;" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
 
         <span ng-if="post.type === 'twitter'" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
@@ -11,12 +14,15 @@
         <button ng-if="post.type === 'twitter'" ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
         
         <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
-
+        <div><time ng-if="post.type === 'instagram'"> {{ post.created_at }} </time></div>
         <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
         <div><time ng-if="post.type === 'soundcloud'"> {{ post.created_at }} </time></div>
 
       </div> 
-    </div>
+   </div>
+  </div>
+
+  </div>
 
   </div>
 </div>
