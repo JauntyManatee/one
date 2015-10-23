@@ -15,10 +15,7 @@
         <button ng-if="post.type === 'twitter'" ng-click="favTweet(post.id_str)">Favorite</button>
         <button ng-if="post.type === 'twitter'" ng-click="reTweet(post.id_str)">Re-Tweet</button>
         
-        <span ng-if="post.type === 'instagram'" ><b> {{ "@" + post.user.username + ":" }} </b></span>
-        <span ng-if="post.type === 'instagram'" ng-bind-html="post.link | linky"> {{ post.link }} </span>
-        <span ng-if="post.type === 'instagram'" ng-bind-html="post.caption.text | linky | instaLinky"> {{ post.caption.text }} </span>
-        <div><time ng-if="post.type === 'instagram'"> {{ post.created_at }} </time></div>
+        <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
 
         <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
         <div><time ng-if="post.type === 'soundcloud'"> {{ post.created_at }} </time></div>
