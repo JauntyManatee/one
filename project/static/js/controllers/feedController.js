@@ -1,4 +1,9 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', '$sce', '$timeout', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, $sce, $timeout ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$sce', '$timeout', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $sce, $timeout ) {
+
+  $scope.feed = [];
+
+  $scope.postType = PostType;
+
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
         theDate, htmlFrame, obj;
@@ -23,19 +28,6 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       theFeed.push(obj);
     });
     return theFeed;
-  };
-
-  $scope.feed = [];
-
-  $scope.postType = {
-    'twitter': false,
-    'instagram': false,
-    'soundcloud': false
-  };
-
-  $scope.toggle = function( type ) {
-    $scope.postType[type] = !$scope.postType[type];
-    return $scope.postType;
   };
 
   $scope.getTweets = function ( ) {
@@ -74,6 +66,13 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
   };
 }])
+.factory('PostType', function () {
+  return {
+    'twitter': false,
+    'instagram': false,
+    'soundcloud': false
+  };
+})
 .filter('typeFilter', function ( ) {
   return function ( input, postTypes ) {
     var output = [];
