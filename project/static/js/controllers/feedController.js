@@ -66,7 +66,7 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
   };
 }])
-.factory('postType', function () {
+.factory('PostType', function () {
   return {
     'twitter': false,
     'instagram': false,
