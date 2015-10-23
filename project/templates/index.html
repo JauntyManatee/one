@@ -11,7 +11,7 @@
 <body>
 
   <div ng-app="app">
-    <header>Note to self: Eventually ng-include some banner html here</header>
+    <header ng-include="'../static/views/banner.html'"></header>
     <div ui-view></div>
   </div>
 
@@ -38,6 +38,7 @@
   <!-- Controllers -->
   <script src="{{ url_for('static', filename='js/controllers/homeController.js') }}"></script>
   <script src="{{ url_for('static', filename='js/controllers/feedController.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/controllers/bannerController.js') }}"></script>
 </body>
 </html>
 
