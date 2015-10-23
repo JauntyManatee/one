@@ -6,7 +6,7 @@
   </div>
 
   <div class="row">
-    <div class="center-block" style="width:40%;" ng-init="getTweets(); getSoundFeed(); getInstaFeed();">
+    <div class="center-block" style="width:40%;" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
       <div style="padding: 15px;" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
 
         <span ng-if="post.type === 'twitter'" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
