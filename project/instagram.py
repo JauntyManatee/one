@@ -48,14 +48,16 @@ class Instagram:
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
       response = requests.get(url)
       respObj = json.loads(response.text)
-      # print(respObj['data'][0]['caption']['created_time'])
       theList = []
       for link in respObj['data']:
-        embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
-        resp = requests.get(embedUrl)
-        embedObj = json.loads(resp.text)
-        theList.append({'embed': embedObj['html'], 'time': link['caption']['created_time'] })
-        # print(embedObj['html'])
+        try:
+          embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
+          resp = requests.get(embedUrl)
+          embedObj = json.loads(resp.text)
+          theList.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
+          # print(resp)
+        except:
+          print('error but continue plz')
       print(theList)
       data = json.dumps({'data': theList})
       return data
