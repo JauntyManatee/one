@@ -1,4 +1,4 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', '$sce', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, $sce ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', '$sce', '$timeout', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, $sce, $timeout ) {
 
   $scope.feed = [];
 
@@ -29,15 +29,29 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
-      if(typeof data.data !== 'string') {
-        for (var i = 0; i < data.data.data.length; i++) {
-          var theDate = new Date(data.data.data[i].created_time*1000);
-          data.data.data[i].created_at = theDate;
-          data.data.data[i].instagram = true;
-        }
-        $scope.feed.push.apply($scope.feed, data.data.data);
-        console.log($scope.feed);
+      var iFrame = data.data.data;
+      console.log(iFrame[0].embed);
+      $timeout(function(){
+          window.instgrm.Embeds.process();
+        });
+      // $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
+      var items = [];
+      for (var i = 0; i < iFrame.length; i++) {
+        var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
+        var theDate = new Date(iFrame[i].time * 1000);
+        items.push({frame: htmlFrame, created_at: theDate, instagram: true});
       }
+      $scope.feed.push.apply($scope.feed, items);
+      console.log($scope.feed);
+      // if(typeof data.data !== 'string') {
+      //   for (var i = 0; i < data.data.data.length; i++) {
+      //     var theDate = new Date(data.data.data[i].created_time*1000);
+      //     data.data.data[i].created_at = theDate;
+      //     data.data.data[i].instagram = true;
+      //   }
+      //   $scope.feed.push.apply($scope.feed, data.data.data);
+      //   console.log($scope.feed);
+      // }
     });
   };
 
@@ -45,7 +59,7 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     
     SoundCloudFactory.getSongs().then(function (data) {
       var iFrame = data.data.data;
-      $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
+      // $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
       var items = [];
       for (var i = 0; i < iFrame.length; i++) {
         var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
