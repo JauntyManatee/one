@@ -10,8 +10,9 @@ app.factory('UsersFactory', ['$state', '$http',
         })
         .then(function(res) {
           console.log(res);
-          $state.go('feed')
-          
+          if(res.data === 'User added.') {
+            $state.go('feed');
+          }
         })
       },
 
@@ -25,9 +26,10 @@ app.factory('UsersFactory', ['$state', '$http',
         .then(function(res) {
           console.log(res);
           if(res.data === 'Succesful login.') {
-            $state.go('feed')
+            $state.go('feed');
+          } else {
+          console.log(res.data);
           }
-          console.log(res);
         })
 
       },
@@ -36,7 +38,12 @@ app.factory('UsersFactory', ['$state', '$http',
         return $http({
           method: 'POST',
           url: '/logout'
-        });
+        })
+        then(function(res) {
+          if(res.data === 'Logged out.') {
+            $state.go('home')
+          }
+        })
       }
     };
 }]);
