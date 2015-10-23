@@ -27,7 +27,6 @@ app.factory('UsersFactory', ['$state', '$http',
           if(res.data === 'Succesful login.') {
             $state.go('feed')
           }
-          console.log(res);
         })
 
       },
