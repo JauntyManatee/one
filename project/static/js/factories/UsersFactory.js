@@ -10,9 +10,9 @@ app.factory('UsersFactory', ['$state', '$http',
         })
         .then(function(res) {
           console.log(res);
-          $state.go('feed')
+          $state.go('feed');
           
-        })
+        });
       },
 
       login: function(user) {
@@ -25,10 +25,10 @@ app.factory('UsersFactory', ['$state', '$http',
         .then(function(res) {
           console.log(res);
           if(res.data === 'Succesful login.') {
-            $state.go('feed')
+            $state.go('feed');
           }
           console.log(res);
-        })
+        });
 
       },
 
