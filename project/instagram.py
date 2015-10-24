@@ -1,8 +1,10 @@
 import os, requests, flask, json
 from flask import request, redirect
+from util import Asyncifyer, Promise
 import collections
 
 class Instagram:
+
 
   def __init__(self, app):
 
@@ -10,6 +12,8 @@ class Instagram:
     self.IG_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by huligan27'
     self.IG_TOKEN = ''
     self.IG_USER = ''
+
+   
 
     @app.route('/igAuth')
     def igAuth():
@@ -45,7 +49,9 @@ class Instagram:
 
     #Holds queued items to be sent to client
     q = collections.deque()
-
+    def returner(self,d):
+      print(d)
+      return d
     @app.route('/instagram/feed')
     def getOwnFeed():
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
@@ -71,9 +77,12 @@ class Instagram:
       moreData = False
       if(q):
         moreData = True
-      return sendEmbed(shortList, moreData)
+        
+      Promise(sendEmbed,[shortList, moreData]).then(returner)
 
     #Util function to grab embeds from Instagram. Used to return posts to client.
+
+   
     def sendEmbed(shortList, moreData):
       embedList = []
 
