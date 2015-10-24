@@ -16,12 +16,14 @@ from reddit import *
 from instagram import *
 from twitter import *
 from db_route import *
+
 Bower(app)
 Reddit(app)
 Instagram(app)
 Soundcloud(app)
 Twitter(app)
 DB_Route(app)
+#login_manager.init_app(app)
 
 if __name__ == '__main__':
   app.run(debug=True) 
