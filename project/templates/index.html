@@ -4,6 +4,7 @@
   <title>ONE</title>
 
   <!-- Styles -->
+  <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
  <!--  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-switch.css') }}"> -->
@@ -11,7 +12,7 @@
 <body>
 
   <div ng-app="app">
-    <header>Note to self: Eventually ng-include some banner html here</header>
+    <header ng-include="'../static/views/banner.html'"></header>
     <div ui-view></div>
   </div>
 
@@ -38,6 +39,7 @@
   <!-- Controllers -->
   <script src="{{ url_for('static', filename='js/controllers/homeController.js') }}"></script>
   <script src="{{ url_for('static', filename='js/controllers/feedController.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/controllers/bannerController.js') }}"></script>
 </body>
 </html>
 
