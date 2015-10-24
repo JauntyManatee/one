@@ -2,18 +2,21 @@
   <div class="center-block" style="width:40%;">
     
     <div id="feed" ng-init="getSoundFeed(); getInstaFeed(); getTweets();">
-      <div style="padding: 15px;" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
-        <div class="panel panel-primary">
+      <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
+        
+        <div ng-if="post.type === 'twitter'" class="panel panel-primary">
           <div class="panel-body">
-        <span ng-if="post.type === 'twitter'" ><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-        <span ng-if="post.type === 'twitter'" ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-        <div><time ng-if="post.type === 'twitter'"> {{ post.created_at }} </time></div>
-        <button ng-if="post.type === 'twitter'" ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
-        <button ng-if="post.type === 'twitter'" ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
-        </div>
+            <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+            <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+            <time> {{ post.created_at }} </time>
+            <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
+            <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
           </div>
+        </div>
+        
         <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
         <div><time ng-if="post.type === 'instagram'"> {{ post.created_at }} </time></div>
+        
         <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
         <div><time ng-if="post.type === 'soundcloud'"> {{ post.created_at }} </time></div>
 
