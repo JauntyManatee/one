@@ -30,3 +30,4 @@ app.factory('InstagramFactory', ['$http', function ( $http ) {
     };
   }
 ]);
+  

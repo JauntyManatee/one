@@ -7,12 +7,7 @@ app.factory('UsersFactory', ['$state', '$http',
           method: 'POST',
           url: '/signup',
           data: user
-        })
-        .then(function(res) {
-          console.log(res);
-          $state.go('feed')
-          
-        })
+        });
       },
 
       login: function(user) {
@@ -21,14 +16,7 @@ app.factory('UsersFactory', ['$state', '$http',
           method: 'POST',
           url: '/login',
           data: user
-        })
-        .then(function(res) {
-          console.log(res);
-          if(res.data === 'Succesful login.') {
-            $state.go('feed')
-          }
-        })
-
+        });
       },
 
       logout: function(user) {

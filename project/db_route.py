@@ -22,8 +22,6 @@ class DB_Route:
     metadata = MetaData(engine)
     Base = declarative_base()
    # login_manager = LoginManager()
-    
-
 
     class User(Base):
       __tablename__ = 'users'
@@ -105,5 +103,22 @@ class DB_Route:
         print('User does not exist.')
         return str.encode('Incorrect username or password.')
   
+    #Authenticate on login
+    @app.route('/logout', methods=['POST'])
+    def logout():
+      data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
+      username = data_string['username']
+      search_result = session.query(User).filter_by(username=username).all()
+      user_salt = str.encode(search_result[0].salt) #bytes 
+      token = hashlib.sha256(str.encode(username) + user_salt).hexdigest()
+      login_session[token] = False # probably should delete username from session object
+      flash('You are now logged out.')
+      return str.encode('Logged out.')
+
+
+
+
+
+
   
   

@@ -1,3 +1,17 @@
 body {
-  background-color: lightskyblue
+  font-family: 'Dosis', sans-serif;
+  font-size: 20px;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+}
+
+#feed {
+  padding-top: 65px;
+}
+
+.post {
+  padding: 15px;
 }
