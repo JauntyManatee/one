@@ -7,12 +7,6 @@ app.factory('UsersFactory', ['$state', '$http',
           method: 'POST',
           url: '/signup',
           data: user
-        })
-        .then(function(res) {
-          console.log(res);
-          if(res.data === 'User added.') {
-            $state.go('feed');
-          }
         });
       },
 
@@ -22,14 +16,6 @@ app.factory('UsersFactory', ['$state', '$http',
           method: 'POST',
           url: '/login',
           data: user
-        })
-        .then(function(res) {
-          console.log(res);
-          if(res.data === 'Succesful login.') {
-            $state.go('feed');
-          } else {
-          console.log(res.data);
-          }
         });
       },
 
@@ -38,11 +24,11 @@ app.factory('UsersFactory', ['$state', '$http',
           method: 'POST',
           url: '/logout'
         })
-        then(function(res) {
+        .then(function(res) {
           if(res.data === 'Logged out.') {
-            $state.go('home')
+            $state.go('home');
           }
-        })
+        });
       }
     };
 }]);
