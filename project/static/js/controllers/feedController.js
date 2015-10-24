@@ -72,13 +72,11 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       console.log($scope.feed);
     });
   };
-<<<<<<< HEAD
 
   $scope.logout = function() {
     UsersFactory.logout();
   };
-}]);
-=======
+
 }])
 .filter('typeFilter', function ( ) {
   return function ( input, postTypes ) {
@@ -95,4 +93,5 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     return output;
   };
 });
->>>>>>> d79167188dd6c18cace3befefd9a7db1bc805018
+
+
