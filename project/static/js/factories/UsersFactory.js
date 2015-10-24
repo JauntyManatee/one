@@ -23,11 +23,6 @@ app.factory('UsersFactory', ['$state', '$http',
         return $http({
           method: 'POST',
           url: '/logout'
-        })
-        .then(function(res) {
-          if(res.data === 'Logged out.') {
-            $state.go('home');
-          }
         });
       }
     };
