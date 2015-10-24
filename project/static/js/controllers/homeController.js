@@ -4,9 +4,10 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function (
     UsersFactory.login(user)
     .then(function(res) {
       if(res.data === 'Succesful login.') {
+        console.log('Succesful login.');
         $state.go('feed');
       } else {
-      console.log(res.data);
+        console.log(res.data);
       }
     })
     .catch(function(err) {
@@ -19,6 +20,7 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function (
     UsersFactory.signup(user)
     .then(function(res) {
       if(res.data === 'User added.') {
+        console.log('User added.');
         $state.go('feed');
       }
     })
