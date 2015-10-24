@@ -92,11 +92,4 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
     return output;
   };
-<<<<<<< HEAD
 });
-
-
-=======
-
-});
->>>>>>> b39187cf00f181455535b96606a5ebe6e41d0b32
