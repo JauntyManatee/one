@@ -72,10 +72,6 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
   };
 
-  $scope.logout = function() {
-    UsersFactory.logout();
-  };
-
 }])
 .factory('PostType', function ( ) {
   return {
