@@ -36,8 +36,8 @@ class Soundcloud:
       if(not q):
         theGoods = client.get('/me/activities/tracks/affiliated')
   
-      for good in theGoods.collection:
-        q.append(good)
+        for good in theGoods.collection:
+          q.append(good)
 
       l = []
 
@@ -50,28 +50,18 @@ class Soundcloud:
       moreData = False
       if(q):
         moreData = True
-      return sendEmbed(l,moreData)
+      return sendEmbed(l, moreData)
       
+    def sendEmbed(links, moreData):
+      embedList = []
 
-    def sendEmbed(theShortenedGoods,moreData):
-      theList = []
-      for good in theShortenedGoods:
+      for good in links:
         embed_info = client.get('/oembed', url=good.origin.permalink_url)
         
-        theList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
-      data = json.dumps({'data': theList,'is_more_data': moreData})
+        embedList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
+      data = json.dumps({'data': embedList,'is_more_data': moreData})
       return data
       
-
-
-
-
-
-
-
-
-
-
 
 
 
