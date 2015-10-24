@@ -4,14 +4,16 @@
   <title>ONE</title>
 
   <!-- Styles -->
+  <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+ <!--  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-switch.css') }}"> -->
 </head>
 <body>
 
   <div ng-app="app">
-    <header>Note to self: Eventually ng-include some banner html here</header>
-    <div ui-view></div>
+    <div ui-view="banner"></div>
+    <div ui-view="main"></div>
   </div>
 
   
@@ -21,6 +23,7 @@
   <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='bower_components/angular-ui-router/release/angular-ui-router.min.js') }}"></script>
   <script src="{{ url_for('static', filename='bower_components/angular-sanitize/angular-sanitize.js') }}" id='i'></script>
+ <!--  <script src="{{ url_for('static', filename='css/bootstrap-switch.js') }}" id='i'></script> -->
 
   <script src="{{ url_for('static', filename='bower_components/d3/d3.min.js') }}"></script>
 
@@ -32,10 +35,11 @@
   <script src="{{ url_for('static', filename='js/factories/TwitterFactory.js') }}"></script>
   <script src="{{ url_for('static', filename='js/factories/InstagramFactory.js') }}"></script>
   <script src="{{ url_for('static', filename='js/factories/SoundCloudFactory.js') }}"></script>
-
+  <script src="//platform.instagram.com/en_US/embeds.js"></script>
   <!-- Controllers -->
   <script src="{{ url_for('static', filename='js/controllers/homeController.js') }}"></script>
   <script src="{{ url_for('static', filename='js/controllers/feedController.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/controllers/bannerController.js') }}"></script>
 </body>
 </html>
 
