@@ -1,27 +1,40 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', '$sce', '$timeout', 'UsersFactory', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$sce', '$timeout', 'UsersFactory', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
-  $scope.postType = {
-    'twitter': false,
-    'instagram': false,
-    'soundcloud': false
-  };
+  $scope.postType = PostType;
 
-  $scope.toggle = function( type ) {
-    $scope.postType[type] = !$scope.postType[type];
-    return $scope.postType;
+  var buildFeed = function (data, type, date) { 
+    var theFeed  = [], 
+        theDate, htmlFrame, obj;
+    angular.forEach(data, function (item) {
+      if (type === 'twitter') {
+        obj = {
+          text : item.text, 
+          created_at: new Date(item.created_at), 
+          type: type, 
+          user: {screen_name : item.user.screen_name}, 
+          id_str: item.id_str 
+        };
+      } else {
+        htmlFrame = $sce.trustAsHtml(item.embed);
+        theDate = date ? new Date(item.time * 1000) : new Date(item.time);
+        obj = {
+          frame: htmlFrame, 
+          created_at: theDate, 
+          type: type
+        };
+      }
+      theFeed.push(obj);
+    });
+    return theFeed;
   };
 
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
       if(Array.isArray(data.data)){
-        for (var i = 0; i < data.data.length; i++) {
-          data.data[i].created_at = new Date(data.data[i].created_at);
-          data.data[i].type = 'twitter';
-        }
-        $scope.feed.push.apply($scope.feed, data.data);
-        console.log($scope.feed);
+        var items = buildFeed(data.data, 'twitter');
+        $scope.feed.push.apply($scope.feed, items);
       }
     });
   };
@@ -40,36 +53,16 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
-      var iFrame = data.data.data;
-      console.log(iFrame[0].embed);
-      // $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
-      // $timeout(function(){
-      //   window.instgrm.Embeds.process();
-      // });
-      var items = [];
-      for (var i = 0; i < iFrame.length; i++) {
-        var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
-        var theDate = new Date(iFrame[i].time * 1000);
-        items.push({frame: htmlFrame, created_at: theDate, type: 'instagram'});
-      }
+      var items = buildFeed(data.data.data, 'instagram', true);
       $scope.feed.push.apply($scope.feed, items);
       console.log($scope.feed);
     });
   };
 
   $scope.getSoundFeed = function () {
-    
     SoundCloudFactory.getSongs().then(function (data) {
-      var iFrame = data.data.data;
-      // $scope.htmlSafe = $sce.trustAsHtml(data.data.data[0].embed);
-      var items = [];
-      for (var i = 0; i < iFrame.length; i++) {
-        var htmlFrame= $sce.trustAsHtml(iFrame[i].embed);
-        var theDate = new Date(iFrame[i].time);
-        items.push({frame: htmlFrame, created_at: theDate, type: 'soundcloud'});
-      }
+      var items = buildFeed(data.data.data, 'soundcloud');
       $scope.feed.push.apply($scope.feed, items);
-      console.log($scope.feed);
     });
   };
 
@@ -78,6 +71,13 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
   };
 
 }])
+.factory('PostType', function () {
+  return {
+    'twitter': false,
+    'instagram': false,
+    'soundcloud': false
+  };
+})
 .filter('typeFilter', function ( ) {
   return function ( input, postTypes ) {
     var output = [];
@@ -92,6 +92,11 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
     return output;
   };
+<<<<<<< HEAD
 });
 
 
+=======
+
+});
+>>>>>>> b39187cf00f181455535b96606a5ebe6e41d0b32
