@@ -56,7 +56,9 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     InstagramFactory.getInstaFeed().then(function ( data ) {
       var items = buildFeed(data.data.data, 'instagram', true);
       $scope.feed.push.apply($scope.feed, items);
-      console.log($scope.feed);
+      if(data.data.is_more_data) {
+        $scope.getInstaFeed();
+      }
     });
   };
 
@@ -68,10 +70,6 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
         $scope.getSoundFeed();
       }
     });
-  };
-
-  $scope.logout = function() {
-    UsersFactory.logout();
   };
 
 }])
