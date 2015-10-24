@@ -1,4 +1,4 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$sce', '$timeout', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $sce, $timeout ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$sce', '$timeout', 'UsersFactory', function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
@@ -65,6 +65,11 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       $scope.feed.push.apply($scope.feed, items);
     });
   };
+
+  $scope.logout = function() {
+    UsersFactory.logout();
+  };
+
 }])
 .factory('PostType', function () {
   return {
@@ -87,5 +92,4 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
     return output;
   };
-
 });

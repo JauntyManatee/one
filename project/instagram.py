@@ -1,5 +1,6 @@
 import os, requests, flask, json
 from flask import request, redirect
+import collections
 
 class Instagram:
 
@@ -42,25 +43,52 @@ class Instagram:
       self.IG_TOKEN = token_json['access_token']
       self.IG_USER = token_json['user']
 
+    #Holds queued items to be sent to client
+    q = collections.deque()
 
     @app.route('/instagram/feed')
     def getOwnFeed():
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
-      response = requests.get(url)
-      respObj = json.loads(response.text)
-      theList = []
-      for link in respObj['data']:
+
+      #Check if queue is empty and make request for data if it is.
+      if(not q):
+        response = requests.get(url)
+        resJSON = (response.json)()['data']
+
+        for post in resJSON:
+          q.append(post)
+
+      shortList = []
+
+      #Appends 2 items from queue to shortlist to send to client.
+      for n in range(2):
+        try:
+          shortList.append(q.popleft())
+        except:
+          pass
+
+      #Flag to tell client whethere queue has more data to send..
+      moreData = False
+      if(q):
+        moreData = True
+      return sendEmbed(shortList, moreData)
+
+    #Util function to grab embeds from Instagram. Used to return posts to client.
+    def sendEmbed(shortList, moreData):
+      embedList = []
+
+      for link in shortList:
         try:
           embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
           resp = requests.get(embedUrl)
           embedObj = json.loads(resp.text)
-          theList.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
-          # print(resp)
+          embedList.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
         except:
           print('error but continue plz')
-      print(theList)
-      data = json.dumps({'data': theList})
+      data = json.dumps({'data': embedList, 'is_more_data': moreData})
       return data
+
+
 
 
 
