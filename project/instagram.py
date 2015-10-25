@@ -59,7 +59,7 @@ class Instagram:
     def embedLoader(qurl):
       response = requests.get('http://api.instagram.com/oembed?url=' + qurl['link'])
       # print(qurl['link'])
-      print(response.json()['embed'])
+      print(response.json()['html'])
       try:
         embedObj = response.json
         qmbd.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
