@@ -6,12 +6,6 @@
     <div class='container row'>
       <div class="center-block">
 
-        <span class="btn-group">
-          <button ng-click="postType = toggle('twitter')" type="button" class="btn btn-default"> Twitter </button>
-          <button ng-click="postType = toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
-          <button ng-click="postType = toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
-        </span>
-
         <div class="col-sm-3 col-md-6 pull-right">
         <form class="navbar-form" role="search">
         <div class="input-group">
@@ -22,9 +16,20 @@
         </div>
         </form>
         </div>
+        
+        <span class="btn-group">
+          <button ng-click="postType = toggle('twitter')" type="button" class="btn btn-default"> Twitter </button>
+          <button ng-click="postType = toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
+          <button ng-click="postType = toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
+        </span>
 
+
+
+        <button ng-click="logout()" type="button" class="btn btn-default pull-right"> Logout </button>
 
       </div>
+
+
     </div>
   </nav>
 </div>
