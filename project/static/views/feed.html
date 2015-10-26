@@ -1,8 +1,6 @@
 <div ng-controller="FeedController" class="row">
   <div class="center-block" style="width:40%;">
-    
-    <div id="feed" ng-init="getInstaFeed();">
-    <!-- <div id="feed" ng-init=" getInstaFeed(); getSoundFeed(); getTweets();"> -->
+    <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
         
         <div ng-if="post.type === 'twitter'" class="panel panel-primary">
