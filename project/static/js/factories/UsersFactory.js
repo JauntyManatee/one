@@ -3,7 +3,7 @@ app.factory('UsersFactory', ['$state', '$http',
     return {
 
       signup: function(user) {
-        return $http({
+          return $http({
           method: 'POST',
           url: '/signup',
           data: user
@@ -19,10 +19,11 @@ app.factory('UsersFactory', ['$state', '$http',
         });
       },
 
-      logout: function(user) {
+      logout: function(token) {
         return $http({
           method: 'POST',
-          url: '/logout'
+          url: '/logout',
+          data: token
         });
       }
     };
