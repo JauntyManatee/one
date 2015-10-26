@@ -1,8 +1,11 @@
 import os, requests, flask, json
 from flask import request, redirect
+import time
 import collections
+from threading import Thread
 
 class Instagram:
+
 
   def __init__(self, app):
 
@@ -10,6 +13,9 @@ class Instagram:
     self.IG_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by huligan27'
     self.IG_TOKEN = ''
     self.IG_USER = ''
+    self.embedsLeft = 0
+
+   
 
     @app.route('/igAuth')
     def igAuth():
@@ -44,51 +50,54 @@ class Instagram:
       self.IG_USER = token_json['user']
 
     #Holds queued items to be sent to client
-    q = collections.deque()
+    # qurl = collections.deque()
+    qmbd = collections.deque()
+
+
+  
+    def embedLoader(link):
+      response = requests.get('http://api.instagram.com/oembed?url=' + link['link'])
+      try:
+        embed_obj = response.json()['html']
+        qmbd.append({'embed': embed_obj, 'time': int(link['caption']['created_time']) })
+      except:
+        'error'
+      
 
     @app.route('/instagram/feed')
     def getOwnFeed():
+      
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
+      
+      if(self.embedsLeft == 0):
 
-      #Check if queue is empty and make request for data if it is.
-      if(not q):
         response = requests.get(url)
-        resJSON = (response.json)()['data']
-
-        for post in resJSON:
-          q.append(post)
-
-      shortList = []
-
-      #Appends 2 items from queue to shortlist to send to client.
-      for n in range(2):
         try:
-          shortList.append(q.popleft())
+          for link in response.json()['data']:
+            Thread(target=embedLoader, args=[link]).start()
+            self.embedsLeft += 1
         except:
           pass
 
-      #Flag to tell client whethere queue has more data to send..
+      shortList = []
+
+
+      if(self.embedsLeft > 3):
+        while(qmbd):
+          try:
+            shortList.append(qmbd.popleft())
+            self.embedsLeft-=1
+          except:
+            print('nothin in qmbd yet')
+
       moreData = False
-      if(q):
+      if(self.embedsLeft > 3):
         moreData = True
-      return sendEmbed(shortList, moreData)
 
-    #Util function to grab embeds from Instagram. Used to return posts to client.
-    def sendEmbed(shortList, moreData):
-      embedList = []
+      if(self.embedsLeft <= 3):
+        self.embedsLeft = 0
 
-      for link in shortList:
-        try:
-          embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
-          resp = requests.get(embedUrl)
-          embedObj = json.loads(resp.text)
-          embedList.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
-        except:
-          print('error but continue plz')
-      data = json.dumps({'data': embedList, 'is_more_data': moreData})
-      return data
-
-
+      return json.dumps({'data': shortList, 'is_more_data': moreData})
 
 
 
