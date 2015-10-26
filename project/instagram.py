@@ -17,7 +17,6 @@ class Instagram:
     self.embedsLeft = 0
 
    
-
     @app.route('/igAuth')
     def igAuth():
       link = 'https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code' % (os.environ['IG_CLIENT_ID'], self.IG_REDIRECT_URI)
@@ -64,7 +63,10 @@ class Instagram:
         qmbd.append({'embed': embedObj, 'time': int(qurl['caption']['created_time']) })
         print('appended to qmbd')
       except:
-        print('error')
+        try:
+          print(response.url)
+        except:
+          print('error')
     
       
 
@@ -80,26 +82,25 @@ class Instagram:
 
         for post in resJSON:
           qurl.append(post)
-          self.embedsLeft += 1
+          # self.embedsLeft += 1
           print('append to qurl')
 
       #ask for embeds
         for link in qurl:
+          self.embedsLeft += 1
+          
           Thread(target=embedLoader, args=[link]).start()
-        # try:
-          # Asyncifyer(embedLoader(link))
-        # except:
-        #   pass
+
 
       #Flag to tell client whethere qurlueue has more data to send..
       moreData = False
-      if(self.embedsLeft > 0):
+      print(self.embedsLeft)
+      if(self.embedsLeft > 3):
         moreData = True
 
       shortList = []
       while(qmbd):
         shortList.append(qmbd.popleft())
-        print('shortList: ', )
         self.embedsLeft-=1
 
       return json.dumps({'data': shortList, 'is_more_data': moreData})
@@ -130,28 +131,28 @@ class Instagram:
         #if data in qurl send qmbd and true
         #if data not in qurl send qmbd and false
 
-      Promise(sendEmbed,[shortList, moreData]).then(returner)
+      # Promise(sendEmbed,[shortList, moreData]).then(returner)
       # time.sleep(2)
       # return a
 
-      return sendEmbed(shortList, moreData)
+      # return sendEmbed(shortList, moreData)
 
     #Util function to grab embeds from Instagram. Used to return posts to client.
 
    
-    def sendEmbed(shortList, moreData):
-      embedList = []
+    # def sendEmbed(shortList, moreData):
+    #   embedList = []
 
-      for link in shortList:
-        try:
-          embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
-          resp = requests.get(embedUrl)
-          embedObj = json.loads(resp.text)
-          embedList.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
-        except:
-          print('error but continue plz')
-      data = json.dumps({'data': embedList, 'is_more_data': moreData})
-      return data
+    #   for link in shortList:
+    #     try:
+    #       embedUrl = 'http://api.instagram.com/oembed?url=' + link['link']
+    #       resp = requests.get(embedUrl)
+    #       embedObj = json.loads(resp.text)
+    #       embedList.append({'embed': embedObj['html'], 'time': int(link['caption']['created_time']) })
+    #     except:
+    #       print('error but continue plz')
+    #   data = json.dumps({'data': embedList, 'is_more_data': moreData})
+    #   return data
 
 
 
