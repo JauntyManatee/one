@@ -1,5 +1,5 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$sce', '$timeout', 'UsersFactory', 
-  function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$state', '$sce', '$timeout', 'UsersFactory', 
+  function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $state, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
@@ -29,6 +29,16 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       theFeed.push(obj);
     });
     return theFeed;
+  };
+
+  $scope.authTweets = function ( ) {
+    var token = sessionStorage.getItem('at');
+    TwitterFactory.authTweets(token).then(function ( ) {
+      $state.go('feed');
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
   };
 
   $scope.getTweets = function ( ) {
