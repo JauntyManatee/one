@@ -1,6 +1,6 @@
-import flask, os, soundcloud, json
+import flask, os, soundcloud, json, collections, time
+from threading import Thread
 from flask import request, redirect
-import collections
 
 client = soundcloud.Client(
   client_id= os.environ['SOUNDCLOUD_API_KEY'],
@@ -12,6 +12,7 @@ class Soundcloud:
   
   def __init__(self, app):
 
+    self.embedsLeft = 0
     self.SOUNDCLOUD_TOKEN = ''
 
     @app.route('/sound')
@@ -27,40 +28,51 @@ class Soundcloud:
       print("Hi there, %s" % client.get('/me').username)
       return redirect(os.environ['REDIRECT_URI'] +'/#/feed')
 
-    q = collections.deque()
+    qurl = collections.deque()
+    qmbd = collections.deque()
+
+    def embedLoader(link):
+      embed_obj = client.get('/oembed', url=link.origin.permalink_url)
+      qmbd.append({'embed':embed_obj.html,'time':link.origin.created_at})
 
     @app.route('/soundStream')
     def soundStream():
       #soon to access token from db based on user id
+      print('top: ', self.embedsLeft)
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
-      if(not q):
-        theGoods = client.get('/me/activities/tracks/affiliated')
-  
-        for good in theGoods.collection:
-          q.append(good)
+      
+      if(self.embedsLeft == 0):
+        links = client.get('/me/activities/tracks/affiliated')
 
-      l = []
+        for link in links.collection:
+          self.embedsLeft += 1
+          qurl.append(link)
+          print('appended to qurl')
 
-      for n in range(2):
-        try:
-          l.append(q.popleft())
-        except:
-          pass
+        for link in qurl:
+          Thread(target=embedLoader, args=[link]).start()
+      
+      shortList = []
+
+      while(qmbd):
+        shortList.append(qmbd.popleft())
+        self.embedsLeft-=1
 
       moreData = False
-      if(q):
+      if(self.embedsLeft > 0):
         moreData = True
-      return sendEmbed(l, moreData)
       
-    def sendEmbed(links, moreData):
-      embedList = []
+      return json.dumps({'data': shortList, 'is_more_data': moreData})
 
-      for good in links:
-        embed_info = client.get('/oembed', url=good.origin.permalink_url)
+    # def sendEmbed(links, moreData):
+    #   embedList = []
+
+    #   for good in links:
+    #     embed_info = client.get('/oembed', url=good.origin.permalink_url)
         
-        embedList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
-      data = json.dumps({'data': embedList,'is_more_data': moreData})
-      return data
+    #     embedList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
+    #   data = json.dumps({'data': embedList,'is_more_data': moreData})
+    #   return data
       
 
 
