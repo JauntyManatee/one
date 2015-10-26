@@ -3,6 +3,7 @@
     <button ng-click="getAuth();">TEST TWITTER AUTH BUTTON</button>
     <div id="feed" ng-init="getInstaFeed();">
     <div id="feed" ng-init="getSoundFeed(); getInstaFeed();getTweets();"> 
+    
       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
         
         <div ng-if="post.type === 'twitter'" class="panel panel-primary">
