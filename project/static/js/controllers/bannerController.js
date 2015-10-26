@@ -1,5 +1,5 @@
-app.controller('BannerController', ['$scope', '$state', 'PostType', 
-  function ( $scope, $state, PostType ) {
+app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactory', 
+  function ( $scope, $state, PostType, UsersFactory ) {
     
   $scope.postType = PostType;
 
@@ -10,12 +10,11 @@ app.controller('BannerController', ['$scope', '$state', 'PostType',
 
   $scope.logout = function() {
     var authToken = sessionStorage.getItem('at');
-    UsersFactory.logout(authToken)
+    console.log(authToken);
+    UsersFactory.logout({"at": authToken})
     .then(function ( res ) {
-      if(res.data === 'Succesful logout.') {
-        $state.go('home');
-      }
       sessionStorage.clear();
+      $state.go('home');
     })
     .catch(function ( error ) {
       console.log(error);

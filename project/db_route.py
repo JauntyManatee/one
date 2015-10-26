@@ -110,12 +110,13 @@ class DB_Route:
         print('User does not exist.')
         return str.encode('Incorrect username or password.')
   
-    #Authenticate on login
+    #Authenticate on logout
     @app.route('/logout', methods=['POST'])
-    def logout(token):
-      session_token = token
+    def logout():
+      data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
+      print(data_string)
+      session_token = data_string['at']
       session.query(User).filter_by(authToken=session_token).update({User.authToken: ''})
-      flash('You are now logged out.')
       return str.encode('Logged out.')
 
 
