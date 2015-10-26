@@ -1,11 +1,9 @@
 import flask, os, soundcloud, json, collections, time
 from threading import Thread
 from flask import request, redirect
-<<<<<<< HEAD
-=======
 import collections
-from threading import Thread
->>>>>>> a28caab
+
+
 
 client = soundcloud.Client(
   client_id= os.environ['SOUNDCLOUD_API_KEY'],
