@@ -9,11 +9,13 @@ app.controller('BannerController', ['$scope', '$state', 'PostType',
   };
 
   $scope.logout = function() {
-    UsersFactory.logout()
+    var authToken = sessionStorage.getItem('at');
+    UsersFactory.logout(authToken)
     .then(function ( res ) {
       if(res.data === 'Succesful logout.') {
         $state.go('home');
       }
+      sessionStorage.clear();
     })
     .catch(function ( error ) {
       console.log(error);
