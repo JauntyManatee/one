@@ -37,6 +37,7 @@ class Soundcloud:
 
     @app.route('/soundStream')
     def soundStream():
+      time.sleep(2)
       #soon to access token from db based on user id
       print('top: ', self.embedsLeft)
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)

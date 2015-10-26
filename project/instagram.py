@@ -56,12 +56,14 @@ class Instagram:
     qurl = collections.deque()
     qmbd = collections.deque()
 
-    def embedLoader(qurl):
-      response = requests.get('http://api.instagram.com/oembed?url=' + qurl['link'])
-      
+    def embedLoader(link):
+    
+      self.embedsLeft += 1
+      response = requests.get('http://api.instagram.com/oembed?url=' + link['link'])
+
       try:
         embedObj = response.json()['html']
-        qmbd.append({'embed': embedObj, 'time': int(qurl['caption']['created_time']) })
+        qmbd.append({'embed': embedObj, 'time': int(link['caption']['created_time']) })
         print('appended to qmbd')
       except:
         try:
@@ -87,9 +89,8 @@ class Instagram:
           print('append to qurl')
 
       #ask for embeds
-        for link in qurl:
-          self.embedsLeft += 1
-          
+        
+        for link in qurl:  
           Thread(target=embedLoader, args=[link]).start()
 
 
