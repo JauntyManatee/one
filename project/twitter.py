@@ -30,6 +30,8 @@ class Twitter:
       resp, content = client.request(request_token_url, "GET")
       if resp['status'] != '200':
         raise Exception("Invalid response %s." % resp['status'])
+      print(request.params)
+      self.SESSION_TOKEN = request.params['sessionToken']
       self.REQUEST_TOKEN = dict(urllib.parse.parse_qsl(content))
       Rurl = "%s?oauth_token=%s" % (authorize_url, self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'))
       return redirect(Rurl)
@@ -43,8 +45,10 @@ class Twitter:
       client = oauth.Client(self.CONSUMER, token)
       resp, content2 = client.request(access_token_url, "POST")
       self.ACCESS_TOKEN = dict(urllib.parse.parse_qsl(content2))
-      #session.query(User).filter_by(authToken=session_token).update({User.authToken: ''})
-      return redirect(os.environ['REDIRECT_URI']+'/#/feed')
+      print(self.ACCESS_TOKEN)
+      session.query(User).filter_by(authToken=self.SESSION_TOKEN).update({User.twitterToken: self.ACCESS_TOKEN})
+#      return redirect(os.environ['REDIRECT_URI']+'/#/feed')
+      return str.encode('Authorized.')
 
     # After Authorized...redirect to tweetsfeed which will make a call
     # to grab the users TimeLine (from APIfactory)
