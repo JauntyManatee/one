@@ -1,6 +1,6 @@
 import os, requests, flask, json
 from flask import request, redirect
-from util import Asyncifyer, Promise
+
 import time
 import collections
 from threading import Thread
@@ -15,6 +15,9 @@ class Instagram:
     self.IG_TOKEN = ''
     self.IG_USER = ''
     self.embedsLeft = 0
+
+
+
 
    
     @app.route('/igAuth')
@@ -53,57 +56,54 @@ class Instagram:
 
 
     #Holds queued items to be sent to client
-    qurl = collections.deque()
+
+    # qurl = collections.deque()
     qmbd = collections.deque()
 
-    def embedLoader(link):
-    
-      self.embedsLeft += 1
-      response = requests.get('http://api.instagram.com/oembed?url=' + link['link'])
 
+  
+    def embedLoader(link):
+      response = requests.get('http://api.instagram.com/oembed?url=' + link['link'])
       try:
-        embedObj = response.json()['html']
-        qmbd.append({'embed': embedObj, 'time': int(link['caption']['created_time']) })
-        print('appended to qmbd')
+        embed_obj = response.json()['html']
+        qmbd.append({'embed': embed_obj, 'time': int(link['caption']['created_time']) })
       except:
-        try:
-          print(response.url)
-        except:
-          print('error')
-    
+        'error'
       
 
     @app.route('/instagram/feed')
     def getOwnFeed():
       
-
-      #Check if queue is empty and make request for data if it is.
+      url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
+      
       if(self.embedsLeft == 0):
-        url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
+
         response = requests.get(url)
-        resJSON = (response.json)()['data']
-
-        for post in resJSON:
-          qurl.append(post)
-          # self.embedsLeft += 1
-          print('append to qurl')
-
-      #ask for embeds
-        
-        for link in qurl:  
-          Thread(target=embedLoader, args=[link]).start()
-
-
-      #Flag to tell client whethere qurlueue has more data to send..
+        try:
+          for link in response.json()['data']:
+            Thread(target=embedLoader, args=[link]).start()
+            self.embedsLeft += 1
+        except:
+          pass
 
       shortList = []
-      while(qmbd):
-        shortList.append(qmbd.popleft())
-        self.embedsLeft-=1
+
+
+      if(self.embedsLeft > 3):
+        while(qmbd):
+          try:
+            shortList.append(qmbd.popleft())
+            self.embedsLeft-=1
+          except:
+            print('nothin in qmbd yet')
 
       moreData = False
       if(self.embedsLeft > 3):
         moreData = True
+
+      if(self.embedsLeft <= 3):
+        self.embedsLeft = 0
+
 
       return json.dumps({'data': shortList, 'is_more_data': moreData})
 
