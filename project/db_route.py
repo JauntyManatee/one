@@ -1,15 +1,12 @@
 import json, os, hashlib, pymysql, sys, bcrypt, base64
 from flask import request
 from flask.ext.sqlalchemy import SQLAlchemy
-#from flask.ext.login import LoginManager
 from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 #Session
-from flask_jwt import JWT, jwt_required, current_identity
-from werkzeug.security import safe_str_cmp
-#from base64 import b64encode
+from base64 import b64encode
 from os import urandom
 
 class DB_Route:
