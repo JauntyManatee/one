@@ -6,6 +6,7 @@
   <!-- Styles -->
   <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <!--link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tachyons.css') }}"-->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
  <!--  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-switch.css') }}"> -->
 </head>
@@ -15,9 +16,6 @@
     <div ui-view="banner"></div>
     <div ui-view="main"></div>
   </div>
-
-  
-
 
   <!-- Dependencies -->
   <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}" id='i'></script>
@@ -29,7 +27,6 @@
   <script src="{{ url_for('static', filename='js/d3angular.js') }}"></script>
   <!-- front end routing -->
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
   
   <!-- Factories -->
   <script src="{{ url_for('static', filename='js/factories/UsersFactory.js') }}"></script>
