@@ -20,48 +20,24 @@ app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactor
       console.log(error);
     });
   };
-}]).directive('poseidon', ['d3Service', function ( d3Service ) {
-  return {
-    restrict: 'EA',
-    scope: {},
-    link: function(scope, element, attrs) {
-      d3Service.d3().then(function(d3) {
-        // d3 code
-        console.log('here');
+}]).directive('poseidon', ['$window', '$timeout', 'd3Service', 
+  function($window, $timeout, d3Service) {
+    return {
+      restrict: 'E',
+      scope: {
+        data: '='
+      },
+      link: function(scope, ele, attrs) {
+        console.log('hi');
 
-        var svg = d3.select(element[0])
-                    .append("svg")
-                    .style('width', '100%');
+        var svg = d3.select(ele[0])
+          .append('svg')
+          .style('width', '100%');
 
-        // Browser onresize event
-        window.onresize = function() {
-          scope.$apply();
-        };
+        // scope.render = function(data) {
+        //   svg.selectAll('*').remove();
+        // };
 
-        // hard-code data
-        scope.data = [
-          {name: "Greg", score: 98},
-          {name: "Ari", score: 96},
-          {name: 'Q', score: 75},
-          {name: "Loser", score: 48}
-        ];
-
-        // Watch for resize event
-        scope.$watch(function() {
-          return angular.element($window)[0].innerWidth;
-        }, function() {
-          scope.render(scope.data);
-        });
-
-        scope.render = function(data) {
-          // remove all previous items before render
-          svg.selectAll('*').remove();
-
-          // If we don't pass any data, return out of the element
-          if (!data) return;
-        };
-            
-      });
-    }
-  };
+      }
+    };
 }]);
