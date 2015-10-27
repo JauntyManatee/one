@@ -1,5 +1,5 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$sce', '$timeout', 'UsersFactory', 
-  function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$state', '$sce', '$timeout', 'UsersFactory', 
+  function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $state, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
@@ -31,6 +31,16 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     return theFeed;
   };
 
+  $scope.authTweets = function ( ) {
+    var token = sessionStorage.getItem('at');
+    TwitterFactory.authTweets(token).then(function ( ) {
+      $state.go('feed');
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+  };
+
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
       if(Array.isArray(data.data)){
@@ -54,6 +64,7 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
+      console.log(data);
       var items = buildFeed(data.data.data, 'instagram', true);
       $scope.feed.push.apply($scope.feed, items);
       if(data.data.is_more_data) {
