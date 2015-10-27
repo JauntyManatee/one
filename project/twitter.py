@@ -31,6 +31,7 @@ class Twitter:
       if resp['status'] != '200':
         raise Exception("Invalid response %s." % resp['status'])
       self.REQUEST_TOKEN = dict(urllib.parse.parse_qsl(content))
+      self.SESSION_TOKEN = ''
       Rurl = "%s?oauth_token=%s" % (authorize_url, self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'))
       return redirect(Rurl)
 
