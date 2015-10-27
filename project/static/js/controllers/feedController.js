@@ -31,6 +31,16 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     return theFeed;
   };
 
+  $scope.isValidUser = function () {
+    var user = sessionStorage.getItem('at');
+    if (!user) {
+      $state.go('home');
+    } else {
+      return true;
+    }
+    
+  };
+
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
       if(Array.isArray(data.data)){
