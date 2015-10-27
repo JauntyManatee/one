@@ -1,68 +1,84 @@
-import flask, os, soundcloud, json
+import flask, os, soundcloud, json, collections
+from threading import Thread
 from flask import request, redirect
-import collections
+
 
 client = soundcloud.Client(
   client_id= os.environ['SOUNDCLOUD_API_KEY'],
   client_secret= os.environ['SOUNDCLOUD_API_SECRET'],
   redirect_uri= os.environ['REDIRECT_URI'] + '/soundAuth'
 )
-#'http://127.0.0.1:5000/soundAuth'
+
 class Soundcloud:
   
   def __init__(self, app):
 
+    
     self.SOUNDCLOUD_TOKEN = ''
 
+    #authorization route
     @app.route('/sound')
     def sound():
       return redirect(client.authorize_url())
 
+    #mid handshake route, retrieves access token
     @app.route('/soundAuth')
     def soundAuth():
-      code = request.args.get('code')
-      access_token = client.exchange_token(code)
-      print(access_token.access_token)
-      self.SOUNDCLOUD_TOKEN = access_token.access_token
-      print("Hi there, %s" % client.get('/me').username)
-      return redirect(os.environ['REDIRECT_URI'] +'/#/feed')
+      try:
+        code = request.args.get('code')
+        access_token = client.exchange_token(code)
+        self.SOUNDCLOUD_TOKEN = access_token.access_token
+        print("Hi there, %s" % client.get('/me').username)
+      except:
+        print('soundcloud error in soundAuth: token shake')
+      finally: 
+        return redirect(os.environ['REDIRECT_URI'] +'/#/feed')
 
-    q = collections.deque()
+
+    qmbd = collections.deque()
+    self.embedsLeft = 0
+
+    #method to be used asynchronously
+    #will grab embeds from soundcloud without blocking the main server thread
+    def embedLoader(link):
+      response = client.get('/oembed', url=link.origin.permalink_url)
+      qmbd.append({'embed': response.html, 'time' : link.origin.created_at})
 
     @app.route('/soundStream')
     def soundStream():
-      #soon to access token from db based on user id
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
-      if(not q):
-        theGoods = client.get('/me/activities/tracks/affiliated')
-  
-        for good in theGoods.collection:
-          q.append(good)
 
-      l = []
+      #if there's no data in our q to send to client, lets get some!
+      if(self.embedsLeft == 0):
+        response = client.get('/me/activities/tracks/affiliated')
 
-      for n in range(2):
-        try:
-          l.append(q.popleft())
-        except:
-          pass
+        #for every link in our response object, tell embedLoader 
+        #grab an imbed from soundlcoud and append it to our q
+        for link in response.collection:
+          Thread(target=embedLoader, args=[link]).start()
+          self.embedsLeft += 1
 
+      #this is our temp list to send to the client
+      #we will fill it with whatever has returned into our embed q at the time
+      shortList = []
+
+      #if we have data to send, grab all in qmbd and put it in the shortList
+      if(self.embedsLeft > 0):
+        while(qmbd):
+          try:
+            shortList.append(qmbd.popleft())
+            self.embedsLeft -= 1
+          except:
+            print('nothin in qmbd yet')
+
+      #toggle moreData to notify user if there's more data or not
       moreData = False
-      if(q):
+      if(self.embedsLeft > 0):
         moreData = True
-      return sendEmbed(l, moreData)
-      
-    def sendEmbed(links, moreData):
-      embedList = []
 
-      for good in links:
-        embed_info = client.get('/oembed', url=good.origin.permalink_url)
-        
-        embedList.append({'embed': embed_info.html, 'time' : good.origin.created_at})
-      data = json.dumps({'data': embedList,'is_more_data': moreData})
-      return data
+      #send shortList and our more_data flag
+      return json.dumps({'data': shortList,'is_more_data': moreData})
       
-
 
 
 
