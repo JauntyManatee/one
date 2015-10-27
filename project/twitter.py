@@ -1,6 +1,5 @@
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
-import json
 from flask import request, redirect
 
 class Twitter:
@@ -50,7 +49,6 @@ class Twitter:
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
     def theTweets():      
-      print('here') 
       home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
       return home_timeline
 

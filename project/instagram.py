@@ -17,9 +17,6 @@ class Instagram:
     self.embedsLeft = 0
 
 
-
-
-   
     @app.route('/igAuth')
     def igAuth():
       link = 'https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code' % (os.environ['IG_CLIENT_ID'], self.IG_REDIRECT_URI)
@@ -31,7 +28,7 @@ class Instagram:
       CODE = params.get('code')
       token = getIGToken(CODE)
       return redirect(os.environ['REDIRECT_URI']+'/#/feed')
-      # return 'check your console for token bro!!!  <a href="http://127.0.0.1:5000/instagram/feed">get own feed</a>code: %s ' % CODE
+      
 
     def getIGToken(code):
       headers = {'User-Agent' : self.IG_USER_AGENT}
@@ -52,23 +49,21 @@ class Instagram:
       self.IG_TOKEN = token_json['access_token']
       self.IG_USER = token_json['user']
 
-    
-
-
-    #Holds queued items to be sent to client
-
-    # qurl = collections.deque()
+    # hold embed objects
     qmbd = collections.deque()
 
-
-  
+    # method to be used asynchronously 
+    # grabs embeds from instagram and appends them to our qmbd
     def embedLoader(link):
       response = requests.get('http://api.instagram.com/oembed?url=' + link['link'])
       try:
         embed_obj = response.json()['html']
         qmbd.append({'embed': embed_obj, 'time': int(link['caption']['created_time']) })
+        #sometimes we get a 404 response, not sure why, below to account for it
       except:
-        'error'
+        self.embedsLeft -= 1
+        print('error')
+        pass
       
 
     @app.route('/instagram/feed')
@@ -76,6 +71,7 @@ class Instagram:
       
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
       
+      #if data q for client empty, we want to replenish it
       if(self.embedsLeft == 0):
 
         response = requests.get(url)
@@ -84,12 +80,13 @@ class Instagram:
             Thread(target=embedLoader, args=[link]).start()
             self.embedsLeft += 1
         except:
-          pass
+          print('error grabbing urls')
 
+      #list to be populated to send to client from qmbd
       shortList = []
 
-
-      if(self.embedsLeft > 3):
+      
+      if(self.embedsLeft > 0):
         while(qmbd):
           try:
             shortList.append(qmbd.popleft())
@@ -98,11 +95,14 @@ class Instagram:
             print('nothin in qmbd yet')
 
       moreData = False
-      if(self.embedsLeft > 3):
+      #originally this was set to >3 to account for 404s, working with the below comment block
+      if(self.embedsLeft > 0):
         moreData = True
-
-      if(self.embedsLeft <= 3):
-        self.embedsLeft = 0
+      
+      # potential fix for buggy 404s, added a self.embeds-=1 to the except block
+      # in embedloader and it seems to fix the problem 
+      # if(self.embedsLeft <= 3):
+      #   self.embedsLeft = 0
 
 
       return json.dumps({'data': shortList, 'is_more_data': moreData})
