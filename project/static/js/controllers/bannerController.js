@@ -10,7 +10,6 @@ app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactor
 
   $scope.logout = function() {
     var authToken = sessionStorage.getItem('at');
-    console.log(authToken);
     UsersFactory.logout({"at": authToken})
     .then(function ( res ) {
       sessionStorage.clear();
