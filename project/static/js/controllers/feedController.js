@@ -31,16 +31,6 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     return theFeed;
   };
 
-  $scope.authTweets = function ( ) {
-    var token = sessionStorage.getItem('at');
-    TwitterFactory.authTweets(token).then(function ( ) {
-      $state.go('feed');
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-  };
-
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
       if(Array.isArray(data.data)){
