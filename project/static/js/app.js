@@ -2,7 +2,8 @@ var app = angular
   .module('app', [
     'ui.router',
     'ngSanitize',
-    'd3'
+    'd3',
+    'pageslide-directive'
   ])
   .config(['$urlRouterProvider', '$stateProvider', function( $urlRouterProvider, $stateProvider) {
     $urlRouterProvider.otherwise('/');
