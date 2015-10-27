@@ -20,17 +20,17 @@
           <div class="panel-body">
             <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
             <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-            <time> {{ post.created_at }} </time>
+            <time><i> {{ post.displayTime }} </i></time>
             <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
             <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
           </div>
         </div>
         
         <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
-        <div><time ng-if="post.type === 'instagram'"> {{ post.created_at }} </time></div>
+        <div><time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time></div>
         
         <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
-        <div><time ng-if="post.type === 'soundcloud'"> {{ post.created_at }} </time></div>
+        <div><time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time></div>
 
       </div>
     </div>
