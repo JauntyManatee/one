@@ -64,7 +64,6 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
-      console.log(data);
       var items = buildFeed(data.data.data, 'instagram', true);
       $scope.feed.push.apply($scope.feed, items);
       if(data.data.is_more_data) {

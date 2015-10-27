@@ -1,7 +1,8 @@
 var app = angular
   .module('app', [
     'ui.router',
-    'ngSanitize'
+    'ngSanitize',
+    'd3'
   ])
   .config(['$urlRouterProvider', '$stateProvider', function( $urlRouterProvider, $stateProvider) {
     $urlRouterProvider.otherwise('/');
