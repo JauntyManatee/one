@@ -1,6 +1,6 @@
 <div ng-controller="FeedController" class="row">
   <div class="center-block" style="width:40%;">
-    <button ng-click="getAuth();">TEST TWITTER AUTH BUTTON</button>
+    <button ng-click="authTweets();">TEST TWITTER AUTH BUTTON</button>
     <div id="feed" ng-init="getSoundFeed(); getInstaFeed();getTweets();"> 
     
       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">

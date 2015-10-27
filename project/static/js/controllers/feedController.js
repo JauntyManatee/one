@@ -33,8 +33,9 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
 
   $scope.authTweets = function ( ) {
     var token = sessionStorage.getItem('at');
-    TwitterFactory.authTweets(token).then(function ( ) {
-      $state.go('feed');
+    TwitterFactory.authTweets(token).then(function ( res ) {
+      console.log(res);
+  // $state.go('feed');
     })
     .catch(function (err) {
       console.log(err);
