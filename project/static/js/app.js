@@ -12,10 +12,10 @@ var app = angular
       .state('home',{
         url: '/',
         views: {
-          "banner": {
-            templateUrl: 'static/views/banner.html',
-            controller: 'BannerController'
-          }, 
+          // "banner": {
+          //   templateUrl: 'static/views/banner.html',
+          //   controller: 'BannerController'
+          // }, 
           "main": {
             templateUrl: 'static/views/home.html',
             controller: 'HomeController'
