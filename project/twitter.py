@@ -1,6 +1,6 @@
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
-import json
+import json, werkzeug
 from flask import request, redirect
 
 class Twitter:
@@ -34,7 +34,9 @@ class Twitter:
       self.SESSION_TOKEN = request.args['sessionToken']
       self.REQUEST_TOKEN = dict(urllib.parse.parse_qsl(content))
       Rurl = "%s?oauth_token=%s" % (authorize_url, self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'))
-      return redirect(Rurl)
+      response = flask.make_response(flask.render_template('index.html', foo=42))
+      response.headers['Access-Control-Allow-Origin'] = '*'
+      return redirect(Rurl, code=302)
 
     #This will grab the oauth token and make a request to access_token_url to let Twitter know all is well
     @app.route('/authorized')
