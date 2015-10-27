@@ -11,6 +11,8 @@
   </form>
     <div id="feed" ng-init="getSoundFeed(); getInstaFeed();getTweets();"> 
     
+    <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
+
       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
         
         <div ng-if="post.type === 'twitter'" class="panel panel-primary">

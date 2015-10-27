@@ -20,4 +20,24 @@ app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactor
       console.log(error);
     });
   };
+}]).directive('poseidon', ['$window', '$timeout', 'd3Service', 
+  function($window, $timeout, d3Service) {
+    return {
+      restrict: 'E',
+      scope: {
+        data: '='
+      },
+      link: function(scope, ele, attrs) {
+        console.log('hi');
+
+        var svg = d3.select(ele[0])
+          .append('svg')
+          .style('width', '100%');
+
+        // scope.render = function(data) {
+        //   svg.selectAll('*').remove();
+        // };
+
+      }
+    };
 }]);
