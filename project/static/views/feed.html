@@ -1,6 +1,14 @@
 <div ng-controller="FeedController" class="row">
   <div class="center-block" style="width:40%;">
-    <button ng-click="getAuth();">TEST TWITTER AUTH BUTTON</button>
+  <form action='/activate'>
+    <button type='submit'>USE TWITTER</button>
+  </form>
+  <form action='/igAuth'>
+    <button type='submit'>USE INSTAGRAM</button>
+  </form>
+  <form action='/sound'>
+    <button type='submit'>USE SOUNDCLOUD</button>
+  </form>
     <div id="feed" ng-init="getSoundFeed(); getInstaFeed();getTweets();"> 
     
       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">

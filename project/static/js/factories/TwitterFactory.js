@@ -3,7 +3,7 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
   var authTweets = function ( sessionToken ) {
     return $http({
       method: 'GET',
-      url: '/activate',
+      url: 'http://127.0.0.1:5000/activate',
       params: { sessionToken : sessionToken }
     });
   };
@@ -14,7 +14,7 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
       url: '/tweetsfeed'
     });
   };
-
+ 
   var favTweet = function ( id ) {
     return $http({
       method: 'POST',
