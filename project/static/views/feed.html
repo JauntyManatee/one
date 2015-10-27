@@ -1,5 +1,6 @@
 <div ng-controller="FeedController" class="row">
   <div class="center-block" style="width:40%;">
+  
   <div class='formz'>
     <form action='/activate'>
       <button type='submit'>USE TWITTER</button>
@@ -36,4 +37,15 @@
     </div>
 
   </div>
+
+    <a ng-click="toggle()">Show Metrics</a>
+      <div pageslide ps-open="checked">
+        <div style="padding:20px">
+          <h2>My Metrics</h2>
+          <p>d3 will go here</p>
+          <poseidon> </poseidon>
+          <a ng-click="toggle()" class="button" >Close</a>
+        </div>
+      </div>
+
 </div>
