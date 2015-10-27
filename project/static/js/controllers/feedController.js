@@ -12,7 +12,8 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       if (type === 'twitter') {
         obj = {
           text : item.text, 
-          created_at: new Date(item.created_at), 
+          created_at: new Date(item.created_at),
+          displayTime: moment(new Date(item.created_at)).fromNow(), 
           type: type, 
           user: {screen_name : item.user.screen_name}, 
           id_str: item.id_str 
@@ -22,7 +23,8 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
         theDate = date ? new Date(item.time * 1000) : new Date(item.time);
         obj = {
           frame: htmlFrame, 
-          created_at: theDate, 
+          created_at: theDate,
+          displayTime: moment(theDate).fromNow(), 
           type: type
         };
       }
@@ -36,6 +38,7 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       if(Array.isArray(data.data)){
         var items = buildFeed(data.data, 'twitter');
         $scope.feed.push.apply($scope.feed, items);
+        console.log($scope.feed);
       }
     });
   };
