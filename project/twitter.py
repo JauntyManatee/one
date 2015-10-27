@@ -30,8 +30,8 @@ class Twitter:
       resp, content = client.request(request_token_url, "GET")
       if resp['status'] != '200':
         raise Exception("Invalid response %s." % resp['status'])
-      print(request.params)
-      self.SESSION_TOKEN = request.params['sessionToken']
+      print(request.args)
+      self.SESSION_TOKEN = request.args['sessionToken']
       self.REQUEST_TOKEN = dict(urllib.parse.parse_qsl(content))
       Rurl = "%s?oauth_token=%s" % (authorize_url, self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'))
       return redirect(Rurl)
