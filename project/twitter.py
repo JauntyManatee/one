@@ -34,15 +34,16 @@ class Twitter:
       self.SESSION_TOKEN = request.args['sessionToken']
       self.REQUEST_TOKEN = dict(urllib.parse.parse_qsl(content))
       Rurl = "%s?oauth_token=%s" % (authorize_url, self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'))
-#      response = flask.make_response(flask.render_template('index.html', foo=42))
-      response = werkzeug.wrappers.Response()
-      response.mimetype = 'none'
-      response.headers['Content-Type'] = "application/json"
-      response.headers['Access-Control-Allow-Origin'] = '*'
-      response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
-      response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
-      print(type(response), response)
-      return redirect(Rurl, code=302, Response=response)
+#     response = flask.make_response(flask.render_template('index.html', foo=42))
+#     response = werkzeug.wrappers.Response()
+#     response.mimetype = 'none'
+#     response.headers['Content-Type'] = "application/json"
+#     response.headers['Access-Control-Allow-Origin'] = '*'
+#     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+#     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
+#     print(type(response), response)
+#     return redirect(Rurl, code=302, Response=response)
+      return redirect(Rurl)
 
     #This will grab the oauth token and make a request to access_token_url to let Twitter know all is well
     @app.route('/authorized')
