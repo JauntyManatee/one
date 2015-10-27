@@ -85,6 +85,14 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
   };
 
+  $scope.checked = false; // This will be binded using the ps-open attribute
+  
+  $scope.toggle = function(){
+      $scope.checked = !$scope.checked;
+  };
+  
+  
+
 }])
 .factory('PostType', function ( ) {
   return {
