@@ -25,11 +25,9 @@ app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactor
     return {
       restrict: 'E',
       scope: {
-        data: '='
       },
       link: function(scope, ele, attrs) {
         console.log('hi');
-
         var svg = d3.select(ele[0])
           .append('svg')
           .style('width', '100%');
