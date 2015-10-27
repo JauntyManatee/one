@@ -24,7 +24,6 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
   };
 
   return {
-    authTweets: authTweets,
     getTweets: getTweets,
     favTweet: favTweet,
     reTweet: reTweet
