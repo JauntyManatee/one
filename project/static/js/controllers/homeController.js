@@ -6,7 +6,7 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function (
       if(res.data === '') {
         console.log('User already exists.');
       } else {
-        console.log('User added.', res.data);
+        console.log('Successful login.', res.data);
         sessionStorage.setItem('at', res.data.auth_token);
         $state.go('feed');
       }
