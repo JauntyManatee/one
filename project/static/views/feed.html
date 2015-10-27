@@ -33,8 +33,28 @@
             <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
             <div><time ng-if="post.type === 'soundcloud'"> {{ post.created_at }} </time></div>
 
+<<<<<<< HEAD
           </div>
         </div>
+=======
+      <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
+        
+        <div ng-if="post.type === 'twitter'" class="panel panel-primary">
+          <div class="panel-body">
+            <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+            <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+            <time><i> {{ post.displayTime }} </i></time>
+            <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
+            <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
+          </div>
+        </div>
+        
+        <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
+        <div><time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time></div>
+        
+        <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
+        <div><time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time></div>
+>>>>>>> 60a1e3b0c1c31c8e83fc6344759b2f7e187b0e17
 
     </div>
   </div>
