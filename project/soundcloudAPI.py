@@ -1,3 +1,4 @@
+
 # /soundcloud/stats pulls stats for user
 # /sound is our auth route
 # /soundAuth is our redirect
@@ -45,6 +46,8 @@ class Soundcloud:
     def soundStats():
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
       response = client.get('me')
+      return response.raw_data   
+
 
     qmbd = collections.deque()
     self.embedsLeft = 0
