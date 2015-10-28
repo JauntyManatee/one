@@ -98,8 +98,10 @@ class DB_Route:
         print(login_hash_pass, type(login_hash_pass), user_password, type(user_password))
 
         if login_hash_pass == user_password:
+          auth_token = base64.b64encode(os.urandom(16)).decode('utf-8')
+          response = json.dumps({'auth_token': auth_token})
           print('Logged in')
-          return str.encode('Succesful login.')
+          return response
         else:
           print('Incorrect username or pass.')
           return str.encode('Incorrect username or password.')
