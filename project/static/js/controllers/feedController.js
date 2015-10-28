@@ -1,9 +1,11 @@
-app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$state', '$sce', '$timeout', 'UsersFactory', 
-  function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $state, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$state', '$sce', '$timeout', 'UsersFactory', 
+  function ( $scope, PanelFactory, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $state, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
   $scope.postType = PostType;
+
+  $scope.checked = PanelFactory;   // This will be binded using the ps-open attribute
 
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
@@ -39,8 +41,7 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
       $state.go('home');
     } else {
       return true;
-    }
-    
+    }    
   };
 
   $scope.getTweets = function ( ) {
@@ -85,13 +86,6 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     });
   };
 
-  $scope.checked = false; // This will be binded using the ps-open attribute
-  
-  $scope.toggle = function(){
-      $scope.checked = !$scope.checked;
-  };
-  
-  
 
 }])
 .factory('PostType', function ( ) {
@@ -101,6 +95,11 @@ app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory'
     'soundcloud': false
   };
 })
+.factory('PanelFactory',[function ( ) {
+  return {
+    'checked': false
+  };
+}])
 .filter('typeFilter', function ( ) {
   return function ( input, postTypes ) {
     var output = [];
