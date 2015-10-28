@@ -1,3 +1,10 @@
+# /instagram/ownGallery: pulls data on all of your own gallery posts
+# /instagram/stats: pulls your profile data & your followers/following numbers
+# /instagram/feed: grabs your own feed and returns embeds
+# /igAuth ig auth route
+# /igLand is ig landing page
+
+
 import os, requests, flask, json
 from flask import request, redirect
 
@@ -64,11 +71,24 @@ class Instagram:
         self.embedsLeft -= 1
         print('error')
         pass
-      
+
+
+    @app.route('/instagram/stats')
+    def getSelfStats():
+      url = 'https://api.instagram.com/v1/users/self?access_token=%s' % self.IG_TOKEN
+      response = requests.get(url)
+      return json.dumps(response.json()['data'])
+    
+
+    @app.route('/instagram/ownGallery')
+    def getOwnStats():
+      url = 'https://api.instagram.com/v1/users/self/media/recent?access_token=%s' % self.IG_TOKEN
+      response = requests.get(url)
+      return json.dumps(response.json()['data'])
 
     @app.route('/instagram/feed')
     def getOwnFeed():
-      
+      return 'instagram'
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
       
       #if data q for client empty, we want to replenish it
