@@ -1,5 +1,5 @@
-app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactory', 
-  function ( $scope, $state, PostType, UsersFactory ) {
+app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactory', 'PanelFactory',
+  function ( $scope, $state, PostType, UsersFactory, PanelFactory ) {
     
   $scope.postType = PostType;
 
@@ -8,9 +8,12 @@ app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactor
     return $scope.postType;
   };
 
+  $scope.panelToggle = function(){
+    PanelFactory.checked = !PanelFactory.checked;
+  };
+
   $scope.logout = function() {
     var authToken = sessionStorage.getItem('at');
-    console.log(authToken);
     UsersFactory.logout({"at": authToken})
     .then(function ( res ) {
       sessionStorage.clear();

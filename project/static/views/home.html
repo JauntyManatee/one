@@ -1,13 +1,14 @@
-<div ng-controller="HomeController">
-  <div style="background:url('static/views/img/one.jpeg'); background-size: cover; width: auto;" class="row">
-    <div class="text-center">
-      <form class="paxxl">
-        <input ng-model="username" type="text" placeholder="username" class="paxs b-dark-blue">
-        <input ng-model="password" type="password" placeholder="password" class="paxs b-dark-blue">
-        <button ng-click="logIn(username, password)" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Log In</button>
-        <button  ng-click="signUp(username, password)" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Sign Up</button>
-
+<div ng-controller="HomeController">  
+  <div class="row" style="background:url('static/views/img/one.jpeg'); background-size: cover; width: auto;">
+    <div class="center-block text-center">
+      <form name="loginForm" class="paxxl" novalidate>
+        <input name="userName" ng-model="username" ng-minlength="6" type="text" placeholder="username" required class="paxs b-dark-blue">
+        <input name="passWord" ng-model="password" type="password" placeholder="password" required class="paxs b-dark-blue">
+        <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Log In</button>
+        <button class="btn-primary" ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Sign Up</button>
       </form>
+        <span class="error" ng-show="loginForm.userName.$error.minlength">Username needs to be 6 characters or more!</span>
+        <span ng-if="!loginForm.$dirty">{{verifier.errorz}}</span>
     </div>
   </div>
 </div>
