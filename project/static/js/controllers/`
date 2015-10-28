@@ -1,4 +1,4 @@
-app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function ($scope, UsersFactory, $state) {
+app.controller('HomeController', ['$scope', 'UsersFactory', '$state', '$window', function ($scope, UsersFactory, $state, $window) {
   $scope.logIn = function( username, password ) {
     var user = {'username': username, 'password': password};
     UsersFactory.login(user)
@@ -32,5 +32,4 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function (
       throw(err);
     });
   };
-
 }]);

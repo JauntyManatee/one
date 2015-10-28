@@ -8,7 +8,77 @@ header {
   width: 100%;
 }
 
-.post {
-  /*padding: 15px*/;
+#feed {
+  padding: 30px;
+}
+
+.formz {
+  margin-top:40px;
+  padding:15px;
+}
+
+.home-img {
+  height: 74rem;
+}
+
+.pls {
+  padding-left: 1rem;
+}
+
+.prs {
+  padding-right: 1rem;
+}
+
+.ptxs {
+  padding-top: .5rem;
+}
+
+.pbxs {
+  padding-bottom: .5rem;
+}
+
+.paxxs {
+  padding: .25rem;
+}
+
+.paxs {
+  padding: .5rem;
+}
+
+.pas {
+  padding: 1rem;
+}
+
+.pam {
+  padding: 3rem;
+}
+
+.pal {
+  padding: 6rem;
+}
+
+.paxxl {
+  padding: 45rem;
+}
+
+.hxxxxl {
+  height: 1435px;
+}
+
+}
+.tac {
+  text-align: center;
+}
+
+.b-dark-blue {
+  border: 1px solid  #002f86;
+}
+
+.bg-blue {
+    background-color: #0074D9;
+}
+
+.white {
+    color: #fff;
 }
 
