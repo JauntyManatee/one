@@ -45,13 +45,6 @@ class Soundcloud:
     def soundStats():
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
       response = client.get('me')
-      print(response.fields)
-      print(response.encoding)
-      print(response.keys)
-      print('obj',response.obj)
-      print('raw',response.raw_data)
-      print('reason', response.reason)
-      return response.raw_data
 
     qmbd = collections.deque()
     self.embedsLeft = 0
