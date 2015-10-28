@@ -1,11 +1,15 @@
-app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactory', 
-  function ( $scope, $state, PostType, UsersFactory ) {
+app.controller('BannerController', ['$scope', '$state', 'PostType', 'UsersFactory', 'PanelFactory',
+  function ( $scope, $state, PostType, UsersFactory, PanelFactory ) {
     
   $scope.postType = PostType;
 
   $scope.toggle = function( type ) {
     $scope.postType[type] = !$scope.postType[type];
     return $scope.postType;
+  };
+
+  $scope.panelToggle = function(){
+    PanelFactory.checked = !PanelFactory.checked;
   };
 
   $scope.logout = function() {

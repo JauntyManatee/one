@@ -12,7 +12,9 @@
        <button type='submit'>USE SOUNDCLOUD</button>
      </form>
    </div>
-     
+   <form action="javascript:history.go(0)">
+       <button type='submit'>Click to refresh the page</button>
+     </form>
      <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
 
 
@@ -22,10 +24,10 @@
            <div class="panel-body">
              <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
              <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-             <time><i> {{ post.displayTime }} </i></time>
              <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
              <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
            </div>
+             <time><i> {{ post.displayTime }} </i></time>
          </div>
          
          <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
@@ -40,8 +42,8 @@
    </div>
   </div>
 
-    <a ng-click="toggle()">Show Metrics</a>
-      <div pageslide ps-open="checked">
+    
+      <div pageslide ps-open="checked.checked">
         <div style="padding:20px">
           <h2>My Metrics</h2>
           <p>d3 will go here</p>

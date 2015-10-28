@@ -6,8 +6,8 @@
         <input name="passWord" ng-model="password" type="password" placeholder="password" required>
         <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid">Log In</button>
         <button class="btn-primary" ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid">Sign Up</button>
-        <span class="error" ng-show="loginForm.userName.$error.minlength">Username too short!</span>
       </form>
+        <span class="error" ng-show="loginForm.userName.$error.minlength">Username needs to be 6 characters or more!</span>
         <span ng-if="!loginForm.$dirty">{{verifier.errorz}}</span>
     </div>
   </div>
