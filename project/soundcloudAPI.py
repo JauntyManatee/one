@@ -64,7 +64,6 @@ class Soundcloud:
 
     @app.route('/soundStream')
     def soundStream():
-      return 'soundcloud'
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
 
       #if there's no data in our q to send to client, lets get some!
