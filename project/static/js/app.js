@@ -34,5 +34,14 @@ var app = angular
             controller: 'FeedController'
           }
         }
-      });
+      })
+      .state('test',{
+        url: '/test',
+        views: {
+          "main": {
+            templateUrl: 'static/views/test.html',
+            controller: 'SliderController'
+          }
+        },
+      })
   }]);
