@@ -49,7 +49,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       if(Array.isArray(data.data)){
         var items = buildFeed(data.data, 'twitter');
         $scope.feed.push.apply($scope.feed, items);
-        console.log($scope.feed);
       }
     });
   };
