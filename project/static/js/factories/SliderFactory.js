@@ -1,4 +1,4 @@
-app.factory('SliderFactory', ['$http', function ( $http ) {
+app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
 
   var getIgStats = function () {
     return $http({
@@ -15,7 +15,7 @@ app.factory('SliderFactory', ['$http', function ( $http ) {
   };
 
   var getTwitterStats = function () { 
-    var stats = {}
+    //ugly will refactor but not now :(
     return $http({
       method : 'GET',
       url : '/twitter/following'
@@ -33,10 +33,64 @@ app.factory('SliderFactory', ['$http', function ( $http ) {
     })
   };
 
+  var _instagramFollow = function (obj) {
+    return getIgStats().then(function (r) {
+      return obj['instagram'] = {
+        'followers' : r['data']['counts']['followed_by'],
+        'following' : r['data']['counts']['follows']
+      };
+    });
+  };
+
+  var _twitterFollow = function (obj) {
+    return getTwitterStats().then(function (r) {
+      return obj['twitter'] = {
+        'followers' : r['followers']['data']['ids'].length,
+        'following' : r['following']['data']['ids'].length
+      };
+    });
+  };
+
+  var _soundcloudFollow = function(obj){
+    return getSoundcloudStats().then(function (r) {
+      return obj['soundcloud'] = {
+        'followers' : r['data']['followers_count'],
+        'following' : r['data']['followings_count']
+      };
+    });
+  }
+
+  var getFollowStats = function (mediaObj) {
+
+    mediaObj = mediaObj || {
+        twitter : true,
+        soundcloud : true,
+        instagram : true
+      }
+
+    return $q(function (resolve, reject) {
+
+      var obj = {}
+
+      mediaObj['twitter'] ? _instagramFollow(obj) : null;
+
+      mediaObj['soundcloud'] ? _soundcloudFollow(obj) : null;
+
+      mediaObj['twitter'] ? _twitterFollow(obj) : null;
+
+      resolve(obj);
+
+    })
+    .then(function (obj) {
+      return obj;
+    });
+  };
+
   return {
-    getSoundcloudStats: getSoundcloudStats,
-    getIgStats: getIgStats,
-    getTwitterStats: getTwitterStats
+    getSoundcloudStats : getSoundcloudStats,
+    getIgStats : getIgStats,
+    getTwitterStats : getTwitterStats,
+    getFollowStats : getFollowStats
   };
 
 }]);
