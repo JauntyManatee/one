@@ -1,5 +1,5 @@
-app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$state', '$sce', '$timeout', 'UsersFactory', 
-  function ( $scope, PanelFactory, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $state, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$location', '$sce', '$timeout', 'UsersFactory', 
+  function ( $scope, PanelFactory, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $location, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
@@ -38,7 +38,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
   $scope.isValidUser = function () {
     var user = sessionStorage.getItem('at');
     if (!user) {
-      $state.go('home');
+      $location.path('home');
     } else {
       return true;
     }    
@@ -85,6 +85,28 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
   };
 
+  $scope.postType = PostType;
+
+  $scope.toggle = function( type ) {
+    $scope.postType[type] = !$scope.postType[type];
+    return $scope.postType;
+  };
+
+  $scope.panelToggle = function(){
+    PanelFactory.checked = !PanelFactory.checked;
+  };
+
+  $scope.logout = function() {
+    var authToken = sessionStorage.getItem('at');
+    UsersFactory.logout({"at": authToken})
+    .then(function ( res ) {
+      sessionStorage.clear();
+      $location.path('home');
+    })
+    .catch(function ( error ) {
+      console.log(error);
+    });
+  };
 
 }])
 .factory('PostType', function ( ) {
@@ -113,4 +135,36 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
     return output;
   };
-});
+})
+.directive('poseidon', ['$window', '$timeout', 'd3Service', 
+  function($window, $timeout, d3Service) {
+    return {
+      restrict: 'E',
+      scope: {
+      },
+      link: function(scope, ele, attrs) {
+      
+        var svg = d3.select(ele[0])
+          .append('svg')
+          .style({'width': '100%', 'height': '100%'});
+
+        var imgs = svg.selectAll("image").data([0]);
+                imgs.enter()
+                .append("svg:image")
+                .attr("xlink:href", "../static/views/ONE.png")
+                .attr("x", "0")
+                .attr("y", "0")
+                .attr("width", '100%')
+                .attr("height", '795');
+
+        // scope.render = function(data) {
+        //   svg.selectAll('*').remove();
+        // };
+
+      }
+    };
+}]);
+
+
+
+

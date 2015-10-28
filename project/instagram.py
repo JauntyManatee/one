@@ -8,7 +8,6 @@
 import os, requests, flask, json
 from flask import request, redirect
 
-import time
 import collections
 from threading import Thread
 

@@ -85,16 +85,11 @@ class DB_Route:
       if search_result:
         user_salt = str.encode(search_result[0].salt) 
         print(type(user_salt), 'user_salt', user_salt)
-        user_password = search_result[0].password #string
+        user_password = search_result[0].password 
         print(type(user_password), 'user_password', user_password)
-        login_password = str.encode(data_string['password']) #bytes
-#        login_password += user_salt
+        login_password = str.encode(data_string['password']) 
         bin_login_hash_pass = bcrypt.hashpw(login_password, user_salt)
         login_hash_pass = bin_login_hash_pass.decode('utf-8')
-#        hash = hashlib.sha256(login_password)
-#        login_password = hash.hexdigest()
-#        print(type(login_password), 'login_password after hashing', login_password)
-#        print(type(login_password), type(user_password))
         print(login_hash_pass, type(login_hash_pass), user_password, type(user_password))
 
         if login_hash_pass == user_password:

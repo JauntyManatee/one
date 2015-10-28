@@ -1,47 +1,24 @@
 var app = angular
   .module('app', [
-    'ui.router',
+    'ngRoute',
     'ngSanitize',
     'd3',
     'pageslide-directive'
   ])
-  .config(['$urlRouterProvider', '$stateProvider', function( $urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise('/');
+  .config(['$routeProvider', function($routeProvider) {
 
-    $stateProvider
-      .state('home',{
-        url: '/',
-        views: {
-          // "banner": {
-          //   templateUrl: 'static/views/banner.html',
-          //   controller: 'BannerController'
-          // }, 
-          "main": {
-            templateUrl: 'static/views/home.html',
-            controller: 'HomeController'
-          }
-        },
+    $routeProvider
+      .when( '/', {
+          controller: 'HomeController',
+          templateUrl:   'static/views/home.html'      
       })
-      .state('feed',{
-        url: '/feed',
-        views: {
-          "banner": {
-            templateUrl: 'static/views/banner.html',
-            controller: 'BannerController'
-          }, 
-          "main": {
-            templateUrl: 'static/views/feed.html',
-            controller: 'FeedController'
-          }
-        }
+
+       .when('/feed', { 
+            controller: 'FeedController',
+            templateUrl: 'static/views/feed.html'
       })
-      .state('test',{
-        url: '/test',
-        views: {
-          "main": {
-            templateUrl: 'static/views/test.html',
-            controller: 'SliderController'
-          }
-        },
-      })
+       .otherwise({
+         redirectTo: '/'
+       });
+
   }]);

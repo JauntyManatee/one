@@ -1,5 +1,5 @@
-app.factory('UsersFactory', ['$state', '$http',  
-  function($state, $http) {
+app.factory('UsersFactory', ['$location', '$http',  
+  function($location, $http) {
     return {
 
       signup: function(user) {
