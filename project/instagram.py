@@ -85,8 +85,8 @@ class Instagram:
 
     @app.route('/instagram/feed')
     def getOwnFeed():
-      print('returning instagram string')
-      return 'instagram'
+      # print('returning instagram string')
+      # return 'instagram'
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
       
       #if data q for client empty, we want to replenish it

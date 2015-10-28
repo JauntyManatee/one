@@ -55,8 +55,8 @@ class Twitter:
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
     def theTweets():
-      print('returning instagram string')
-      return 'twitter'      
+      # print('returning instagram string')
+      # return 'twitter'      
       home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
       return home_timeline
 
