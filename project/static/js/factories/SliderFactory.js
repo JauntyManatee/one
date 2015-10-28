@@ -15,10 +15,22 @@ app.factory('SliderFactory', ['$http', function ( $http ) {
   };
 
   var getTwitterStats = function () { 
+    var stats = {}
     return $http({
       method : 'GET',
-      url : '/twitter/stats'
-    });
+      url : '/twitter/following'
+    })
+    .then(function(following){
+      return $http({
+          method : 'GET',
+          url: '/twitter/followers'
+        }).then(function(followers){
+          return {followers:followers, following:following}
+        })
+    })
+    .catch(function(err){
+      console.log('error in twitterStats',err);
+    })
   };
 
   return {
