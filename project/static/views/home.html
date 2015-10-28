@@ -1,14 +1,15 @@
 <div ng-controller="HomeController">  
-  <div class="row">
+  <div class="row" style="background:url('static/views/img/one.jpeg'); background-size: cover; width: auto;">
     <div class="center-block text-center">
-      <form name="loginForm" class="" novalidate>
-        <input name="userName" ng-model="username" ng-minlength="6" type="text" placeholder="username" required>
-        <input name="passWord" ng-model="password" type="password" placeholder="password" required>
-        <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid">Log In</button>
-        <button class="btn-primary" ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid">Sign Up</button>
+      <form name="loginForm" class="paxxl" novalidate>
+        <input name="userName" ng-model="username" ng-minlength="6" type="text" placeholder="username" required class="paxs b-dark-blue">
+        <input name="passWord" ng-model="password" type="password" placeholder="password" required class="paxs b-dark-blue">
+        <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Log In</button>
+        <button class="btn-primary" ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Sign Up</button>
       </form>
         <span class="error" ng-show="loginForm.userName.$error.minlength">Username needs to be 6 characters or more!</span>
         <span ng-if="!loginForm.$dirty">{{verifier.errorz}}</span>
     </div>
   </div>
 </div>
+
