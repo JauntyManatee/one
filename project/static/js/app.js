@@ -9,14 +9,22 @@ var app = angular
 
     $routeProvider
       .when( '/', {
-          controller: 'HomeController',
-          templateUrl:   'static/views/home.html'      
+        controller: 'HomeController',
+        templateUrl:   'static/views/home.html'      
       })
-       .when('/feed', { 
-            controller: 'FeedController',
-            templateUrl: 'static/views/feed.html'
+
+      .when('/feed', { 
+        controller: 'FeedController',
+        templateUrl: 'static/views/feed.html'
       })
-       .otherwise({
-         redirectTo: '/'
-       });
+
+      .when('/test', {
+        controller: 'SliderController',
+        templateUrl: 'static/views/test.html'
+      })
+
+     .otherwise({
+       redirectTo: '/'
+     });
+
   }]);
