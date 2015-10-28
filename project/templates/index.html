@@ -13,13 +13,12 @@
 <body>
 
   <div ng-app="app">
-    <div ui-view="banner"></div>
-    <div ui-view="main"></div>
+    <div ng-view></div>
   </div>
 
   <!-- Dependencies -->
   <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}" id='i'></script>
-  <script src="{{ url_for('static', filename='bower_components/angular-ui-router/release/angular-ui-router.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='bower_components/angular-route/angular-route.min.js') }}"></script>
   <script src="{{ url_for('static', filename='bower_components/angular-sanitize/angular-sanitize.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='bower_components/d3/d3.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='bower_components/moment/moment.js') }}" id='i'></script>
@@ -44,7 +43,6 @@
   <!-- Controllers -->
   <script src="{{ url_for('static', filename='js/controllers/homeController.js') }}"></script>
   <script src="{{ url_for('static', filename='js/controllers/feedController.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/controllers/bannerController.js') }}"></script>
 </body>
 </html>
 
