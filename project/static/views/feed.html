@@ -1,5 +1,43 @@
 <div ng-if="isValidUser()">
   <div ng-controller="FeedController" class="row">
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+
+    <div class='container row'>
+      <div class="center-block">
+
+        <div class="col-sm-3 col-md-6 pull-right">
+        <form class="navbar-form" role="search">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Post a new Tweet" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">Send</button>
+            </div>
+        </div>
+        </form>
+        </div>
+        
+        <span class="btn-group">
+          <button ng-click="postType = toggle('twitter')" type="button" class="btn btn-default"> Twitter </button>
+          <button ng-click="postType = toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
+          <button ng-click="postType = toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
+        </span>
+
+        <button ng-click="panelToggle()" type="button" class="btn btn-default pull-right">Show Metrics</button>
+
+        <button ng-click="logout()" type="button" class="btn btn-default pull-right"> Logout </button>
+
+      </div>
+
+
+    </div>
+  </nav>
+
+
+
+
+
+
    <div class="center-block" style="width:40%;">
    <div class='formz'>
      <form action='/activate'>
@@ -51,5 +89,4 @@
           <a ng-click="toggle()" class="button" >Close</a>
         </div>
       </div>
-
 </div>

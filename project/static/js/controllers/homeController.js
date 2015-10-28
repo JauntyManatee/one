@@ -1,4 +1,4 @@
-app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function ($scope, UsersFactory, $state) {
+app.controller('HomeController', ['$scope', 'UsersFactory', '$location', function ($scope, UsersFactory, $location) {
   $scope.verifier ={
     errorz : ''
   };
@@ -13,7 +13,7 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function (
       } else if (res.data.auth_token) {
         console.log('User added.', res.data);
         sessionStorage.setItem('at', res.data.auth_token);
-        $state.go('feed');
+        $location.path('feed');
       }
     })
     .catch(function(err) {
@@ -32,11 +32,12 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$state', function (
       } else {
         console.log('User added.', res.data);
         sessionStorage.setItem('at', res.data.auth_token);
-        $state.go('feed');
+        $location.path('feed');
       }
     })
     .catch(function(err) {
       throw(err);
     });
   };
+
 }]);
