@@ -1,3 +1,9 @@
+# /activate is our twitter activation page
+# /authorized is our twitter landing page
+# /tweetsfeed gets your own twitter feed
+# /twitter/stats gets your own stats 
+
+
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
 from flask import request, redirect
@@ -65,5 +71,29 @@ class Twitter:
       tweet_id = str(request_data['id'])
       fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json'        
       return oauth_req( fav_url, self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'POST')
+
+    @app.route('/twitter/stats')
+    def getStats():
+
+      following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+      followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+      ing = following.decode('UTF-8')
+      ers = followers.decode('UTF-8')
+      ingers = following+followers
+      return ingers
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
 
