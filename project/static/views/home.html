@@ -1,12 +1,14 @@
-<div ng-controller="HomeController" class="height-full" style="background:url('static/views/img/event.jpeg'); background-size: cover;);height: auto; width: 100%;">
-  <div class="" style="">
-    <div class="">
-      <form class="">
-        <input ng-model="username" type="text" placeholder="username">
-        <input ng-model="password" type="password" placeholder="password">
-        <button ng-click="logIn(username, password)">Log In</button>
-        <button class="btn-primary" ng-click="signUp(username, password)">Sign Up</button>
+<div ng-controller="HomeController">
+  <div style="background:url('static/views/img/one.jpeg'); background-size: cover; width: auto;" class="row">
+    <div class="text-center">
+      <form class="paxxl">
+        <input ng-model="username" type="text" placeholder="username" class="paxs b-dark-blue">
+        <input ng-model="password" type="password" placeholder="password" class="paxs b-dark-blue">
+        <button ng-click="logIn(username, password)" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Log In</button>
+        <button  ng-click="signUp(username, password)" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Sign Up</button>
+
       </form>
     </div>
   </div>
 </div>
+
