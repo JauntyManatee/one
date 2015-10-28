@@ -30,6 +30,7 @@ class Twitter:
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/activate')
     def getTweets():
+
       self.CONSUMER = oauth.Consumer(consumer_key, consumer_secret)
       client = oauth.Client(self.CONSUMER)
       resp, content = client.request(request_token_url, "GET")
@@ -54,7 +55,9 @@ class Twitter:
     # After Authorized...redirect to tweetsfeed which will make a call
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
-    def theTweets():      
+    def theTweets():
+      print('returning instagram string')
+      return 'twitter'      
       home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
       return home_timeline
 
@@ -72,16 +75,17 @@ class Twitter:
       fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json'        
       return oauth_req( fav_url, self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'POST')
 
-    @app.route('/twitter/stats')
-    def getStats():
-
-      following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+    # tried to combine these but python wouldnt behave.
+    # now we'll send them both back to angular and let angular comb throgh the mess
+    @app.route('/twitter/followers')
+    def getFollowers():
       followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
-      ing = following.decode('UTF-8')
-      ers = followers.decode('UTF-8')
-      ingers = following+followers
-      return ingers
+      return followers
 
+    @app.route('/twitter/following')
+    def getFollowing():
+      following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+      return following
 
     
 
