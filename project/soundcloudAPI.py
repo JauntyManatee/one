@@ -1,3 +1,10 @@
+
+# /soundcloud/stats pulls stats for user
+# /sound is our auth route
+# /soundAuth is our redirect
+# /soundStream gets embeds for own sound feed
+
+
 import flask, os, soundcloud, json, collections
 from threading import Thread
 from flask import request, redirect
@@ -35,17 +42,30 @@ class Soundcloud:
         return redirect(os.environ['REDIRECT_URI'] +'/#/feed')
 
 
+    @app.route('/soundcloud/stats')
+    def soundStats():
+      client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
+      response = client.get('me')
+      return response.raw_data   
+
+
     qmbd = collections.deque()
     self.embedsLeft = 0
 
     #method to be used asynchronously
     #will grab embeds from soundcloud without blocking the main server thread
     def embedLoader(link):
-      response = client.get('/oembed', url=link.origin.permalink_url)
-      qmbd.append({'embed': response.html, 'time' : link.origin.created_at})
+      try:
+        response = client.get('/oembed', url=link.origin.permalink_url)
+        qmbd.append({'embed': response.html, 'time' : link.origin.created_at})
+      except:
+        self.embedsLeft -= 1
+        pass
 
     @app.route('/soundStream')
     def soundStream():
+      # print('returning string soundcloud')
+      # return 'soundcloud'
       client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
 
       #if there's no data in our q to send to client, lets get some!
