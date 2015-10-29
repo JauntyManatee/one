@@ -1,7 +1,17 @@
-app.controller('HomeController', ['$scope', 'UsersFactory', '$location', function ($scope, UsersFactory, $location) {
+app.controller('HomeController', ['$scope', 'UsersFactory', '$location', '$window', function ($scope, UsersFactory, $location, $window) {
+
+  $scope.getHeight = function() {
+    return $window.innerHeight;
+  };
+
+  $scope.$watch($scope.getHeight, function(current, previous) {
+    $scope.windowHeight = current;
+  });
+
   $scope.verifier ={
     errorz : ''
   };
+
   $scope.logIn = function( username, password ) {
     var user = {'username': username, 'password': password};
     UsersFactory.login(user)
