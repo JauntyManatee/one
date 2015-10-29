@@ -148,7 +148,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
 
-        var arr = ['one','two','three']
 
         SliderFactory.getFollowStats()
           .then(function(resp){
