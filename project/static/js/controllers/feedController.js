@@ -1,11 +1,9 @@
-app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$location', '$sce', '$timeout', 'UsersFactory', 
-  function ( $scope, PanelFactory, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $location, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$state', '$sce', '$timeout', 'UsersFactory', 
+  function ( $scope, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $state, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
   $scope.postType = PostType;
-
-  $scope.checked = PanelFactory;   // This will be binded using the ps-open attribute
 
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
@@ -38,10 +36,11 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
   $scope.isValidUser = function () {
     var user = sessionStorage.getItem('at');
     if (!user) {
-      $location.path('home');
+      $state.go('home');
     } else {
       return true;
-    }    
+    }
+    
   };
 
   $scope.getTweets = function ( ) {
@@ -49,6 +48,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       if(Array.isArray(data.data)){
         var items = buildFeed(data.data, 'twitter');
         $scope.feed.push.apply($scope.feed, items);
+        console.log($scope.feed);
       }
     });
   };
@@ -85,28 +85,13 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
   };
 
-  $scope.postType = PostType;
-
-  $scope.toggle = function( type ) {
-    $scope.postType[type] = !$scope.postType[type];
-    return $scope.postType;
+  $scope.checked = false; // This will be binded using the ps-open attribute
+  
+  $scope.toggle = function(){
+      $scope.checked = !$scope.checked;
   };
-
-  $scope.panelToggle = function(){
-    PanelFactory.checked = !PanelFactory.checked;
-  };
-
-  $scope.logout = function() {
-    var authToken = sessionStorage.getItem('at');
-    UsersFactory.logout({"at": authToken})
-    .then(function ( res ) {
-      sessionStorage.clear();
-      $location.path('home');
-    })
-    .catch(function ( error ) {
-      console.log(error);
-    });
-  };
+  
+  
 
 }])
 .factory('PostType', function ( ) {
@@ -116,11 +101,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     'soundcloud': false
   };
 })
-.factory('PanelFactory',[function ( ) {
-  return {
-    'checked': false
-  };
-}])
 .filter('typeFilter', function ( ) {
   return function ( input, postTypes ) {
     var output = [];
@@ -135,41 +115,4 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
     return output;
   };
-})
-.directive('poseidon', ['SliderFactory','$window', '$timeout', 'd3Service', 
-  function (SliderFactory, $window, $timeout, d3Service) {
-    return {
-      restrict: 'E',
-      scope: {
-      },
-      link: function(scope, ele, attrs) {
-      
-        var svg = d3.select(ele[0])
-          .append('svg')
-          .style({'width': '100%', 'height': '100%'});
-
-        SliderFactory.getFollowStats()
-          .then(function(resp){
-            // console.log(resp);
-          });
-
-        var imgs = svg.selectAll("image").data([0]);
-                imgs.enter()
-                .append("svg:image")
-                .attr("xlink:href", "../static/views/ONE.png")
-                .attr("x", "0")
-                .attr("y", "0")
-                .attr("width", '100%')
-                .attr("height", '150');
-
-        scope.render = function(data) {
-          svg.selectAll('*').remove();
-        };
-
-      }
-    };
-}]);
-
-
-
-
+});
