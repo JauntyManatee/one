@@ -1,3 +1,10 @@
+# /instagram/ownGallery: pulls data on all of your own gallery posts
+# /instagram/stats: pulls your profile data & your followers/following numbers
+# /instagram/feed: grabs your own feed and returns embeds
+# /igAuth ig auth route
+# /igLand is ig landing page
+
+
 import os, requests, flask, json
 from flask import request, redirect
 
@@ -44,7 +51,6 @@ class Instagram:
         data=post_data)
 
       token_json = response.json();
-      print('instagram token, @~38:instagram.py, remove in production',token_json)
       self.IG_TOKEN = token_json['access_token']
       self.IG_USER = token_json['user']
 
@@ -61,13 +67,26 @@ class Instagram:
         #sometimes we get a 404 response, not sure why, below to account for it
       except:
         self.embedsLeft -= 1
-        print('error')
         pass
-      
+
+
+    @app.route('/instagram/stats')
+    def getSelfStats():
+      url = 'https://api.instagram.com/v1/users/self?access_token=%s' % self.IG_TOKEN
+      response = requests.get(url)
+      return json.dumps(response.json()['data'])
+    
+
+    @app.route('/instagram/ownGallery')
+    def getOwnStats():
+      url = 'https://api.instagram.com/v1/users/self/media/recent?access_token=%s' % self.IG_TOKEN
+      response = requests.get(url)
+      return json.dumps(response.json()['data'])
 
     @app.route('/instagram/feed')
     def getOwnFeed():
-      
+      # print('returning instagram string')
+      # return 'instagram'
       url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
       
       #if data q for client empty, we want to replenish it
