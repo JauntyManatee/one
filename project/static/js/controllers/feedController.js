@@ -9,25 +9,25 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
-        theDate, htmlFrame, obj;
+       theDate, htmlFrame, obj;
     angular.forEach(data, function (item) {
       if (type === 'twitter') {
         obj = {
-          text : item.text, 
-          created_at: new Date(item.created_at),
-          displayTime: moment(new Date(item.created_at)).fromNow(), 
-          type: type, 
-          user: {screen_name : item.user.screen_name}, 
-          id_str: item.id_str 
+         text : item.text, 
+         created_at: new Date(item.created_at),
+         displayTime: moment(new Date(item.created_at)).fromNow(), 
+         type: type, 
+         user: {screen_name : item.user.screen_name}, 
+         id_str: item.id_str 
         };
       } else {
         htmlFrame = $sce.trustAsHtml(item.embed);
         theDate = date ? new Date(item.time * 1000) : new Date(item.time);
         obj = {
-          frame: htmlFrame, 
-          created_at: theDate,
-          displayTime: moment(theDate).fromNow(), 
-          type: type
+         frame: htmlFrame, 
+         created_at: theDate,
+         displayTime: moment(theDate).fromNow(), 
+         type: type
         };
       }
       theFeed.push(obj);
@@ -52,7 +52,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       }
     });
   };
-
   $scope.favTweet = function ( id ) {
     TwitterFactory.favTweet(id).then(function ( response ) {
       console.log(response);
@@ -108,42 +107,42 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
   };
 
-}])
-.factory('PostType', function ( ) {
-  return {
-    'twitter': false,
-    'instagram': false,
-    'soundcloud': false
-  };
-})
-.factory('PanelFactory',[function ( ) {
-  return {
-    'checked': false
-  };
-}])
-.filter('typeFilter', function ( ) {
-  return function ( input, postTypes ) {
-    var output = [];
+ }])
+  .factory('PostType', function ( ) {
+    return {
+      'twitter': false,
+      'instagram': false,
+      'soundcloud': false
+    };
+  })
+  .factory('PanelFactory',[function ( ) {
+    return {
+      'checked': false
+    };
+  }])
+  .filter('typeFilter', function ( ) {
+    return function ( input, postTypes ) {
+      var output = [];
 
-    angular.forEach(input, function ( post ) {
-      if ( postTypes[post.type] === false) {
-        if (post.type === 'instagram') {
-          window.instgrm.Embeds.process();
+      angular.forEach(input, function ( post ) {
+        if ( postTypes[post.type] === false) {
+          if (post.type === 'instagram') {
+            window.instgrm.Embeds.process();
+          }
+          output.push(post);
         }
-        output.push(post);
-      }
-    });
-    return output;
-  };
-})
-.directive('poseidon', ['SliderFactory','$window', '$timeout', 'd3Service', 
+      });
+      return output;
+    };
+  })
+  .directive('poseidon', ['SliderFactory','$window', '$timeout', 'd3Service', 
   function (SliderFactory, $window, $timeout, d3Service) {
     return {
       restrict: 'E',
       scope: {
       },
       link: function(scope, ele, attrs) {
-      
+        var dataset = [];
         var svg = d3.select(ele[0])
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
@@ -151,7 +150,29 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
         SliderFactory.getFollowStats()
           .then(function(resp){
+            for (var x in resp) {
+              dataset.push({ type: resp[x].media, followers : resp[x].counts.followers, following : resp[x].counts.following });
+            }
+          })
+          .then(function () {
+            nv.addGraph(function() {
+              var chart = nv.models.pieChart()
+                  .x(function(d) { return d.type; })
+                  .y(function(d) { return d.followers; })
+                  .color(['#325C86', '#FF5500', '#54aaec'])
+                  .showLabels(true)     //Display pie labels
+                  .labelThreshold(0.05)  //Configure the minimum slice size for labels to show up
+                  .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+                  .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
+                  .donutRatio(0.35);     //Configure how big you want the donut hole size to be.
 
+                d3.select("#pie svg")
+                    .datum(dataset)
+                    .transition().duration(350)
+                    .call(chart);
+
+              return chart;
+            });
           });
 
 
@@ -170,8 +191,4 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
       }
     };
-}]);
-
-
-
-
+  }]);
