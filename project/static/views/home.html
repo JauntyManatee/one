@@ -1,11 +1,22 @@
-<div ng-controller="HomeController">  
-  <div class="row" style="background:url('static/views/img/one.jpeg'); background-size: cover; width: auto;">
-    <div class="center-block text-center">
-      <form name="loginForm" class="paxxl" novalidate>
-        <input name="userName" ng-model="username" ng-minlength="6" type="text" placeholder="username" required class="paxs b-dark-blue">
-        <input name="passWord" ng-model="password" type="password" placeholder="password" required class="paxs b-dark-blue">
-        <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Log In</button>
-        <button class="btn-primary" ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid" class="pls prs ptxs pbxs bg-blue b-dark-blue white">Sign Up</button>
+<div ng-controller="HomeController" style="background:url('static/views/img/one_test_2.jpg'); background-size: cover;" ng-style="{height: windowHeight + 'px'}">  
+  <div class="home-page left-xl top-xl left-s top-s left-xl top-xl pl0-xl left-xs top-xs pl0-xs left-lm top-lm left-l top-l pl0-l left-ipad top-ipad left-m top-m vat pl0-m pl0-l plxxl">
+    <h1 class="f-mega mb0 blue"><span class="vab tracked">&bigcirc;</span><span clss="vab tracked-t blue">&smashp;&nbsp;</span><span class="vat f-mega black">NE</span></h1>
+    <h2 class="center-block mt0 plxs">One Social Feed</h2>
+    <div class="">
+      <form name="loginForm" class="" novalidate>
+        <div>
+          <input name="userName" ng-model="username" ng-minlength="6" type="text" placeholder="username" required class="paxs b-dark-blue tac">
+
+        </div>
+        <div class="ptxs">
+          <input name="passWord" ng-model="password" type="password" placeholder="password" required class="paxs b-dark-blue tac">
+        </div>
+        <div class="ptxs">
+          <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid" class="plxl prxl ptxs pbxs bg-dark-blue b-blue white tac">&nbsp;&nbsp;Log In&nbsp;&nbsp;</button>
+        </div>
+        <div class="pts">
+          <button ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid" class="plxl prxl ptxs pbxs bg-blue b-dark-blue white">Sign Up&nbsp;</button>
+        </div>
       </form>
         <span class="error" ng-show="loginForm.userName.$error.minlength">Username needs to be 6 characters or more!</span>
         <span ng-if="!loginForm.$dirty">{{verifier.errorz}}</span>
