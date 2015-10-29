@@ -86,9 +86,9 @@ html {
 }
 
 .ng-pageslide {
-    padding-top: 50px;
-    color: #FFF;
-    background: #eee;
+  position: relative;
+  padding-top: 50px;
+  background: #eee;
 }
 
 body.ng-pageslide-body-open::before {
