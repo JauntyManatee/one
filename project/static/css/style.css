@@ -86,6 +86,8 @@ html {
 }
 
 .ng-pageslide {
+    padding-top: 50px;
+    color: #FFF;
     background: #eee;
 }
 
