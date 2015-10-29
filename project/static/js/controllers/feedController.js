@@ -135,8 +135,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       return output;
     };
   })
-  .directive('poseidon', ['SliderFactory','$window', '$timeout', 'd3Service', 
-  function (SliderFactory, $window, $timeout, d3Service) {
+  .directive('poseidon', ['SliderFactory','$window', '$timeout',
+  function (SliderFactory, $window, $timeout) {
     return {
       restrict: 'E',
       scope: {
