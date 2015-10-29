@@ -15,6 +15,13 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'project/static/bower_components/angular/angular.js',
+      'project/static/bower_components/angular-route/angular-route.js',
+      'project/static/bower_components/angular-mocks/angular-mocks.js',
+      'project/static/js/angular-pageslide-directive.min.js',
+      'project/static/js/app.js',
+      'project/static/js/factories/*.js',
+      'project/static/js/controllers/*.js',
       'project/tests/*.spec.js'
     ],
 
