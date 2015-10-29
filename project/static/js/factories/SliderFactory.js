@@ -30,58 +30,61 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
     })
     .catch(function(err){
       console.log('error in twitterStats',err);
-    })
+    });
   };
 
-  var _instagramFollow = function (obj) {
+  var _instagramFollow = function () {
     return getIgStats().then(function (r) {
-      return obj['instagram'] = {
+      return {
         'followers' : r['data']['counts']['followed_by'],
         'following' : r['data']['counts']['follows']
       };
     });
   };
 
-  var _twitterFollow = function (obj) {
+  var _twitterFollow = function () {
     return getTwitterStats().then(function (r) {
-      return obj['twitter'] = {
+      return {
         'followers' : r['followers']['data']['ids'].length,
         'following' : r['following']['data']['ids'].length
       };
     });
   };
 
-  var _soundcloudFollow = function(obj){
+  var _soundcloudFollow = function () {
     return getSoundcloudStats().then(function (r) {
-      return obj['soundcloud'] = {
+      return {
         'followers' : r['data']['followers_count'],
         'following' : r['data']['followings_count']
       };
     });
-  }
+  };
 
   var getFollowStats = function (mediaObj) {
+    //mediaObj currently not functional
 
-    mediaObj = mediaObj || {
-        twitter : true,
-        soundcloud : true,
-        instagram : true
-      }
+    // mediaObj = mediaObj || {
+    //     twitter : true,
+    //     soundcloud : true,
+    //     instagram : true
+    //   }
 
     return $q(function (resolve, reject) {
 
-      var obj = {}
-
-      mediaObj['twitter'] ? _instagramFollow(obj) : null;
-
-      mediaObj['soundcloud'] ? _soundcloudFollow(obj) : null;
-
-      mediaObj['twitter'] ? _twitterFollow(obj) : null;
-
-      resolve(obj);
-
+      var base = {};
+      _instagramFollow(base).then(function(ig){
+          base['instagram'] = ig;
+        _soundcloudFollow(base).then(function(sc){
+          base['soundcloud'] = sc;
+          _twitterFollow(base).then(function(tw){
+            base['twitter'] = tw;
+            resolve(base);
+          });
+        });
+      });
     })
     .then(function (obj) {
+      console.log('from inside sliderFactory',obj);
       return obj;
     });
   };

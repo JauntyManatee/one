@@ -55,8 +55,12 @@ class Soundcloud:
     #method to be used asynchronously
     #will grab embeds from soundcloud without blocking the main server thread
     def embedLoader(link):
-      response = client.get('/oembed', url=link.origin.permalink_url)
-      qmbd.append({'embed': response.html, 'time' : link.origin.created_at})
+      try:
+        response = client.get('/oembed', url=link.origin.permalink_url)
+        qmbd.append({'embed': response.html, 'time' : link.origin.created_at})
+      except:
+        self.embedsLeft -= 1
+        pass
 
     @app.route('/soundStream')
     def soundStream():
