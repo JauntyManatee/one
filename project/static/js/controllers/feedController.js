@@ -136,8 +136,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     return output;
   };
 })
-.directive('poseidon', ['$window', '$timeout', 'd3Service', 
-  function($window, $timeout, d3Service) {
+.directive('poseidon', ['SliderFactory','$window', '$timeout', 'd3Service', 
+  function (SliderFactory, $window, $timeout, d3Service) {
     return {
       restrict: 'E',
       scope: {
@@ -148,6 +148,11 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
 
+        SliderFactory.getFollowStats()
+          .then(function(resp){
+            // console.log(resp);
+          });
+
         var imgs = svg.selectAll("image").data([0]);
                 imgs.enter()
                 .append("svg:image")
@@ -155,11 +160,11 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
                 .attr("x", "0")
                 .attr("y", "0")
                 .attr("width", '100%')
-                .attr("height", '795');
+                .attr("height", '150');
 
-        // scope.render = function(data) {
-        //   svg.selectAll('*').remove();
-        // };
+        scope.render = function(data) {
+          svg.selectAll('*').remove();
+        };
 
       }
     };
