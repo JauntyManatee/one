@@ -84,8 +84,14 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
       });
     })
     .then(function (obj) {
-      console.log('from inside sliderFactory',obj);
-      return obj;
+      // console.log('from inside sliderFactory',obj);
+      var arr = []
+      for(var key in obj){
+        // console.log(obj[key]);
+        arr.push({media:key, counts: obj[key]})
+      }
+      console.log(arr);
+      return arr;
     });
   };
 
