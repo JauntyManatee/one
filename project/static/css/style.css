@@ -21,6 +21,11 @@ header {
   height: 74rem;
 }
 
+#pie svg{
+  height: 100px;
+  width: 100px;
+}
+
 .pls {
   padding-left: 1rem;
 }
@@ -88,7 +93,8 @@ html {
 .ng-pageslide {
   position: relative;
   padding-top: 50px;
-  background: #eee;
+  background: #333;
+  color: #FFF;
 }
 
 body.ng-pageslide-body-open::before {
