@@ -74,6 +74,14 @@ class Twitter:
       fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json'        
       return oauth_req( fav_url, self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'POST')
 
+    @app.route('/posttweet', methods=['GET', 'POST'])
+    def postTweet():
+      request_data = json.loads(request.data.decode('utf-8'))
+      tweet = str(request_data['tweet'])
+      fav_url = 'https://api.twitter.com/1.1/statuses/update.json?status=' + tweet
+      print(fav_url)
+      return oauth_req( fav_url, self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'POST')
+
     # tried to combine these but python wouldnt behave.
     # now we'll send them both back to angular and let angular comb throgh the mess
     @app.route('/twitter/followers')
