@@ -18,9 +18,10 @@
         </div>
         
         <span class="btn-group">
-          <button ng-click="postType = toggle('twitter')" type="button" class="btn btn-default"> Twitter </button>
-          <button ng-click="postType = toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
-          <button ng-click="postType = toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
+          <form name='myForm'></form>
+          <button ng-click="toggle('twitter')" type="button" class="btn btn-default"> Twitter </button>
+          <button ng-click="toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
+          <button ng-click="toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
         </span>
 
         <button ng-click="panelToggle()" type="button" class="btn btn-default pull-right">Show Metrics</button>
@@ -32,10 +33,6 @@
 
     </div>
   </nav>
-
-
-
-
 
 
    <div class="center-block" style="width:40%;">
@@ -56,7 +53,7 @@
      <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
 
 
-       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter:postType">
+       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
          
          <div ng-if="post.type === 'twitter'" class="panel panel-primary">
            <div class="panel-body">
