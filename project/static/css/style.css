@@ -8,6 +8,10 @@ header {
   width: 100%;
 }
 
+.sidebar {
+  padding: 20px;
+}
+
 .tracked-t {
   letter-spacing: .5em;
 }
