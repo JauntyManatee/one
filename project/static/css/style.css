@@ -257,6 +257,7 @@ html {
 .ng-pageslide {
   position: relative;
   padding-top: 50px;
+  padding-right: 380px;
   background: #333;
   color: #FFF;
 }
