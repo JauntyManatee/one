@@ -34,6 +34,13 @@ header {
   width: 50%;
 }
 
+.mbs {
+  margin-bottom: 1rem;
+}
+.top-logo {
+  top: 50%;
+}
+
 .footer-form {
   background: #f8f8f8;
   border-top-style: solid;
