@@ -72,57 +72,76 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
 
     return $q(function (resolve, reject) {
       var base = {};
-      _instagramFollow().then(function(ig){
-        base['instagram'] = ig;
-        _soundcloudFollow().then(function(sc){
-          base['soundcloud'] = sc;
-          _twitterFollow().then(function(tw){
-            base['twitter'] = tw;
-            resolve(base);
-          })
-          .catch(function(err){
-            base['twitter'] = null;
-            resolve(base);
-          })
+      _instagramFollow(base)
+        .then(function(ig){
+            base['instagram'] = ig;
+          _soundcloudFollow(base)
+            .then(function(sc){
+              base['soundcloud'] = sc;
+              _twitterFollow(base)
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
+            .catch(function(soundcloudErr){
+              base['soundcloud'] = null;
+              _twitterFollow()
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
         })
-        .catch(function(err){
-          base['soundcloud'] = null;
-          _twitterFollow().then(function(tw){
-            base['twitter'] = tw;
-            resolve(base);
-          })
-          .catch(function(err){
-            base['twitter'] = null;
-            resolve(base);
-          })
-        })
-      })
-      .catch(function(err){
-        base['instagram'] = null;
-        _soundcloudFollow().then(function(sc){
-          base['soundcloud'] = sc;
-          _twitterFollow().then(function(tw){
-            base['twitter'] = tw;
-            resolve(base);
-          })
-          .catch(function(err){
-            base['twitter'] = null;
-            resolve(base);
-          })
-        })
-        .catch(function(err){
-          base['soundcloud'] = null;
-          _twitterFollow().then(function(tw){
-            base['twitter']=tw;
-            resolve(base);
-          })
-          .catch(function(err){
-            base['twitter'] = null;
-            resolve(base);
-          })
-        })
-      })
+        .catch(function(igError){
+          base['instagram'] = null;
+          _soundcloudFollow(base)
+            .then(function(sc){
+              base['soundcloud'] = sc;
+              _twitterFollow(base)
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
+            .catch(function(soundcloudErr){
+              base['soundcloud'] = null;
+              _twitterFollow()
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
 
+        })
+    })
+    .then(function (obj) {
+      // console.log('from inside sliderFactory',obj);
+      var arr = []
+      for(var key in obj){
+        // console.log(obj[key]);
+        arr.push({media:key, counts: obj[key]})
+      }
+      console.log(arr);
+      return arr;
+    });
+  };
 
     //   var base = {};
     //   _instagramFollow(base).then(function(ig){
@@ -146,7 +165,7 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
     //   console.log(arr);
     //   return arr;
     // });
-  };
+  // };
 
   return {
     getSoundcloudStats : getSoundcloudStats,
@@ -156,3 +175,82 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
   };
 
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // var base = {};
+      // _instagramFollow(base).then(function(ig){
+      //     base['instagram'] = ig;
+      //   _soundcloudFollow(base).then(function(sc){
+      //     base['soundcloud'] = sc;
+      //     _twitterFollow(base).then(function(tw){
+      //       base['twitter'] = tw;
+      //       resolve(base);
+      //     })
+      //     .catch(function(err){
+      //       base['twitter'] = null;
+      //       resolve(base);
+      //     })
+      //   })
+      //   .catch(function(err){
+      //     base['soundcloud'] = null;
+      //     _twitterFollow().then(function(tw){
+      //       base['twitter'] = tw;
+      //       resolve(base);
+            
+      //     })
+      //     .catch(function(err){
+      //       base['twitter'] = null;
+      //       resolve(base);
+           
+      //     })
+      //   })
+      // })
+      // .then(function(obj){
+      //   var arr = []
+      //   for(var key in obj){
+      //     // console.log(obj[key]);
+      //     arr.push({media:key, counts: obj[key]})
+      //   }
+      //   console.log(arr);
+      //   return arr;
+      // })
+      // .catch(function(err){
+      //   base['instagram'] = null;
+      //   _soundcloudFollow().then(function(sc){
+      //     base['soundcloud'] = sc;
+      //     _twitterFollow().then(function(tw){
+      //       base['twitter'] = tw;
+      //       resolve(base);
+            
+      //     })
+      //     .catch(function(err){
+      //       base['twitter'] = null;
+      //       resolve(base);
+            
+      //     })
+      //   })
+      //   .catch(function(err){
+      //     base['soundcloud'] = null;
+      //     _twitterFollow().then(function(tw){
+      //       base['twitter']=tw;
+      //       resolve(base);
+           
+      //     })
+      //     .catch(function(err){
+      //       base['twitter'] = null;
+      //       resolve(base);
+           
+      //     })
+      //   })
+      // })
