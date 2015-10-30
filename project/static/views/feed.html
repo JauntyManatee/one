@@ -62,9 +62,9 @@
  </div>
  <div class="row m0 p0">
    <form class="navbar-form footer-form text-center pas" role="search"> 
-     <input type="text" class="footer-form-input" placeholder="Post a new Tweet" name="srch-term" id="srch-term">
+     <input ng-model="tweet" type="text" class="footer-form-input" placeholder="Post a new Tweet" name="srch-term" id="srch-term">
      
-     <button class="footer-button pas" type="submit">Send</button>
+     <button ng-click="postTweet(tweet);" class="footer-button pas" type="submit">Send</button>
      
      
    </form>
