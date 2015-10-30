@@ -57,8 +57,11 @@ class Twitter:
     def theTweets():
       # print('returning instagram string')
       # return 'twitter'      
-      home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
-      return home_timeline
+      try:
+        home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+        return home_timeline
+      except:
+        return json.dumps({})
 
     @app.route('/favtweet', methods=['GET','POST'])
     def favTweet():
@@ -86,13 +89,19 @@ class Twitter:
     # now we'll send them both back to angular and let angular comb throgh the mess
     @app.route('/twitter/followers')
     def getFollowers():
-      followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
-      return followers
+      try:
+        followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+        return followers
+      except:
+        return 'Null'
 
     @app.route('/twitter/following')
     def getFollowing():
-      following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
-      return following
+      try:
+        following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+        return following
+      except:
+        return 'Null'
 
     
 

@@ -44,9 +44,13 @@ class Soundcloud:
 
     @app.route('/soundcloud/stats')
     def soundStats():
-      client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
-      response = client.get('me')
-      return response.raw_data   
+      try:
+        client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
+        response = client.get('me')
+        return response.raw_data  
+      except:
+        return json.dumps({})
+
 
 
     qmbd = collections.deque()
@@ -66,11 +70,18 @@ class Soundcloud:
     def soundStream():
       # print('returning string soundcloud')
       # return 'soundcloud'
-      client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
+      try:
+        client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
+      except:
+        return 'null'
+
 
       #if there's no data in our q to send to client, lets get some!
       if(self.embedsLeft == 0):
-        response = client.get('/me/activities/tracks/affiliated', limit=4)
+        try:
+          response = client.get('/me/activities/tracks/affiliated', limit=4)
+        except:
+          return 'null'
 
         #for every link in our response object, tell embedLoader 
         #grab an imbed from soundlcoud and append it to our q
