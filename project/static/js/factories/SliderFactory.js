@@ -30,6 +30,7 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
     })
     .catch(function(err){
       console.log('error in twitterStats',err);
+      return err;
     });
   };
 
@@ -70,18 +71,65 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
     //   }
 
     return $q(function (resolve, reject) {
-
       var base = {};
-      _instagramFollow(base).then(function(ig){
-          base['instagram'] = ig;
-        _soundcloudFollow(base).then(function(sc){
-          base['soundcloud'] = sc;
-          _twitterFollow(base).then(function(tw){
-            base['twitter'] = tw;
-            resolve(base);
-          });
-        });
-      });
+      _instagramFollow(base)
+        .then(function(ig){
+            base['instagram'] = ig;
+          _soundcloudFollow(base)
+            .then(function(sc){
+              base['soundcloud'] = sc;
+              _twitterFollow(base)
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
+            .catch(function(soundcloudErr){
+              base['soundcloud'] = null;
+              _twitterFollow()
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
+        })
+        .catch(function(igError){
+          base['instagram'] = null;
+          _soundcloudFollow(base)
+            .then(function(sc){
+              base['soundcloud'] = sc;
+              _twitterFollow(base)
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
+            .catch(function(soundcloudErr){
+              base['soundcloud'] = null;
+              _twitterFollow()
+                .then(function(tw){
+                  base['twitter'] = tw;
+                  resolve(base);
+                })
+                .catch(function(twitterErr){
+                  base['twitter'] = null;
+                  resolve(base);
+                })
+            })
+
+        })
     })
     .then(function (obj) {
       // console.log('from inside sliderFactory',obj);
@@ -94,6 +142,30 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
       return arr;
     });
   };
+
+    //   var base = {};
+    //   _instagramFollow(base).then(function(ig){
+    //       base['instagram'] = ig;
+    //     _soundcloudFollow(base).then(function(sc){
+    //       base['soundcloud'] = sc;
+    //       _twitterFollow(base).then(function(tw){
+    //         base['twitter'] = tw;
+    //         resolve(base);
+    //       });
+    //     });
+    //   });
+    // })
+    // .then(function (obj) {
+    //   // console.log('from inside sliderFactory',obj);
+    //   var arr = []
+    //   for(var key in obj){
+    //     // console.log(obj[key]);
+    //     arr.push({media:key, counts: obj[key]})
+    //   }
+    //   console.log(arr);
+    //   return arr;
+    // });
+  // };
 
   return {
     getSoundcloudStats : getSoundcloudStats,
