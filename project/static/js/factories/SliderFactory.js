@@ -29,47 +29,50 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
         })
     })
     .catch(function(err){
-      console.log('error in twitterStats',err);
       return err;
     });
   };
 
   var _instagramFollow = function () {
     return getIgStats().then(function (r) {
+      if(r['data']['counts']===undefined){
+        return null;
+      }
       return {
         'followers' : r['data']['counts']['followed_by'],
         'following' : r['data']['counts']['follows']
       };
+
     });
   };
 
   var _twitterFollow = function () {
     return getTwitterStats().then(function (r) {
+      if(r['followers']['data']['ids']===undefined){
+        return null;
+      }
       return {
         'followers' : r['followers']['data']['ids'].length,
         'following' : r['following']['data']['ids'].length
-      };
+      }; 
+      
     });
   };
 
   var _soundcloudFollow = function () {
     return getSoundcloudStats().then(function (r) {
+      if(r['data']['followers_count']===undefined){
+        return null
+      }
       return {
         'followers' : r['data']['followers_count'],
         'following' : r['data']['followings_count']
-      };
+      }
     });
   };
 
   var getFollowStats = function (mediaObj) {
-    //mediaObj currently not functional
-
-    // mediaObj = mediaObj || {
-    //     twitter : true,
-    //     soundcloud : true,
-    //     instagram : true
-    //   }
-
+//Sorry!! so bad. Promise tree. love you!
     return $q(function (resolve, reject) {
       var base = {};
       _instagramFollow(base)
@@ -132,40 +135,14 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
         })
     })
     .then(function (obj) {
-      // console.log('from inside sliderFactory',obj);
       var arr = []
       for(var key in obj){
-        // console.log(obj[key]);
         arr.push({media:key, counts: obj[key]})
       }
       console.log(arr);
       return arr;
     });
   };
-
-    //   var base = {};
-    //   _instagramFollow(base).then(function(ig){
-    //       base['instagram'] = ig;
-    //     _soundcloudFollow(base).then(function(sc){
-    //       base['soundcloud'] = sc;
-    //       _twitterFollow(base).then(function(tw){
-    //         base['twitter'] = tw;
-    //         resolve(base);
-    //       });
-    //     });
-    //   });
-    // })
-    // .then(function (obj) {
-    //   // console.log('from inside sliderFactory',obj);
-    //   var arr = []
-    //   for(var key in obj){
-    //     // console.log(obj[key]);
-    //     arr.push({media:key, counts: obj[key]})
-    //   }
-    //   console.log(arr);
-    //   return arr;
-    // });
-  // };
 
   return {
     getSoundcloudStats : getSoundcloudStats,
