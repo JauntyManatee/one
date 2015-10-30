@@ -1,5 +1,5 @@
-app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$location', '$sce', '$timeout', 'UsersFactory', 
-  function ( $scope, PanelFactory, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $location, $sce, $timeout, UsersFactory ) {
+app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','TwitterFactory', 'InstagramFactory', 'SoundCloudFactory', 'PostType', '$location', '$sce', '$timeout', 'UsersFactory', 
+  function ( $scope, PanelFactory, RedditFactory, TwitterFactory, InstagramFactory, SoundCloudFactory, PostType, $location, $sce, $timeout, UsersFactory ) {
 
   $scope.feed = [];
 
@@ -41,6 +41,13 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       return true;
     }    
   };
+
+  $scope.getRedditFeed = function ( ) {
+    RedditFactory.getRedditFeed().then(function (data) {
+      console.log(data);
+
+    })
+  }
 
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
