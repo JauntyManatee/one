@@ -151,16 +151,18 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
         SliderFactory.getFollowStats()
           .then(function(resp){
             for (var x in resp) {
-              dataset.push({ type: resp[x].media, followers : resp[x].counts.followers, following : resp[x].counts.following });
+              dataset.push({ type: resp[x].media, followers : resp[x].counts.followers });
+              dataset.push({type : resp[x].media, following : resp[x].counts.following });
             }
           })
           .then(function () {
             nv.addGraph(function() {
               var chart = nv.models.pieChart()
-                  .x(function(d) { return d.type; })
-                  .y(function(d) { return d.followers; })
-                  .color(['#325C86', '#FF5500', '#54aaec'])
-                  .showLabels(true)     //Display pie labels
+                  .x(function(d) { return d.followers ? d.type + ' followers' : d.type + ' following'; })
+                  .y(function(d) { return d.followers ? d.followers : d.following; })
+                  // .color(['#325C86', '#FF5500', '#54aaec'])
+                  .showLegend(true)
+                  .showLabels(false)     //Display pie labels
                   .labelThreshold(0.05)  //Configure the minimum slice size for labels to show up
                   .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
                   .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
