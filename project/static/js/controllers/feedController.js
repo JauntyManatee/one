@@ -144,7 +144,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       var output = [];
       angular.forEach(input, function ( post ) {
         if ( PostType[post.type] === false) {
-
           if (post.type === 'instagram') {
             window.instgrm.Embeds.process();
           }
@@ -167,31 +166,26 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
 
-
         SliderFactory.getFollowStats()
           .then(function(resp){
-            // for (var i =0; i < resp.length; i++) {
-            //   console.log(resp[i].counts)
-            //   if (resp[i].counts) {
-            //     console.log(resp[i].counts)
-            //     dataset.push({ type: resp[i].media, followers : resp[i].counts.followers });
-            //     dataset2.push({ type : resp[i].media, following : resp[i].counts.following });
-            //   }
-            // }
             angular.forEach(resp, function (i) {
               if (i.counts) {
                 dataset.push({ type: i.media, followers : i.counts.followers });
                 dataset2.push({ type : i.media, following : i.counts.following });
               }
-            });
-            
+            });          
           })
           .then(function () {
             nv.addGraph(function() {
+              var colorObj = {
+                'soundcloud': '#FF5500',
+                'twitter': '#54aaec',
+                'instagram': '#325C86'
+              };
               var chart = nv.models.pieChart()
                   .x(function(d) { return d.type; })
                   .y(function(d) { return d.followers; })
-                  .color(['#325C86', '#FF5500', '#54aaec'])
+                  .color(function (d) { return colorObj[d.type]; })
                   .showLegend(true)
                   .showLabels(false)     //Display pie labels
                   .labelThreshold(0.05)  //Configure the minimum slice size for labels to show up
@@ -210,6 +204,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
               var chart2 = nv.models.pieChart()
                   .x(function(d) { return d.type; })
                   .y(function(d) { return d.following; })
+                  .color(function(d){})
                   .color(['#325C86', '#FF5500', '#54aaec'])
                   .showLegend(true)
                   .showLabels(false)    
@@ -227,7 +222,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
             });
           });
 
-
         var imgs = svg.selectAll("image").data([0]);
                 imgs.enter()
                 .append("svg:image")
@@ -240,7 +234,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
         scope.render = function(data) {
           svg.selectAll('*').remove();
         };
-
       }
     };
   }]);
