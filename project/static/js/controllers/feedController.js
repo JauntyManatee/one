@@ -62,6 +62,44 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
   };
 
+  $scope.postTweet = function ( tweet ) {
+    var array = tweet.split("");
+    for (var i = 0; i < array.length; i++) {
+      switch(array[i]) {
+        case ' ':
+          array[i] = '%20';
+          break;
+        case '@':
+          array[i] = '%40';
+          break;
+        case '#':
+          array[i] = '%23';
+          break;
+        case '&':
+          array[i] = '%26';
+          break;
+        case ':':
+          array[i] = '&3A';
+          break;
+        case '/':
+          array[i] = '%2F';
+          break;
+        default:
+          array[i] = array[i];
+      }
+      // space as %20
+      // @ as %40
+      // # as %23
+      // & as %26
+      // colon as %3A
+      // forward slash as %2F
+    }
+    tweet = array.join("");
+    TwitterFactory.postTweet( tweet ).then(function ( response ) {
+      console.log(response);
+    });
+  };
+
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
       var items = buildFeed(data.data.data, 'instagram', true);

@@ -23,10 +23,19 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
     });
   };
 
+  var postTweet = function ( tweet ) {
+    return $http({
+      method: 'POST',
+      url: '/posttweet',
+      data: { tweet: tweet}
+    });
+  };
+
   return {
     getTweets: getTweets,
     favTweet: favTweet,
-    reTweet: reTweet
+    reTweet: reTweet,
+    postTweet: postTweet
   };
 
 }])
