@@ -72,6 +72,10 @@ header {
 
 }
 
+.sidebar {
+  padding: 10px;
+}
+
 .tracked-t {
   letter-spacing: .5em;
 }
@@ -135,11 +139,6 @@ header {
 
 .home-img {
   height: 74rem;
-}
-
-#pie svg {
-  height: 100px;
-  width: 100px;
 }
 
 .pls {

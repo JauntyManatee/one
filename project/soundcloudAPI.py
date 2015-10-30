@@ -70,7 +70,7 @@ class Soundcloud:
 
       #if there's no data in our q to send to client, lets get some!
       if(self.embedsLeft == 0):
-        response = client.get('/me/activities/tracks/affiliated')
+        response = client.get('/me/activities/tracks/affiliated', limit=4)
 
         #for every link in our response object, tell embedLoader 
         #grab an imbed from soundlcoud and append it to our q

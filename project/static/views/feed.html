@@ -45,7 +45,7 @@
    </div>
  </div>
  <div pageslide ps-open="checked.checked">
-   <div style="padding:20px">
+   <div style="padding:10px">
      <h2>My Metrics</h2>
      <poseidon>
        <p>Followers</p>
@@ -53,16 +53,18 @@
          <svg style="height:300px;width:300px;"></svg>
        </div>
        <p>Following</p>
-       <div id="pie2"></div>
+       <div id="pie2">
+         <svg style="height:300px;width:300px;"></svg>
+       </div>
      </poseidon>
      <a ng-click="toggle()" class="button">Close</a>
    </div>
  </div>
  <div class="row m0 p0">
    <form class="navbar-form footer-form text-center pas" role="search"> 
-     <input type="text" class="footer-form-input" placeholder="Post a new Tweet" name="srch-term" id="srch-term">
+     <input ng-model="tweet" type="text" class="footer-form-input" placeholder="Post a new Tweet" name="srch-term" id="srch-term">
      
-     <button class="footer-button pas" type="submit">Send</button>
+     <button ng-click="postTweet(tweet);" class="footer-button pas" type="submit">Send</button>
      
      
    </form>

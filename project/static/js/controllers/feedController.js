@@ -62,6 +62,44 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
   };
 
+  $scope.postTweet = function ( tweet ) {
+    var array = tweet.split("");
+    for (var i = 0; i < array.length; i++) {
+      switch(array[i]) {
+        case ' ':
+          array[i] = '%20';
+          break;
+        case '@':
+          array[i] = '%40';
+          break;
+        case '#':
+          array[i] = '%23';
+          break;
+        case '&':
+          array[i] = '%26';
+          break;
+        case ':':
+          array[i] = '&3A';
+          break;
+        case '/':
+          array[i] = '%2F';
+          break;
+        default:
+          array[i] = array[i];
+      }
+      // space as %20
+      // @ as %40
+      // # as %23
+      // & as %26
+      // colon as %3A
+      // forward slash as %2F
+    }
+    tweet = array.join("");
+    TwitterFactory.postTweet( tweet ).then(function ( response ) {
+      console.log(response);
+    });
+  };
+
   $scope.getInstaFeed = function ( ) {
     InstagramFactory.getInstaFeed().then(function ( data ) {
       var items = buildFeed(data.data.data, 'instagram', true);
@@ -144,7 +182,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       var output = [];
       angular.forEach(input, function ( post ) {
         if ( PostType[post.type] === false) {
-
           if (post.type === 'instagram') {
             window.instgrm.Embeds.process();
           }
@@ -162,24 +199,33 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       },
       link: function(scope, ele, attrs) {
         var dataset = [];
+        var dataset2 = [];
         var svg = d3.select(ele[0])
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
 
-
         SliderFactory.getFollowStats()
           .then(function(resp){
-            for (var x in resp) {
-              dataset.push({ type: resp[x].media, followers : resp[x].counts.followers, following : resp[x].counts.following });
-            }
+            angular.forEach(resp, function (i) {
+              if (i.counts) {
+                dataset.push({ type: i.media, followers : i.counts.followers });
+                dataset2.push({ type : i.media, following : i.counts.following });
+              }
+            });          
           })
           .then(function () {
             nv.addGraph(function() {
+              var colorObj = {
+                'soundcloud': '#FF5500',
+                'twitter': '#54aaec',
+                'instagram': '#325C86'
+              };
               var chart = nv.models.pieChart()
                   .x(function(d) { return d.type; })
                   .y(function(d) { return d.followers; })
-                  .color(['#325C86', '#FF5500', '#54aaec'])
-                  .showLabels(true)     //Display pie labels
+                  .color(function (d) { return colorObj[d.type]; })
+                  .showLegend(true)
+                  .showLabels(false)     //Display pie labels
                   .labelThreshold(0.05)  //Configure the minimum slice size for labels to show up
                   .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
                   .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
@@ -192,8 +238,27 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
               return chart;
             });
-          });
+            nv.addGraph(function() {
+              var chart2 = nv.models.pieChart()
+                  .x(function(d) { return d.type; })
+                  .y(function(d) { return d.following; })
+                  .color(function(d){})
+                  .color(['#325C86', '#FF5500', '#54aaec'])
+                  .showLegend(true)
+                  .showLabels(false)    
+                  .labelThreshold(0.05)  
+                  .labelType("percent") 
+                  .donut(true)          
+                  .donutRatio(0.35);     
 
+                d3.select("#pie2 svg")
+                    .datum(dataset2)
+                    .transition().duration(350)
+                    .call(chart2);
+
+              return chart2;
+            });
+          });
 
         var imgs = svg.selectAll("image").data([0]);
                 imgs.enter()
@@ -207,7 +272,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
         scope.render = function(data) {
           svg.selectAll('*').remove();
         };
-
       }
     };
   }]);
