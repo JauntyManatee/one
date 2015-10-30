@@ -72,9 +72,12 @@ class Instagram:
 
     @app.route('/instagram/stats')
     def getSelfStats():
-      url = 'https://api.instagram.com/v1/users/self?access_token=%s' % self.IG_TOKEN
-      response = requests.get(url)
-      return json.dumps(response.json()['data'])
+      try:
+        url = 'https://api.instagram.com/v1/users/self?access_token=%s' % self.IG_TOKEN
+        response = requests.get(url)
+        return json.dumps(response.json()['data'])
+      except:
+        return json.dumps({})
     
 
     @app.route('/instagram/ownGallery')
@@ -87,7 +90,7 @@ class Instagram:
     def getOwnFeed():
       # print('returning instagram string')
       # return 'instagram'
-      url = 'https://api.instagram.com/v1/users/self/feed?access_token=%s' % self.IG_TOKEN
+      url = 'https://api.instagram.com/v1/users/self/feed?count=10&access_token=%s' % self.IG_TOKEN
       
       #if data q for client empty, we want to replenish it
       if(self.embedsLeft == 0):
