@@ -6,6 +6,63 @@ body {
 header {
   position: fixed;
   width: 100%;
+ border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+.m0{
+  margin: 0;
+}
+
+.p0{
+  padding:0;
+}
+.dib{
+  display:inline-block;
+  /*float:right;*/
+}
+
+.fl-r {
+  float: right;
+}
+
+.rs {
+  right: 5px;
+}
+
+.w50 {
+  width: 50%;
+}
+
+.footer-form {
+  background: #f8f8f8;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-color: #e7e7e7;
+  padding: 3px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.footer-form-input {
+  border: 0;
+  width: 33%;
+  text-align: left;
+  padding: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #e7e7e7;
+
+}
+
+.footer-form-button {
+  width: 9%;
+  background: rgb(130, 224, 255);
+  border: none;
+  /*padding: 10px;*/
+
 }
 
 .sidebar {
@@ -15,7 +72,6 @@ header {
 .tracked-t {
   letter-spacing: .5em;
 }
-
 
 .tracked {
   letter-spacing: -.9em;
@@ -70,15 +126,15 @@ header {
 }
 
 .formz {
-  margin-top:40px;
-  padding:15px;
+  margin-top: 40px;
+  padding: 15px;
 }
 
 .home-img {
   height: 74rem;
 }
 
-#pie svg{
+#pie svg {
   height: 100px;
   width: 100px;
 }
@@ -94,7 +150,6 @@ header {
 .plml {
   padding-left: 3rem;
 }
-
 
 .pll {
   padding-left: 4rem;
@@ -185,23 +240,23 @@ header {
 }
 
 .b-dark-blue {
-  border: 1px solid  #002f86;
+  border: 1px solid #002f86;
 }
 
 .bg-blue {
-    background-color: #0074D9;
+  background-color: #0074D9;
 }
 
 .bg-dark-blue {
-    background-color: #325C86;
+  background-color: #325C86;
 }
 
 .white {
-    color: #fff;
+  color: #fff;
 }
 
 html {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .ng-pageslide {
@@ -212,139 +267,115 @@ html {
 }
 
 body.ng-pageslide-body-open::before {
-    content: '.';
-    display: block;
-    position: absolute;
-    top: 0;
-    background-color: rgb(0,0,0);
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    opacity: 0.5;
-    transition: opacity 1s;
+  content: '.';
+  display: block;
+  position: absolute;
+  top: 0;
+  background-color: rgb(0, 0, 0);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.5;
+  transition: opacity 1s;
 }
 
 body.ng-pageslide-body-closed::before {
-    transition: opacity 1s;
-    opacity: 0;
-    content: '.';
-    display: block;
-    position: absolute;
-    top: 0;
-    background-color: rgb(0,0,0);
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    pointer-events: none;
+  transition: opacity 1s;
+  opacity: 0;
+  content: '.';
+  display: block;
+  position: absolute;
+  top: 0;
+  background-color: rgb(0, 0, 0);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
 @media screen and (min-width: 100em) and (max-width: 120em) {
-
   .pl0-xl {
     padding-left: 0;
   }
-
   .top-xl {
     top: 37%;
   }
-
   .left-xl {
     left: 25%;
   }
-  
 }
 
 @media screen and (min-width: 86em) and (max-width: 100em) {
   .pl0-lm {
     padding-left: 0;
   }
-
   .top-lm {
     top: 27%;
   }
-
   .left-lm {
     left: 25%;
   }
-
 }
 
 @media screen and (min-width: 60em) and (max-width: 86em) {
-
   .pl0-l {
     padding-left: 0;
   }
-
   .top-l {
     top: 20%;
   }
-
   .left-l {
     left: 30%;
   }
 }
 
 @media screen and (min-width: 48em) and (max-width: 60em) {
-
   .pl0-ipad {
     padding-left: 0;
   }
-
   .top-ipad {
     top: 20%;
   }
-
   .left-ipad {
     left: 33%;
   }
 }
 
 @media screen and (min-width: 36em) and (max-width: 48em) {
-
   .pl0-m {
     padding-left: 0;
   }
-
   .top-m {
     top: 13%;
   }
-
   .left-m {
     left: 38%;
   }
 }
 
-
 @media screen and (min-width: 36em) and (max-width: 48em) {
-
   .pl0-s {
     padding-left: 0;
   }
-
   .top-s {
     top: 10%;
   }
-
   .left-s {
     left: 35%;
   }
 }
 
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   .pl0-xs {
     padding-left: 0;
   }
-
   .top-xs {
     top: 20%;
   }
-
   .left-xs {
     left: 25%;
   }
-
 }
-
