@@ -3,8 +3,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
   $scope.feed = [];
 
-  $scope.postType = PostType;
-
   $scope.checked = PanelFactory;   // This will be binded using the ps-open attribute
 
   var buildFeed = function (data, type, date) { 
@@ -84,11 +82,32 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
     });
   };
 
-  $scope.postType = PostType;
-
   $scope.toggle = function( type ) {
-    $scope.postType[type] = !$scope.postType[type];
-    return $scope.postType;
+    var beenCalled = false;
+
+    angular.forEach($scope.feed, function ( post ) {
+      if(post.type === type) {
+        beenCalled = true;
+      }
+    });
+
+    if (beenCalled === true) {  
+      PostType[type] = !PostType[type];
+    } else {
+      switch(type) {
+        case 'twitter':
+          window.location.href = '/activate';
+          break;
+        case 'instagram':
+          window.location.href = '/igAuth';
+          break;
+        case 'soundcloud':
+          window.location.href = '/sound';
+          break;
+        default:
+          console.log('default');        
+      }
+    }
   };
 
   $scope.panelToggle = function(){
@@ -120,12 +139,12 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       'checked': false
     };
   }])
-  .filter('typeFilter', function ( ) {
-    return function ( input, postTypes ) {
+  .filter('typeFilter', ['PostType', function (PostType) {
+    return function ( input ) {
       var output = [];
-
       angular.forEach(input, function ( post ) {
-        if ( postTypes[post.type] === false) {
+        if ( PostType[post.type] === false) {
+
           if (post.type === 'instagram') {
             window.instgrm.Embeds.process();
           }
@@ -134,7 +153,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       });
       return output;
     };
-  })
+  }])
   .directive('poseidon', ['SliderFactory','$window', '$timeout',
   function (SliderFactory, $window, $timeout) {
     return {
