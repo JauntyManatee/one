@@ -162,6 +162,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
       },
       link: function(scope, ele, attrs) {
         var dataset = [];
+        var dataset2 = [];
         var svg = d3.select(ele[0])
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
@@ -169,17 +170,28 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
         SliderFactory.getFollowStats()
           .then(function(resp){
-            for (var x in resp) {
-              dataset.push({ type: resp[x].media, followers : resp[x].counts.followers });
-              dataset.push({type : resp[x].media, following : resp[x].counts.following });
-            }
+            // for (var i =0; i < resp.length; i++) {
+            //   console.log(resp[i].counts)
+            //   if (resp[i].counts) {
+            //     console.log(resp[i].counts)
+            //     dataset.push({ type: resp[i].media, followers : resp[i].counts.followers });
+            //     dataset2.push({ type : resp[i].media, following : resp[i].counts.following });
+            //   }
+            // }
+            angular.forEach(resp, function (i) {
+              if (i.counts) {
+                dataset.push({ type: i.media, followers : i.counts.followers });
+                dataset2.push({ type : i.media, following : i.counts.following });
+              }
+            });
+            
           })
           .then(function () {
             nv.addGraph(function() {
               var chart = nv.models.pieChart()
-                  .x(function(d) { return d.followers ? d.type + ' followers' : d.type + ' following'; })
-                  .y(function(d) { return d.followers ? d.followers : d.following; })
-                  // .color(['#325C86', '#FF5500', '#54aaec'])
+                  .x(function(d) { return d.type; })
+                  .y(function(d) { return d.followers; })
+                  .color(['#325C86', '#FF5500', '#54aaec'])
                   .showLegend(true)
                   .showLabels(false)     //Display pie labels
                   .labelThreshold(0.05)  //Configure the minimum slice size for labels to show up
@@ -193,6 +205,25 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
                     .call(chart);
 
               return chart;
+            });
+            nv.addGraph(function() {
+              var chart2 = nv.models.pieChart()
+                  .x(function(d) { return d.type; })
+                  .y(function(d) { return d.following; })
+                  .color(['#325C86', '#FF5500', '#54aaec'])
+                  .showLegend(true)
+                  .showLabels(false)    
+                  .labelThreshold(0.05)  
+                  .labelType("percent") 
+                  .donut(true)          
+                  .donutRatio(0.35);     
+
+                d3.select("#pie2 svg")
+                    .datum(dataset2)
+                    .transition().duration(350)
+                    .call(chart2);
+
+              return chart2;
             });
           });
 
