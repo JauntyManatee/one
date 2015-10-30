@@ -31,7 +31,7 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$location', '$windo
     });
   };
 
-  $scope.signUp = function( username, password ) }{
+  $scope.signUp = function( username, password ) {
     var user = {'username': username, 'password': password};
     UsersFactory.signup(user)
     .then(function(res) {
