@@ -222,7 +222,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
                 'instagram': '#325C86'
               };
               var chart = nv.models.pieChart()
-                  .x(function(d) { return d.type; })
+                  .x(function(d) { return d.followers ? d.type + ' followers' : d.type + ' following'; })
                   .y(function(d) { return d.followers ? d.followers : d.following; })
                   .color(function (d) { return colorObj[d.type]; })
                   .showLegend(true)
@@ -236,6 +236,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
                     .datum(dataset)
                     .transition().duration(350)
                     .call(chart);
+                  
 
               return chart;
             });
