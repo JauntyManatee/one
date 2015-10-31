@@ -12,7 +12,7 @@ header {
 .loader{
   padding-top: 80px;
   position: absolute;
-  left: 50rem;
+  left: 61rem;
 }
 .circle {
     background-color: rgba(0,0,0,0);
@@ -353,7 +353,6 @@ html {
 .ng-pageslide {
   position: relative;
   padding-top: 50px;
-  /*padding-right: 380px;*/
   background: #333;
   color: #FFF;
 }
