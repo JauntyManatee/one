@@ -5,6 +5,13 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'TwitterFactory', 'I
 
   $scope.checked = PanelFactory;   // This will be binded using the ps-open attribute
 
+  $scope.loader = false;
+
+  // var result = document.getElementsByClassName(".post");
+  angular.element(document).ready(function (arg) {
+    $scope.loader = true;
+  });
+
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
        theDate, htmlFrame, obj;
