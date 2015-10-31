@@ -17,9 +17,10 @@
      </div>
    </nav>
    <div class="center-block text-center" style="width:60%;">
-     <div class='formz'>
-       <button ng-click="refreshFeed()" class="dib">Refresh</button>
-     </div>
+      <div class="loader" ng-hide="loader">
+        <div class="circle"></div>
+        <div class="circle1"></div>
+      </div>
      <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
        <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
          <div ng-if="post.type === 'twitter'" class="panel panel-primary">
@@ -31,11 +32,11 @@
            </div>
            <time><i> {{ post.displayTime }} </i></time>
          </div>
-         <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
+         <div class="embed" ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
          <div>
            <time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time>
          </div>
-         <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
+         <span class="embed" ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
          <div>
            <time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time>
          </div>
