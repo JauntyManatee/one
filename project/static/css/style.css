@@ -34,12 +34,17 @@ header {
   width: 50%;
 }
 
+.mbxs {
+  margin-bottom: .6rem;
+}
+
 .mbs {
   margin-bottom: 1.2rem;
 }
 .top-logo {
   top: 50%;
 }
+
 
 .footer-form {
   background: #f8f8f8;
@@ -60,14 +65,16 @@ header {
   padding: 10px;
   border-style: solid;
   border-width: 2px;
-  border-color: #e7e7e7;
-
+  border-color: #0074D9;
 }
 
 .footer-form-button {
   width: 9%;
   background: rgb(130, 224, 255);
   border: none;
+  color: white;
+  background-color: #0074D9; 
+  border: 1px solid #002f86;
   /*padding: 10px;*/
 
 }
@@ -128,8 +135,48 @@ header {
   font-size: 16rem;
 }
 
+.w20 {
+  width: 20%;
+}
+
+.w33 {
+  width: 33%;
+}
+
+.w39 {
+  width: 39%;
+}
+
+.w40 {
+  width: 40%;
+}
+
+.w100 {
+  width: 100%;
+}
+
 .f-mega {
   font-size: 8rem;
+}
+
+.f {
+  font-size: 6rem;
+}
+
+.f1 {
+  font-size: 4rem;
+}
+
+.f2 {
+  font-size: 2rem;
+}
+
+.f2a {
+  font-size: 1.75rem;
+}
+
+.f3 {
+  font-size: 1rem;
 }
 
 .formz {
@@ -139,6 +186,14 @@ header {
 
 .home-img {
   height: 74rem;
+}
+
+.plxs {
+  padding-left: .5rem;
+}
+
+.plxsm {
+  padding-left: .75rem;
 }
 
 .pls {
@@ -193,12 +248,76 @@ header {
   padding-top: .5rem;
 }
 
+.ptxsm {
+  padding-top: .65rem;
+}
+
+.ptxsmm {
+  padding-top: .75rem;
+}
+
+.ptsl {
+  padding-bottom: .95rem;
+}
+
 .pts {
   padding-top: 1rem;
 }
 
+.ptsm {
+  padding-top: 1.5rem;
+}
+
+.ptsmm {
+  padding-top: 1.75rem;
+}
+
+.ptm {
+  padding-top: 2rem;
+}
+
+.ptmm {
+  padding-top: 2.35rem;
+}
+
+.ptl {
+  padding-top: 4rem;
+}
+
 .pbxs {
   padding-bottom: .5rem;
+}
+
+.pbxsmm {
+  padding-bottom: .60rem;
+}
+
+.pbxsm {
+  padding-bottom: .75rem;
+}
+
+.pbsl {
+  padding-bottom: .95rem;
+}
+
+.pbs {
+  padding-bottom: 1rem;
+}
+
+.pbsm {
+  padding-bottom: 1.5rem;
+}
+
+.pbsml {
+  padding-bottom: 1.75rem;
+}
+
+.pbm {
+  padding-bottom: 2rem;
+}
+
+.pbml {
+  padding-bottom: 2.35rem;
 }
 
 .pbl {
@@ -213,8 +332,20 @@ header {
   padding: .5rem;
 }
 
+.paxsm {
+  padding: .65rem;
+}
+
+.pasms {
+  padding: .75rem;
+}
+
 .pas {
   padding: 1rem;
+}
+
+.pasm {
+  padding: 1.25rem;
 }
 
 .pam {
@@ -233,6 +364,10 @@ header {
   height: 1435px;
 }
 
+.tar {
+  text-align: right;
+}
+
 .tac {
   text-align: center;
 }
@@ -245,12 +380,24 @@ header {
   border: 1px solid #002f86;
 }
 
+.bg-white {
+  background-color: #FFF;
+}
+
 .bg-blue {
   background-color: #0074D9;
 }
 
 .bg-dark-blue {
   background-color: #325C86;
+}
+
+.header {
+  background-color: #f8f8f8;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-color: #e7e7e7;
+  margin: 0;
 }
 
 .white {
