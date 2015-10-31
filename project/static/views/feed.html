@@ -1,49 +1,50 @@
 <div ng-if="isValidUser()">
- <div ng-controller="FeedController" class='container'>
-   <nav class="navbar navbar-default navbar-fixed-top">
-     <div class='row'>
-       <div class="center-block">
-         <div class="btn-group plm">
-         <button ng-click="toggle('twitter')"  class="btn btn-default"> Twitter </button>
-         <button ng-click="toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
-         <button ng-click="toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
-         <button ng-click="getRedditFeed()" type="button" class="btn btn-default"> Reddit </button>  
+ <div ng-controller="FeedController" class=''>
+   <nav class="w100 header">
+     <div class="plm w40 ptsm pbsm dib vam">
+       <button ng-click="toggle('twitter')" type="button" class="f2 b-blue bg-white ptxsm pbs prs pls"><img src="static/views/img/twitter.png" height="23"/></button>
+       <button ng-click="toggle('instagram')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/instagram.png" height="32"/></button>
+       <button ng-click="toggle('soundcloud')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/sc.png" height="32"/></button>
+       <button ng-click="getRedditFeed()" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/reddit.png" height="32"/></button>
+     </div>
+     <div class="w20 dib vat ptsmm tac">
+       <img class="vat" height="45" src="static/views/img/one_logo.png"/>
+     </div>
+     <div class="prm w39 dib ptsm vat tar">
+       <div class="dib prl vat">
+         <button type="submit" class="b-blue bg-white pbxsm ptxsmm" onclick="javascript:history.go(0)"><img src="static/views/img/refresh.png" height="25"/></button>
        </div>
-       <div class="dib fl-r prm">
-         <button ng-click="panelToggle()" type="button" class="btn btn-default pull-right">Show Metrics</button>
-         <button ng-click="logout()" type="button" class="btn btn-default pull-right"> Logout </button>
-         </div>
+       <div class="dib">
+         <button ng-click="logout()" type="button" class="f2a b-blue bg-white pas">Logout</button>
+         <button ng-click="panelToggle()" type="button" class="f2a b-blue bg-white pas">Show Metrics</button>
        </div>
      </div>
    </nav>
-   <div class="center-block text-center" style="width:60%;">
-     <div class='formz'>
-       <form action="javascript:history.go(0)" class="dib">
-         <button type='submit' class="dib">Refresh</button>
-       </form>
-     </div>
-     <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
-       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
-         <div ng-if="post.type === 'twitter'" class="panel panel-primary">
-           <div class="panel-body">
-             <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-             <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-             <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
-             <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
+   <section class="row">
+     <div class="center-block text-center" style="width:50%;">
+       <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
+         <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
+           <div ng-if="post.type === 'twitter'" class="panel panel-primary">
+             <div class="panel-body">
+               <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+               <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+               <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
+               <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
+             </div>
+             <time><i> {{ post.displayTime }} </i></time>
            </div>
-           <time><i> {{ post.displayTime }} </i></time>
-         </div>
-         <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
-         <div>
-           <time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time>
-         </div>
-         <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
-         <div>
-           <time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time>
+           <div ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
+           <div>
+             <time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time>
+           </div>
+           <span ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
+           <div>
+             <time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time>
+           </div>
          </div>
        </div>
      </div>
-   </div>
+   </section>
  </div>
  <div pageslide ps-open="checked.checked">
    <div style="padding:10px">
@@ -64,10 +65,8 @@
  <div class="row m0 p0">
    <form class="navbar-form footer-form text-center pas" role="search"> 
      <input ng-model="tweet" type="text" class="footer-form-input" placeholder="Post a new Tweet" name="srch-term" id="srch-term">
-     
-     <button ng-click="postTweet(tweet);" class="footer-button pas" type="submit">Send</button>
-     
-     
+     <button ng-click="postTweet(tweet);" class="footer-form-button pas" type="submit">Send</button>
+
    </form>
  </div>
 </div>
