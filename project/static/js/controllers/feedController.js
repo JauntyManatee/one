@@ -218,25 +218,30 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       link: function(scope, ele, attrs) {
         var dataset = [];
         var dataset2 = [];
+        var dataset3 = [];
         var svg = d3.select(ele[0])
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
-
+        var colorObj = {
+          'soundcloud': '#FF5500',
+          'twitter': '#54aaec',
+          'instagram': '#325C86'
+        };
         SliderFactory.getFollowStats()
           .then(function(resp){
             angular.forEach(resp, function (i) {
+              if (colorObj[i.media]) { colorObj[i.media][1]++; }
               if (i.counts) {
                 dataset.push({ type: i.media, followers : i.counts.followers });
                 dataset2.push({ type: i.media, following : i.counts.following });
-              }
-            });          
+              } 
+            });
+            for (var x in colorObj) {
+              dataset3.push({ type: colorObj[x], count: colorObj[x]});
+            }          
           })
           .then(function () {
-            var colorObj = {
-              'soundcloud': '#FF5500',
-              'twitter': '#54aaec',
-              'instagram': '#325C86'
-            };
+            
             nv.addGraph(function() {
               
               var chart = nv.models.pieChart()
@@ -259,9 +264,9 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
               return chart;
             });
             nv.addGraph(function() {
-             var chart2 = nv.models.pieChart()
+              var chart2 = nv.models.pieChart()
                  .x(function(d) { return d.type; })
-                 .y(function(d) { console.log(d); return d.following; })
+                 .y(function(d) { return d.following; })
                  .color(function(d){ return colorObj[d.type]; })
                  .showLegend(true)
                  .showLabels(false)    
@@ -276,6 +281,25 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
                    .call(chart2);
 
              return chart2;
+            });
+            nv.addGraph(function() {
+              var chart3 = nv.models.pieChart()
+                 .x(function(d) { return d.type; })
+                 .y(function(d) { return d.count; })
+                 .color(function(d){ return colorObj[d.type]; })
+                 .showLegend(true)
+                 .showLabels(false)    
+                 .labelThreshold(0.05)  
+                 .labelType("percent") 
+                 .donut(true)          
+                 .donutRatio(0.35);    
+
+              d3.select("#pie3 svg")
+                 .datum(dataset3)
+                 .transition().duration(350)
+                 .call(chart3);
+
+             return chart3;
             });
           });
 
