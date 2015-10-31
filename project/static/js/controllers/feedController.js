@@ -218,7 +218,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       },
       link: function(scope, ele, attrs) {
         var dataset = [];
-        var dataset2 = [{key: '', values : []}];
+        var dataset2 = [];
         var svg = d3.select(ele[0])
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
@@ -228,21 +228,21 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
             angular.forEach(resp, function (i) {
               if (i.counts) {
                 dataset.push({ type: i.media, followers : i.counts.followers });
-                dataset.push({ type: i.media, following : i.counts.following });
-                dataset2[0].values.push({ x : i.counts.followers, y : i.counts.following });
+                dataset2.push({ type: i.media, following : i.counts.following });
               }
             });          
           })
           .then(function () {
+            var colorObj = {
+              'soundcloud': '#FF5500',
+              'twitter': '#54aaec',
+              'instagram': '#325C86'
+            };
             nv.addGraph(function() {
-              var colorObj = {
-                'soundcloud': '#FF5500',
-                'twitter': '#54aaec',
-                'instagram': '#325C86'
-              };
+              
               var chart = nv.models.pieChart()
-                  .x(function(d) { return d.followers ? d.type + ' followers' : d.type + ' following'; })
-                  .y(function(d) { return d.followers ? d.followers : d.following; })
+                  .x(function(d) { return d.type; })
+                  .y(function(d) { return d.followers; })
                   .color(function (d) { return colorObj[d.type]; })
                   .showLegend(true)
                   .showLabels(false)     //Display pie labels
@@ -259,22 +259,25 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
 
               return chart;
             });
-            // nv.addGraph(function() {
-            //   var chart = nv.models.multiBarChart();
-            //   // chart.xAxis.tickFormat(function(d) {
-            //   //     return d3.time.format('%x')(new Date(d));
-            //   // });
+            nv.addGraph(function() {
+             var chart2 = nv.models.pieChart()
+                 .x(function(d) { return d.type; })
+                 .y(function(d) { console.log(d); return d.following; })
+                 .color(function(d){ return colorObj[d.type]; })
+                 .showLegend(true)
+                 .showLabels(false)    
+                 .labelThreshold(0.05)  
+                 .labelType("percent") 
+                 .donut(true)          
+                 .donutRatio(0.35);    
 
-            //   // chart.yAxis.tickFormat(d3.format(',d'));
+               d3.select("#pie2 svg")
+                   .datum(dataset2)
+                   .transition().duration(350)
+                   .call(chart2);
 
-            //   d3.select('#pie svg')
-            //       .datum(dataset2)
-            //       .transition().duration(500).call(chart);
-
-            //   nv.utils.windowResize(chart.update);
-
-            //   return chart;
-            // });
+             return chart2;
+            });
           });
 
         var imgs = svg.selectAll("image").data([0]);
