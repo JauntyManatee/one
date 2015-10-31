@@ -18,9 +18,7 @@
    </nav>
    <div class="center-block text-center" style="width:60%;">
      <div class='formz'>
-       <form action="javascript:history.go(0)" class="dib">
-         <button type='submit' class="dib">Refresh</button>
-       </form>
+       <button ng-click="refreshFeed()" class="dib">Refresh</button>
      </div>
      <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
        <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
