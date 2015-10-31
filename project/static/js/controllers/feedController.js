@@ -7,7 +7,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
 
   $scope.loader = false;
 
-  // var result = document.getElementsByClassName(".post");
   angular.element(document).ready(function (arg) {
     $scope.loader = true;
   });
@@ -53,8 +52,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     RedditFactory.getRedditFeed().then(function (data) {
       console.log(data);
 
-    })
-  }
+    });
+  };
 
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
