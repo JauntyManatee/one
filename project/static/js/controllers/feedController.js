@@ -142,6 +142,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       switch(type) {
         case 'twitter':
           window.location.href = '/activate';
+
           break;
         case 'instagram':
           window.location.href = '/igAuth';
@@ -153,6 +154,10 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
           console.log('default');        
       }
     }
+  };
+
+  $scope.refreshFeed = function ( ) {
+    window.history.go(0);
   };
 
   $scope.panelToggle = function(){

@@ -222,6 +222,10 @@ header {
   padding: 45rem;
 }
 
+#pie {
+  padding-right: 20px;
+}
+
 .hxxxxl {
   height: 1435px;
 }
