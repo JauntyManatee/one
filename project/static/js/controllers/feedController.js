@@ -7,7 +7,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
 
   $scope.loader = false;
 
-  // var result = document.getElementsByClassName(".post");
   angular.element(document).ready(function (arg) {
     $scope.loader = true;
   });
@@ -70,8 +69,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       }
       console.log($scope.feed);
 
-    })
-  }
+    });
+  };
 
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
@@ -166,6 +165,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       switch(type) {
         case 'twitter':
           window.location.href = '/activate';
+
           break;
         case 'instagram':
           window.location.href = '/igAuth';
@@ -181,6 +181,10 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
           console.log('default');        
       }
     }
+  };
+
+  $scope.refreshFeed = function ( ) {
+    window.history.go(0);
   };
 
   $scope.panelToggle = function(){
@@ -236,26 +240,32 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       link: function(scope, ele, attrs) {
         var dataset = [];
         var dataset2 = [];
+        var dataset3 = [];
         var svg = d3.select(ele[0])
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
-
+        var colorObj = {
+          'soundcloud': '#FF5500',
+          'twitter': '#54aaec',
+          'instagram': '#325C86'
+        };
         SliderFactory.getFollowStats()
           .then(function(resp){
             angular.forEach(resp, function (i) {
+              if (colorObj[i.media]) { colorObj[i.media][1]++; }
               if (i.counts) {
                 dataset.push({ type: i.media, followers : i.counts.followers });
-                dataset2.push({ type : i.media, following : i.counts.following });
-              }
-            });          
+                dataset2.push({ type: i.media, following : i.counts.following });
+              } 
+            });
+            for (var x in colorObj) {
+              dataset3.push({ type: colorObj[x], count: colorObj[x]});
+            }          
           })
           .then(function () {
+            
             nv.addGraph(function() {
-              var colorObj = {
-                'soundcloud': '#FF5500',
-                'twitter': '#54aaec',
-                'instagram': '#325C86'
-              };
+              
               var chart = nv.models.pieChart()
                   .x(function(d) { return d.type; })
                   .y(function(d) { return d.followers; })
@@ -271,28 +281,47 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
                     .datum(dataset)
                     .transition().duration(350)
                     .call(chart);
+                  
 
               return chart;
             });
             nv.addGraph(function() {
               var chart2 = nv.models.pieChart()
-                  .x(function(d) { return d.type; })
-                  .y(function(d) { return d.following; })
-                  .color(function(d){})
-                  .color(['#325C86', '#FF5500', '#54aaec'])
-                  .showLegend(true)
-                  .showLabels(false)    
-                  .labelThreshold(0.05)  
-                  .labelType("percent") 
-                  .donut(true)          
-                  .donutRatio(0.35);     
+                 .x(function(d) { return d.type; })
+                 .y(function(d) { return d.following; })
+                 .color(function(d){ return colorObj[d.type]; })
+                 .showLegend(true)
+                 .showLabels(false)    
+                 .labelThreshold(0.05)  
+                 .labelType("percent") 
+                 .donut(true)          
+                 .donutRatio(0.35);    
 
-                d3.select("#pie2 svg")
-                    .datum(dataset2)
-                    .transition().duration(350)
-                    .call(chart2);
+               d3.select("#pie2 svg")
+                   .datum(dataset2)
+                   .transition().duration(350)
+                   .call(chart2);
 
-              return chart2;
+             return chart2;
+            });
+            nv.addGraph(function() {
+              var chart3 = nv.models.pieChart()
+                 .x(function(d) { return d.type; })
+                 .y(function(d) { return d.count; })
+                 .color(function(d){ return colorObj[d.type]; })
+                 .showLegend(true)
+                 .showLabels(false)    
+                 .labelThreshold(0.05)  
+                 .labelType("percent") 
+                 .donut(true)          
+                 .donutRatio(0.35);    
+
+              d3.select("#pie3 svg")
+                 .datum(dataset3)
+                 .transition().duration(350)
+                 .call(chart3);
+
+             return chart3;
             });
           });
 

@@ -20,7 +20,7 @@ header {
 .loader{
   padding-top: 80px;
   position: absolute;
-  left: 50rem;
+  left: 61rem;
 }
 .circle {
     background-color: rgba(0,0,0,0);
@@ -320,6 +320,10 @@ header {
 
 .paxxl {
   padding: 45rem;
+}
+
+#pie {
+  padding-right: 20px;
 }
 
 .hxxxxl {
