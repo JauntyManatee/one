@@ -1,9 +1,9 @@
-app.factory('UsersFactory', ['$http', 
-  function($http, $location, $window) {
+app.factory('UsersFactory', ['$location', '$http',  
+  function($location, $http) {
     return {
 
       signup: function(user) {
-        return $http({
+          return $http({
           method: 'POST',
           url: '/signup',
           data: user
@@ -19,10 +19,11 @@ app.factory('UsersFactory', ['$http',
         });
       },
 
-      logout: function(user) {
+      logout: function(token) {
         return $http({
           method: 'POST',
-          url: '/logout'
+          url: '/logout',
+          data: token
         });
       }
     };
