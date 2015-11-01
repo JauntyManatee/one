@@ -7,7 +7,7 @@
          <button ng-click="toggle('twitter')"  class="btn btn-default"> Twitter </button>
          <button ng-click="toggle('instagram')" type="button" class="btn btn-default"> Instagram </button>
          <button ng-click="toggle('soundcloud')" type="button" class="btn btn-default"> SoundCloud </button>  
-         <button ng-click="getRedditFeed()" type="button" class="btn btn-default"> Reddit </button>  
+         <button ng-click="toggle('reddit')" type="button" class="btn btn-default"> Reddit </button>  
        </div>
        <div class="dib fl-r prm">
          <button ng-click="panelToggle()" type="button" class="btn btn-default pull-right">Show Metrics</button>
@@ -23,6 +23,17 @@
       </div>
      <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
        <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
+        
+
+        <div ng-if="post.type === 'reddit'"> 
+          <!-- <div class='redditContainer'> -->
+            <img ng-src='{{post.image_url}}' onerror='this.style.display="none"; $hide=true' class="redditContainer">
+              <p>{{post.title}}</p>
+            </img>   
+          <!-- </div> -->
+        </div>
+
+
          <div ng-if="post.type === 'twitter'" class="panel panel-primary">
            <div class="panel-body">
              <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
