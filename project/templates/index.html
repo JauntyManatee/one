@@ -6,7 +6,6 @@
   <!-- Styles -->
   <link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-  <!--link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tachyons.css') }}"-->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nv.d3.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
  <!--  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-switch.css') }}"> -->
@@ -23,16 +22,15 @@
   <script src="{{ url_for('static', filename='bower_components/angular-sanitize/angular-sanitize.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='bower_components/d3/d3.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='bower_components/moment/moment.js') }}" id='i'></script>
-
- <!--  <script src="{{ url_for('static', filename='css/bootstrap-switch.js') }}" id='i'></script> -->
  
   <!-- app dependencies -->
   <script src="{{ url_for('static', filename='js/nv.d3.min.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='js/d3angular.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/angular-pageslide-directive.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/angular-pageslide-directive.js') }}"></script>
 
   <!-- front end routing -->
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <!-- <script src="{{ url_for('static', filename='tinyFiles/bundle.min.js') }}"></script> -->
   
   <!-- Factories -->
   <script src="{{ url_for('static', filename='js/factories/UsersFactory.js') }}"></script>
