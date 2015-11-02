@@ -175,7 +175,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
           break;
         case 'reddit':
           $scope.getRedditFeed();
-          // window.location.href = '/#/feed';
           break;
         default:
           console.log('default');        
