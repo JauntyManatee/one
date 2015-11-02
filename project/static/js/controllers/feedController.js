@@ -19,7 +19,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     angular.forEach(data, function (item) {
       var append = true;
       if (type==='reddit') {
-        console.log(item);
         if(item.url.endsWith('.jpg')){
           obj = {
             image_url : item.url.substring(5,item.length),
@@ -147,7 +146,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
   
 
   $scope.getRedditFeed = function ( ) {
-    console.log(localStorage.redditToggle);
     if(localStorage.redditToggle){
       RedditFactory.getRedditFeed().then(function (data) {
         if(Array.isArray(data.data)){
