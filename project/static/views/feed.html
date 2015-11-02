@@ -26,11 +26,9 @@
         
 
         <div ng-if="post.type === 'reddit'"> 
-          <!-- <div class='redditContainer'> -->
-            <img ng-src='{{post.image_url}}' onerror='this.style.display="none"; $hide=true' class="redditContainer">
-              <p>{{post.title}}</p>
-            </img>   
-          <!-- </div> -->
+          <img ng-src='{{post.image_url}}' onerror='this.style.display="none"; $hide=true' class="redditContainer">
+            <p>{{post.title}}</p>
+          </img>   
         </div>
 
 
