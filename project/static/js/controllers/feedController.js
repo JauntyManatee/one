@@ -15,7 +15,19 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     var theFeed  = [], 
        theDate, htmlFrame, obj;
     angular.forEach(data, function (item) {
-      if (type === 'twitter') {
+      var append = true;
+      if (type==='reddit') {
+        if(item.url.endsWith('.jpg')){
+          obj = {
+            image_url : item.url.substring(5,item.length),
+            type: 'reddit',
+            title: item.title
+          }
+        }
+        else{
+          append = false;
+        }
+      } else if (type === 'twitter') {
         obj = {
          text : item.text, 
          created_at: new Date(item.created_at),
@@ -34,7 +46,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
          type: type
         };
       }
-      theFeed.push(obj);
+      append ? theFeed.push(obj) : null;
+     
     });
     return theFeed;
   };
@@ -50,7 +63,11 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
 
   $scope.getRedditFeed = function ( ) {
     RedditFactory.getRedditFeed().then(function (data) {
-      console.log(data);
+      if(Array.isArray(data.data)){
+        var items = buildFeed(data.data, 'reddit');
+        $scope.feed.push.apply($scope.feed, items);
+      }
+      console.log($scope.feed);
 
     });
   };
@@ -156,6 +173,9 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
         case 'soundcloud':
           window.location.href = '/sound';
           break;
+        case 'reddit':
+          $scope.getRedditFeed();
+          break;
         default:
           console.log('default');        
       }
@@ -187,7 +207,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     return {
       'twitter': false,
       'instagram': false,
-      'soundcloud': false
+      'soundcloud': false,
+      'reddit':false
     };
   })
   .factory('PanelFactory',[function ( ) {

@@ -9,6 +9,11 @@ header {
  border-bottom-style: solid;
   border-bottom-width: 2px;
 }
+
+.redditContainer {
+  max-width: 300px; 
+}
+
 .loader{
   padding-top: 80px;
   position: absolute;
