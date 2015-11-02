@@ -237,7 +237,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
               } 
             });
             for (var x in colorObj) {
-              dataset3.push({ type: colorObj[x], count: colorObj[x]});
+              dataset3.push({ type: colorObj[x], count: colorObj[x]f});
             }          
           })
           .then(function () {
