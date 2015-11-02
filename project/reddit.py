@@ -68,7 +68,7 @@ class Reddit:
     @app.route('/reddit/hot')
     def hotUrls():
       headers = {'User-Agent' : 'Chrome-Python:ONE/1.0.1 by /u/huligan27'}
-      response = requests.get('https://www.reddit.com/hot.json', params={'limit':25}, headers=headers)
+      response = requests.get('https://www.reddit.com/r/pics.json', params={'limit':25}, headers=headers)
       # blob = json.loads(response.text)
       urls = [x['data'] for x in json.loads(response.text)['data']['children']]
       return json.dumps(urls)

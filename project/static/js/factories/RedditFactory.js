@@ -6,6 +6,7 @@ app.factory('RedditFactory', ['$http', function ( $http ) {
       url: '/reddit/hot'
     });
   };
+
   return {
     getRedditFeed: getRedditFeed
   };
