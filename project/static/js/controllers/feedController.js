@@ -11,6 +11,8 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     $scope.loader = true;
   });
 
+
+
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
        theDate, htmlFrame, obj;
@@ -21,8 +23,11 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
           obj = {
             image_url : item.url.substring(5,item.length),
             type: 'reddit',
-            title: item.title
-          };
+            title: item.title,
+            raw_time: item.created_utc,
+            created_at: new Date(item.created_utc * 1000),
+            displayTime: moment(new Date(item.created_utc*1000)).fromNow()
+          }
         }
         else{
           append = false;
@@ -59,17 +64,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     } else {
       return true;
     }    
-  };
-
-  $scope.getRedditFeed = function ( ) {
-    RedditFactory.getRedditFeed().then(function (data) {
-      if(Array.isArray(data.data)){
-        var items = buildFeed(data.data, 'reddit');
-        $scope.feed.push.apply($scope.feed, items);
-      }
-      console.log($scope.feed);
-
-    });
   };
 
   $scope.getTweets = function ( ) {
@@ -149,10 +143,25 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       }
     });
   };
+  
+
+  $scope.getRedditFeed = function ( ) {
+    if(localStorage.redditToggle){
+      RedditFactory.getRedditFeed().then(function (data) {
+        if(Array.isArray(data.data)){
+          var items = buildFeed(data.data, 'reddit');
+          $scope.feed.push.apply($scope.feed, items);
+        }
+      });
+    }
+  };
 
   $scope.toggle = function( type ) {
     var beenCalled = false;
 
+    if(type === 'reddit' && RedditFactory.redditToggle === false){
+      RedditFactory.redditToggle = true;
+    }
     angular.forEach($scope.feed, function ( post ) {
       if(post.type === type) {
         beenCalled = true;
@@ -174,6 +183,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
           window.location.href = '/sound';
           break;
         case 'reddit':
+          localStorage.redditToggle = true;
           $scope.getRedditFeed();
           break;
         default:
