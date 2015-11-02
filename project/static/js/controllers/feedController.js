@@ -22,7 +22,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
             image_url : item.url.substring(5,item.length),
             type: 'reddit',
             title: item.title
-          }
+          };
         }
         else{
           append = false;
@@ -201,33 +201,5 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       console.log(error);
     });
   };
-
- }])
-  .factory('PostType', function ( ) {
-    return {
-      'twitter': false,
-      'instagram': false,
-      'soundcloud': false,
-      'reddit':false
-    };
-  })
-  .factory('PanelFactory',[function ( ) {
-    return {
-      'checked': false
-    };
-  }])
-  .filter('typeFilter', ['PostType', function (PostType) {
-    return function ( input ) {
-      var output = [];
-      angular.forEach(input, function ( post ) {
-        if ( PostType[post.type] === false) {
-          if (post.type === 'instagram') {
-            window.instgrm.Embeds.process();
-          }
-          output.push(post);
-        }
-      });
-      return output;
-    };
-  }]);
+ }]);
   
