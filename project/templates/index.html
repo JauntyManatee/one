@@ -20,6 +20,10 @@
     <section ng-view></section>
   </main>
 
+  <!--minified-->
+<!--  <script src="{{ url_for('static', filename='tinyFiles/lib.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='tinyFiles/app.min.js') }}"></script> -->
+
   <!-- Dependencies -->
   <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='bower_components/angular-route/angular-route.min.js') }}"></script>
@@ -31,10 +35,9 @@
   <script src="{{ url_for('static', filename='js/nv.d3.min.js') }}" id='i'></script>
   <script src="{{ url_for('static', filename='js/d3angular.js') }}"></script>
   <script src="{{ url_for('static', filename='js/directives/angular-pageslide-directive.js') }}"></script>
-
+  <script src="{{ url_for('static', filename='tinyFiles/embed.min.js') }}"></script>
   <!-- front end routing -->
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-  <!-- <script src="{{ url_for('static', filename='tinyFiles/bundle.min.js') }}"></script> -->
   
   <!-- Factories -->
   <script src="{{ url_for('static', filename='js/factories/UsersFactory.js') }}"></script>
@@ -48,8 +51,6 @@
   
   <!-- Filters -->
   <script src="{{ url_for('static', filename='js/filters/typeFilter.js') }}"></script>
-
-  <script src="//platform.instagram.com/en_US/embeds.js"></script>
   
   <!-- Controllers -->
   <script src="{{ url_for('static', filename='js/controllers/homeController.js') }}"></script>

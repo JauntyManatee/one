@@ -24,21 +24,26 @@ gulp.task('watch', function () {
   gulp.watch('project/static/js/*/*.js', ['jshint']);
 });
 
+gulp.task('ugad3', function () {
+  return gulp.src([
+    'project/js/d3angular.js'
+    ])
+    .pipe(uglify('d3angular.min.js'))
+    .pipe(gulp.dest('project/static/tinyFiles/'))
+});
+
+
 gulp.task('build-js', function () {
-  return gulp.src(['project/static/bower_components/angular/angular.js',
-                  'project/static/bower_components/angular-route/angular-route.min.js',
-                  'project/static/bower_components/angular-sanitize/angular-sanitize.js',
-                  'project/static/bower_components/d3/d3.js',
-                  'project/static/js/nv.d3.min.js', 
-                  'project/static/js/d3angular.js',
-                  'project/static/js/angular-pageslide-directive.min.js',
+  return gulp.src([
                   'project/static/js/app.js',
                   'project/static/js/factories/*.js',
-                  'project/static/js/controllers/*.js' ])
-    // .pipe(sourcemaps.init())
-    .pipe(concat('bundle.min.js'))
+                  'project/static/js/controllers/*.js',
+                  'project/static/js/filters/*.js',
+                  'project/static/js/directives/poseidonDirective.js'])
+    .pipe(sourcemaps.init())
+    .pipe(concat('app.min.js'))
     .pipe(uglify())
-    // .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('project/static/tinyFiles'));
 });
 

@@ -4,6 +4,8 @@
     "postinstall": "node_modules/bower/bin/bower install",
     "start": "./run.sh",
     "deploy": "./runDeploy.sh",
+    "build": "./cat.sh && gulp build-js",
+    "pub" : "./cat.sh && gulp build-js && npm start",
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "dependencies": {
