@@ -24,33 +24,30 @@
    </nav>
    <section class="row">
      <div class="center-block text-center w50 width-s">
-       <div class="loader text-center fl-c" ng-hide="loader">
-         <div class="circle"></div>
-         <div class="circle1"></div>
-       </div>
-       <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed();">
-         <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
-           <div ng-if="post.type === 'twitter'" class="panel panel-primary">
-             <div class="panel-body">
-               <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
-               <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-               <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
-               <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
-             </div>
-             <time><i> {{ post.displayTime }} </i></time>
-           </div>
-           <div class="embed" ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>
-           <div>
-             <time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time>
-           </div>
-           <span class="embed" ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>
-           <div>
-             <time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time>
+      <div class="loader" ng-hide="loader">
+        <div class="circle"></div>
+        <div class="circle1"></div>
+      </div>
+     <div id="feed" ng-init="getTweets(); getInstaFeed(); getSoundFeed(); getRedditFeed();">
+       <div class="post" ng-repeat="post in feed | orderBy:'-created_at' | typeFilter">
+        <div ng-if="post.type === 'reddit'" class="panel panel-primary redditContainer"> 
+          <img ng-src='{{post.image_url}}' onerror='this.style.display="none"; $hide=true' class="redditContainer">
+            <p>{{post.title}}</p>
+            <div>{{post.displayTime}}</div>
+          </img>   
+        </div>
+         <div ng-if="post.type === 'twitter'" class="panel panel-primary">
+           <div class="panel-body">
+             <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
+             <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
+             <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
+             <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
            </div>
          </div>
        </div>
-     </section>
- </div>
+     </div>
+   </div>
+ </section>
  <div pageslide ps-open="checked.checked">
    <div style="padding:10px">
      <h2>My Metrics</h2>
@@ -61,6 +58,10 @@
        </div>
        <p>Following</p>
        <div id="pie2">
+         <svg style="height:300px;width:300px;"></svg>
+       </div>
+       <p>Your Feed</p>
+       <div id="pie3">
          <svg style="height:300px;width:300px;"></svg>
        </div>
      </poseidon>

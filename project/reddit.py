@@ -1,4 +1,4 @@
-import os, urllib.parse, requests, flask
+import os, urllib.parse, requests, flask, json
 
 from uuid import uuid4
 from flask import request
@@ -65,6 +65,14 @@ class Reddit:
       response = requests.get('https://www.reddit.com/' + feed + '.json')
       return response.text
 
+    @app.route('/reddit/hot')
+    def hotUrls():
+      headers = {'User-Agent' : 'Chrome-Python:ONE/1.0.1 by /u/huligan27'}
+      response = requests.get('https://www.reddit.com/r/pics.json', params={'limit':25}, headers=headers)
+      # blob = json.loads(response.text)
+      urls = [x['data'] for x in json.loads(response.text)['data']['children']]
+      return json.dumps(urls)
+      
     #Grab user preferences, note error thrown if no token available
     @app.route('/reddit/me')
     def redditMe():
