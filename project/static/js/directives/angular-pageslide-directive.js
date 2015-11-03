@@ -40,7 +40,7 @@ angular.module('pageslide-directive', [])
                   size: $scope.psSize || '300px',
                   speed: $scope.psSpeed || '0.5',
                   squeeze: Boolean($scope.psSqueeze) || false,
-                  zIndex: 1000 // Override with custom CSS
+                  zIndex: -1 // Override with custom CSS
                 };
 
                 // Apply Class to the element
@@ -80,7 +80,7 @@ angular.module('pageslide-directive', [])
                 body.appendChild(slider);
 
                 /* Slider Style setup */
-                slider.style.zIndex = param.zindex;
+                slider.style['z-index'] = param.zIndex;
                 slider.style.position = param.container !== false ? 'absolute' : 'fixed';
                 slider.style.width = 0;
                 slider.style.height = 0;
