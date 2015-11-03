@@ -4415,6 +4415,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-form {
+  z-index: 100;
   padding: 10px 15px;
   margin-top: 8px;
   margin-right: -15px;

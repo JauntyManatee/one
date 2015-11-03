@@ -1,6 +1,11 @@
+# /activate is our twitter activation page
+# /authorized is our twitter landing page
+# /tweetsfeed gets your own twitter feed
+# /twitter/stats gets your own stats 
+
+
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
-import json
 from flask import request, redirect
 
 class Twitter:
@@ -25,6 +30,7 @@ class Twitter:
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/activate')
     def getTweets():
+
       self.CONSUMER = oauth.Consumer(consumer_key, consumer_secret)
       client = oauth.Client(self.CONSUMER)
       resp, content = client.request(request_token_url, "GET")
@@ -48,9 +54,14 @@ class Twitter:
     # After Authorized...redirect to tweetsfeed which will make a call
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
-    def theTweets():         
-      home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
-      return home_timeline
+    def theTweets():
+      # print('returning instagram string')
+      # return 'twitter'      
+      try:
+        home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+        return home_timeline
+      except:
+        return json.dumps({})
 
     @app.route('/favtweet', methods=['GET','POST'])
     def favTweet():
@@ -65,5 +76,44 @@ class Twitter:
       tweet_id = str(request_data['id'])
       fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json'        
       return oauth_req( fav_url, self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'POST')
+
+    @app.route('/posttweet', methods=['GET', 'POST'])
+    def postTweet():
+      request_data = json.loads(request.data.decode('utf-8'))
+      tweet = str(request_data['tweet'])
+      fav_url = 'https://api.twitter.com/1.1/statuses/update.json?status=' + tweet
+      print(fav_url)
+      return oauth_req( fav_url, self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'POST')
+
+    # tried to combine these but python wouldnt behave.
+    # now we'll send them both back to angular and let angular comb throgh the mess
+    @app.route('/twitter/followers')
+    def getFollowers():
+      try:
+        followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+        return followers
+      except:
+        return 'Null'
+
+    @app.route('/twitter/following')
+    def getFollowing():
+      try:
+        following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+        return following
+      except:
+        return 'Null'
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
 

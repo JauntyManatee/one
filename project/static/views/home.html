@@ -1,12 +1,30 @@
-<div ng-controller="HomeController">  
-  <div class="row">
-    <div class="center-block text-center">
-      <form class="">
-        <input ng-model="username" type="text" placeholder="username">
-        <input ng-model="password" type="password" placeholder="password">
-        <button ng-click="logIn(username, password)">Log In</button>
-        <button class="btn-primary" ng-click="signUp(username, password)">Sign Up</button>
+<div ng-controller="HomeController" style="background:url('static/views/img/one_test_2.jpg'); background-size: cover;" ng-style="{height: windowHeight + 'px'}">  
+  <div class="left-m top-m left-sm top-sm home-page left-s top-s left-xl top-xl pl0-xl left-xxs top-xxs pl0-xxs left-lm top-lm left-l top-l pl0-l vat pl0-m pl0-l plxxl tac left-xxxs top-xxxs plxl-xxxs">
+    <h1 class="f-mega mb0 blue"><img class="vab mbs" height="60" src="static/views/img/one_logo.png"/><span class="f-mega black">NE</span></h1>
+
+    <h2 class="center-block mt0 plxs">One Social Feed</h2>
+    <div class="">
+      <form name="loginForm" class="" novalidate>
+        <div>
+          <input name="userName" ng-model="username" ng-minlength="6" type="text" placeholder="username" required class="paxs b-dark-blue tac">
+
+        </div>
+        <div class="ptxs">
+          <input name="passWord" ng-model="password" type="password" placeholder="password" required class="paxs b-dark-blue tac">
+        </div>
+        <div class="ptxs">
+          <button ng-click="logIn(username, password)" ng-disabled="loginForm.$invalid" class="plxlm prxlm ptxs pbxs bg-dark-blue b-blue white tac">&nbsp;Log In&nbsp;</button>
+        </div>
+        <div class="pts">
+          <button ng-click="signUp(username, password)" ng-disabled="loginForm.$invalid" class="plxlms prxlms ptxs pbxs bg-blue b-dark-blue white">Sign Up</button>
+
+        </div>
       </form>
+      <div class="">
+        <span class="error" ng-show="loginForm.userName.$error.minlength">Username is at</br> least 6 characters.</span>
+        <span ng-if="!loginForm.$dirty">{{verifier.errorz}}</span>
+      </div>
     </div>
   </div>
 </div>
+
