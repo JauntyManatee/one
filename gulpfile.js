@@ -24,14 +24,6 @@ gulp.task('watch', function () {
   gulp.watch('project/static/js/*/*.js', ['jshint']);
 });
 
-gulp.task('ugad3', function () {
-  return gulp.src([
-    'project/js/d3angular.js'
-    ])
-    .pipe(uglify('d3angular.min.js'))
-    .pipe(gulp.dest('project/static/tinyFiles/'))
-});
-
 
 gulp.task('build-js', function () {
   return gulp.src([
