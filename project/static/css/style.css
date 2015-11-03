@@ -572,6 +572,10 @@ body.ng-pageslide-body-closed::before {
   pointer-events: none;
 }
 
+#slideout {
+  padding: 10px 0 100px 5px;
+}
+
 @media screen and (min-width: 100em) and (max-width: 120em) {
   .pl0-xl {
     padding-left: 0;
