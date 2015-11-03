@@ -5,7 +5,7 @@
        <button ng-click="toggle('twitter')" type="button" class="f2 b-blue bg-white ptxsm pbs prs pls"><img src="static/views/img/twitter.png" height="23"/></button>
        <button ng-click="toggle('instagram')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/instagram.png" height="32"/></button>
        <button ng-click="toggle('soundcloud')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/sc.png" height="32"/></button>
-       <button ng-click="getRedditFeed()" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/reddit.png" height="32"/></button>
+       <button ng-click="toggle('reddit')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/reddit.png" height="32"/></button>
      </div>
      <div class="tac pll-xxxs w50-xxxs w50-xxs w20-s w20 dib vat ptsmm">
        <img class="vat h45" src="static/views/img/one_logo.png"/>
@@ -43,6 +43,15 @@
              <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
              <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
            </div>
+           <time><i> {{ post.displayTime }} </i></time>    
+                    </div>    
+                  <div class="embed" ng-if="post.type === 'instagram'" ng-bind-html="post.frame"></div>   
+                  <div>   
+                      <time ng-if="post.type === 'instagram'"> {{ post.displayTime }} </time>   
+                    </div>    
+                  <span class="embed" ng-if="post.type === 'soundcloud'" ng-bind-html="post.frame"></span>    
+                  <div>   
+                      <time ng-if="post.type === 'soundcloud'"><i> {{ post.displayTime }} </i></time>
          </div>
        </div>
      </div>
