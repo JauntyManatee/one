@@ -9,6 +9,12 @@ header {
  border-bottom-style: solid;
   border-bottom-width: 2px;
 }
+
+.redditContainer {
+  max-width: 100%; 
+
+}
+
 .loader{
   padding-top: 30px;
 }
@@ -472,6 +478,10 @@ header {
 
 .paxxl {
   padding: 45rem;
+}
+
+#pie {
+  padding-right: 20px;
 }
 
 .hxxxxl {
