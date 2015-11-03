@@ -18,7 +18,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
        theDate, htmlFrame, obj;
     angular.forEach(data, function (item) {
       var append = true;
-      if (type==='reddit') {
+      if (type === 'reddit') {
         if(item.url.endsWith('.jpg')){
           obj = {
             image_url : item.url.substring(5,item.length),
@@ -26,8 +26,10 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
             title: item.title,
             raw_time: item.created_utc,
             created_at: new Date(item.created_utc * 1000),
-            displayTime: moment(new Date(item.created_utc*1000)).fromNow()
+            displayTime: moment(new Date(item.created_utc*1000)).fromNow(),
+            url: 'http://reddit.com'+ item.permalink
           }
+          console.log(obj);
         }
         else{
           append = false;
@@ -41,16 +43,20 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
          user: {screen_name : item.user.screen_name}, 
          id_str: item.id_str 
         };
-      } else {
-        htmlFrame = $sce.trustAsHtml(item.embed);
-        theDate = date ? new Date(item.time * 1000) : new Date(item.time);
-        obj = {
-         frame: htmlFrame, 
-         created_at: theDate,
-         displayTime: moment(theDate).fromNow(), 
-         type: type
-        };
-      }
+      } else if(type === 'instagram' || type === 'soundcloud'){
+        if(item.embed){
+          htmlFrame = $sce.trustAsHtml(item.embed);
+          theDate = date ? new Date(item.time * 1000) : new Date(item.time);
+          obj = {
+           frame: htmlFrame, 
+           created_at: theDate,
+           displayTime: moment(theDate).fromNow(), 
+           type: type
+          };
+        }else{
+          append = false;
+        }
+      } 
       append ? theFeed.push(obj) : null;
      
     });

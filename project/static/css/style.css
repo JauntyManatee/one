@@ -4,7 +4,6 @@ body {
 }
 
 header {
-  position: fixed;
   width: 100%;
  border-bottom-style: solid;
   border-bottom-width: 2px;
@@ -521,6 +520,7 @@ header {
 }
 
 .header {
+  position: fixed;
   background-color: #f8f8f8;
   border-bottom-style: solid;
   border-bottom-width: 2px;
