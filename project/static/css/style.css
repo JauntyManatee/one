@@ -252,6 +252,7 @@ header {
 
 .w100 {
   width: 100%;
+  z-index: 1;
 }
 
 .f-mega {
