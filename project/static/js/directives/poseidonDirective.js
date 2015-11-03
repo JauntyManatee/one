@@ -12,22 +12,25 @@ app.directive('poseidon', ['SliderFactory','$window', '$timeout',
           .append('svg')
           .style({'width': '100%', 'height': '100%'});
         var colorObj = {
-          'soundcloud': '#FF5500',
-          'twitter': '#54aaec',
-          'instagram': '#325C86'
+          'soundcloud': ['#FF5500', 0],
+          'twitter': ['#54aaec', 0],
+          'instagram': ['#325C86', 0]
         };
         SliderFactory.getFollowStats()
           .then(function(resp){
+            var totsFollowers = 0; 
+            var totsFollowing = 0;
             angular.forEach(resp, function (i) {
               if (colorObj[i.media]) { colorObj[i.media][1]++; }
               if (i.counts) {
+                totsFollowing += i.counts.following;
+                totsFollowers += i.counts.followers;
                 dataset.push({ type: i.media, followers : i.counts.followers });
                 dataset2.push({ type: i.media, following : i.counts.following });
               } 
             });
-            for (var x in colorObj) {
-              dataset3.push({ type: colorObj[x], count: colorObj[x] });
-            }          
+            dataset3.push({type: 'Total Followers', count : totsFollowers});
+            dataset3.push({type: 'Total Following', count : totsFollowing});         
           })
           .then(function () {
             
@@ -36,7 +39,7 @@ app.directive('poseidon', ['SliderFactory','$window', '$timeout',
               var chart = nv.models.pieChart()
                   .x(function(d) { return d.type; })
                   .y(function(d) { return d.followers; })
-                  .color(function (d) { return colorObj[d.type]; })
+                  .color(function (d) { return colorObj[d.type][0]; })
                   .showLegend(true)
                   .showLabels(false)     //Display pie labels
                   .labelThreshold(0.05)  //Configure the minimum slice size for labels to show up
@@ -49,14 +52,14 @@ app.directive('poseidon', ['SliderFactory','$window', '$timeout',
                     .transition().duration(350)
                     .call(chart);
                   
-
+              chart.valueFormat(d3.format('d'));
               return chart;
             });
             nv.addGraph(function() {
               var chart2 = nv.models.pieChart()
                  .x(function(d) { return d.type; })
                  .y(function(d) { return d.following; })
-                 .color(function(d){ return colorObj[d.type]; })
+                 .color(function(d){ return colorObj[d.type][0]; })
                  .showLegend(true)
                  .showLabels(false)    
                  .labelThreshold(0.05)  
@@ -68,14 +71,14 @@ app.directive('poseidon', ['SliderFactory','$window', '$timeout',
                    .datum(dataset2)
                    .transition().duration(350)
                    .call(chart2);
-
-             return chart2;
+              chart2.valueFormat(d3.format('d'));
+              return chart2;
             });
             nv.addGraph(function() {
               var chart3 = nv.models.pieChart()
                  .x(function(d) { return d.type; })
                  .y(function(d) { return d.count; })
-                 .color(function(d){ return colorObj[d.type]; })
+                 // .color(function(d){ return colorObj[d.type][0]; })
                  .showLegend(true)
                  .showLabels(false)    
                  .labelThreshold(0.05)  
@@ -87,8 +90,8 @@ app.directive('poseidon', ['SliderFactory','$window', '$timeout',
                  .datum(dataset3)
                  .transition().duration(350)
                  .call(chart3);
-
-             return chart3;
+              chart3.valueFormat(d3.format('d'));
+              return chart3;
             });
           });
 
