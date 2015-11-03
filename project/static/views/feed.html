@@ -99,7 +99,7 @@
     <div class="m0 p0 w50">
       <form class="w100 footer-form text-center pas" role="search"> 
         <input ng-model="tweet" type="text" class="footer-form-input w50 width-s" placeholder="Post a tweet" name="srch-term" id="srch-term">
-        <button ng-click="postTweet(tweet);" class="footer-form-button pas" type="submit">Send</button>
+        <button ng-click="postTweet(tweet); tweet = null" class="footer-form-button pas" type="submit">Send</button>
 
       </form>
     </div>
