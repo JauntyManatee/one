@@ -76,7 +76,7 @@ app.directive('poseidon', ['SliderFactory','$window', '$timeout',
             });
             nv.addGraph(function() {
               var chart3 = nv.models.pieChart()
-                 .x(function(d) { console.log(d); return d.type; })
+                 .x(function(d) { return d.type; })
                  .y(function(d) { return d.count; })
                  // .color(function(d){ return colorObj[d.type][0]; })
                  .showLegend(true)
