@@ -9,10 +9,6 @@ header {
   border-bottom-width: 2px;
 }
 
-.pressed {
-  background-color: grey;
-}
-
 .redditContainer {
   max-width: 100%; 
 

@@ -29,7 +29,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
             displayTime: moment(new Date(item.created_utc*1000)).fromNow(),
             url: 'http://reddit.com'+ item.permalink
           };
-          console.log(obj);
         }
         else{
           append = false;
