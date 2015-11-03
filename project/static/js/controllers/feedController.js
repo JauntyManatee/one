@@ -5,13 +5,13 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
 
   $scope.checked = PanelFactory;   // This will be binded using the ps-open attribute
 
+  $scope.postType = PostType;
+
   $scope.loader = false;
 
   angular.element(document).ready(function (arg) {
     $scope.loader = true;
   });
-
-
 
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
@@ -28,8 +28,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
             created_at: new Date(item.created_utc * 1000),
             displayTime: moment(new Date(item.created_utc*1000)).fromNow(),
             url: 'http://reddit.com'+ item.permalink
-          }
-          console.log(obj);
+          };
         }
         else{
           append = false;
@@ -80,6 +79,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       }
     });
   };
+
   $scope.favTweet = function ( id ) {
     TwitterFactory.favTweet(id).then(function ( response ) {
       console.log(response);
@@ -150,7 +150,6 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     });
   };
   
-
   $scope.getRedditFeed = function ( ) {
     if(localStorage.redditToggle){
       RedditFactory.getRedditFeed().then(function (data) {
@@ -191,9 +190,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
         case 'reddit':
           localStorage.redditToggle = true;
           $scope.getRedditFeed();
-          break;
-        default:
-          console.log('default');        
+          break;        
       }
     }
   };

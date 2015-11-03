@@ -15,7 +15,7 @@ header {
 }
 
 .loader{
-  padding-top: 30px;
+  padding-top: 100px;
 }
 .circle {
     background-color: rgba(0,0,0,0);
@@ -509,6 +509,10 @@ header {
 
 .bg-white {
   background-color: #FFF;
+}
+
+.bg-grey {
+  background-color: #CCC;
 }
 
 .bg-blue {
