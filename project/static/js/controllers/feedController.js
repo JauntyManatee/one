@@ -41,6 +41,20 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
          user: {screen_name : item.user.screen_name}, 
          id_str: item.id_str 
         };
+      } else if(type==='instagram' || type==='soundcloud'){
+        if(item.embed){
+          console.log('embed found',item);
+          htmlFrame = $sce.trustAsHtml(item.embed);
+          theDate = date ? new Date(item.time * 1000) : new Date(item.time);
+          obj = {
+           frame: htmlFrame, 
+           created_at: theDate,
+           displayTime: moment(theDate).fromNow(), 
+           type: type
+          };
+        }else{
+          append = false;
+        }
       } else {
         htmlFrame = $sce.trustAsHtml(item.embed);
         theDate = date ? new Date(item.time * 1000) : new Date(item.time);
