@@ -14,8 +14,8 @@ from threading import Thread
 class Instagram:
 
 
-  def __init__(self, app):
-
+  def __init__(self, app, db):
+    self.db = db
     self.IG_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/igLand'
     self.IG_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by huligan27'
     self.IG_TOKEN = ''

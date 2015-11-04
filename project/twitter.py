@@ -6,18 +6,19 @@
 
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
-from flask import request, redirect
+from flask import request, redirect, session
 
 class Twitter:
 
-  def __init__(self, app):
-
-    self.CONSUMER = ''
+  def __init__(self, app, db):
+    self.db = db
+    
     self.ACCESS_TOKEN = ''
     self.REQUEST_TOKEN = ''
     consumer_key = os.environ['TWITTER_API_KEY']
     consumer_secret = os.environ['TWITTER_API_SECRET']
-
+    self.CONSUMER = oauth.Consumer(consumer_key, consumer_secret)
+    
     request_token_url = 'https://api.twitter.com/oauth/request_token'
     access_token_url = 'https://api.twitter.com/oauth/access_token'
     authorize_url = 'https://api.twitter.com/oauth/authorize'
@@ -30,14 +31,20 @@ class Twitter:
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/activate')
     def getTweets():
-
-      self.CONSUMER = oauth.Consumer(consumer_key, consumer_secret)
+      
       client = oauth.Client(self.CONSUMER)
       resp, content = client.request(request_token_url, "GET")
       if resp['status'] != '200':
         raise Exception("Invalid response %s." % resp['status'])
       self.REQUEST_TOKEN = dict(urllib.parse.parse_qsl(content))
       Rurl = "%s?oauth_token=%s" % (authorize_url, self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'))
+      if(session['id']):
+        user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+        print('this is a user', user)
+        print(session['id'], 'in /activate')
+        if(user.twitterToken):
+          self.twitterToken = user.twitterToken
+          return redirect(os.environ['REDIRECT_URI']+'/#/feed')  
       return redirect(Rurl)
 
     #This will grab the oauth token and make a request to access_token_url to let Twitter know all is well
@@ -49,6 +56,14 @@ class Twitter:
       client = oauth.Client(self.CONSUMER, token)
       resp, content2 = client.request(access_token_url, "POST")
       self.ACCESS_TOKEN = dict(urllib.parse.parse_qsl(content2))
+      twitToke = self.ACCESS_TOKEN[b'oauth_token']
+      twitSecret = self.ACCESS_TOKEN[b'oauth_token_secret']
+      print(session['id'], 'so sessiony')
+      userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+      print(userTwitter, 'in authorized: userTwitter')
+      userTwitter.twitterToken = twitToke
+      userTwitter.twitterSecret = twitSecret
+      self.db.session.commit()
       return redirect(os.environ['REDIRECT_URI']+'/#/feed')
 
     # After Authorized...redirect to tweetsfeed which will make a call
@@ -56,12 +71,24 @@ class Twitter:
     @app.route('/tweetsfeed')
     def theTweets():
       # print('returning instagram string')
-      # return 'twitter'      
-      try:
-        home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', self.ACCESS_TOKEN[b'oauth_token'], self.ACCESS_TOKEN[b'oauth_token_secret'], 'GET')
+      # return 'twitter'
+      if(session['id']):
+        print(session['id'])
+        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+        twitterToken = str.encode(userTwitter.twitterToken)
+        twitterSecret = str.encode(userTwitter.twitterSecret)
+        print(userTwitter, 'userTwitter in /tweetsfeed')
+        print(twitterToken, 'twitterToken in /tweetsfeed')
+        print(twitterSecret, 'twitterSecret in /tweetsfeed')
+      # try:
+        print('YOOOOOOO')
+        print(twitterToken, twitterSecret)
+        home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', twitterToken, twitterSecret, 'GET')
+        print(home_timeline, 'home_timeline')
         return home_timeline
-      except:
-        return json.dumps({})
+      # except:
+      #   print('/tweetsfeed aint working yo')
+      #   return json.dumps({})
 
     @app.route('/favtweet', methods=['GET','POST'])
     def favTweet():
