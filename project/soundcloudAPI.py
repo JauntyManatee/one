@@ -18,9 +18,9 @@ client = soundcloud.Client(
 
 class Soundcloud:
   
-  def __init__(self, app):
+  def __init__(self, app, db):
 
-    
+    self.db = db
     self.SOUNDCLOUD_TOKEN = ''
 
     #authorization route
