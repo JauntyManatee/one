@@ -133,6 +133,10 @@ header {
   width: 50%;
 }
 
+.w100 {
+  width: 100%;
+}
+
 .mbxs {
   margin-bottom: .6rem;
 }
