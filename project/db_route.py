@@ -114,7 +114,6 @@ class DB_Route:
     def logout():
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
       print(data_string)
-      # self.session_token = data_string['at']
       theUser = self.session.query(self.User).filter_by(authToken=session['id']).first()
       print(theUser)
       theUser.authToken = ''
