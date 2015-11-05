@@ -100,7 +100,6 @@ class DB_Route:
           self.session.commit()
           response = json.dumps({'auth_token': auth_token})
           session['id'] = auth_token
-          print('Logged in')
           return response
         else:
           print('Incorrect username or pass.')

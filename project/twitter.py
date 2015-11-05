@@ -30,7 +30,6 @@ class Twitter:
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/activate')
     def getTweets():
-      
       client = oauth.Client(self.CONSUMER)
       resp, content = client.request(request_token_url, "GET")
       if resp['status'] != '200':
@@ -65,6 +64,7 @@ class Twitter:
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
     def theTweets():
+      print('called twitter, hers your id', session['id'])
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()

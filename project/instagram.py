@@ -29,8 +29,8 @@ class Instagram:
     def igLand():
       params = request.args
       CODE = params.get('code')
-      # if(session['id']):
-      getIGToken(CODE)
+      if(session['id']):
+        getIGToken(CODE)
       return redirect(os.environ['REDIRECT_URI']+'/#/feed')
       
     def getIGToken(code):
