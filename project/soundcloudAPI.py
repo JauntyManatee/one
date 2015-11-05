@@ -38,7 +38,6 @@ class Soundcloud:
         user.soundcloudToken = access_token.access_token
         self.db.session.commit()
         session['soundcloudToken'] = access_token.access_token
-        print("Hi there, %s" % client.get('/me').username)
       except:
         print('soundcloud error in soundAuth: token shake')
       finally: 
@@ -71,8 +70,6 @@ class Soundcloud:
 
     @app.route('/soundStream')
     def soundStream():
-      # print('returning string soundcloud')
-      # return 'soundcloud'
       if ('soundcloudToken' not in session):
         user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
         session['soundcloudToken'] = user.soundcloudToken
