@@ -92,7 +92,7 @@ header {
     100% {
         -webkit-transform: rotate(-320deg);
         opacity: 0;
-    };
+    }
 }
 
 @-webkit-keyframes spinoffPulse {
