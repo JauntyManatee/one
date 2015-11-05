@@ -19,7 +19,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     angular.forEach(data, function (item) {
       var append = true;
       if (type === 'reddit') {
-        if(item.url.endsWith('.jpg')){
+        if(item.url.endsWith('.jpg')) {
           obj = {
             image_url : item.url.substring(5,item.length),
             type: 'reddit',
@@ -63,7 +63,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
   };
 
   $scope.isValidUser = function () {
-    var user = sessionStorage.getItem('at');
+    var user = localStorage.getItem('at');
     if (!user) {
       $location.path('home');
     } else {
@@ -176,10 +176,10 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     if (beenCalled === true) {  
       PostType[type] = !PostType[type];
     } else {
+      var seshToken = localStorage.getItem('at');
       switch(type) {
         case 'twitter':
           window.location.href = '/activate';
-
           break;
         case 'instagram':
           window.location.href = '/igAuth';
@@ -204,10 +204,10 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
   };
 
   $scope.logout = function() {
-    var authToken = sessionStorage.getItem('at');
+    var authToken = localStorage.getItem('at');
     UsersFactory.logout({"at": authToken})
     .then(function ( res ) {
-      sessionStorage.clear();
+      localStorage.clear();
       $location.path('home');
     })
     .catch(function ( error ) {
