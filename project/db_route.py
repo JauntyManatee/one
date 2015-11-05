@@ -76,13 +76,13 @@ class DB_Route:
         self.session.add(newUser)
         self.session.commit()
         session['id'] = auth_token
-        print(session)
         response = json.dumps({'auth_token': auth_token})
         return response
   
     #Authenticate on login
     @app.route('/login', methods=['POST'])
     def authenticate():
+      session.clear()
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
       username = data_string['username']
       search_result = self.session.query(self.User).filter_by(username=username).all()
@@ -113,9 +113,7 @@ class DB_Route:
     @app.route('/logout', methods=['POST'])
     def logout():
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
-      print(data_string)
       theUser = self.session.query(self.User).filter_by(authToken=session['id']).first()
-      print(theUser)
       theUser.authToken = ''
       session.pop('id', None)
       session.pop('igToken', None)
@@ -125,18 +123,3 @@ class DB_Route:
       self.session.commit()
       return str.encode('Logged out.')
 
-    @app.route('/authenticate', methods=['GET', 'POST'])
-    def seshAuth():
-      print('fack')
-      data_string = request.json
-      # data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
-      print(data_string)
-      return "hello buddy guy"
-
-
-
-
-
-
-  
-  

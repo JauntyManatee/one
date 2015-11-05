@@ -4,7 +4,6 @@
 # /igAuth ig auth route
 # /igLand is ig landing page
 
-
 import os, requests, flask, json
 from flask import request, redirect, session
 
@@ -98,10 +97,7 @@ class Instagram:
 
     @app.route('/instagram/feed')
     def getOwnFeed():
-      # print('returning instagram string')
-      # return 'instagram'
       if(session['id']):
-
         if('igToken' not in session):
           user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
           session['igToken'] = user.instagramToken
