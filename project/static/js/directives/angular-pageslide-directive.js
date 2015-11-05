@@ -40,7 +40,7 @@ angular.module('pageslide-directive', [])
                   size: $scope.psSize || '300px',
                   speed: $scope.psSpeed || '0.5',
                   squeeze: Boolean($scope.psSqueeze) || false,
-                  zIndex: -1 // Override with custom CSS
+                  zIndex: 0 // Override with custom CSS
                 };
 
                 // Apply Class to the element
