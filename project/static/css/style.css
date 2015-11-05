@@ -15,7 +15,7 @@ header {
 }
 
 .loader{
-  padding-top: 30px;
+  padding-top: 100px;
 }
 .circle {
     background-color: rgba(0,0,0,0);
@@ -133,6 +133,10 @@ header {
   width: 50%;
 }
 
+.w100 {
+  width: 100%;
+}
+
 .mbxs {
   margin-bottom: .6rem;
 }
@@ -171,7 +175,24 @@ header {
   background-color: #0074D9; 
   border: 1px solid #002f86;
   /*padding: 10px;*/
+}
 
+.tweet-btn {
+  background: rgb(130, 224, 255);
+  color: white;
+  background-color: #0074D9; 
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4285714;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 
 .sidebar {
@@ -252,6 +273,7 @@ header {
 
 .w100 {
   width: 100%;
+  z-index: 1;
 }
 
 .f-mega {
@@ -509,6 +531,10 @@ header {
 
 .bg-white {
   background-color: #FFF;
+}
+
+.bg-grey {
+  background-color: #CCC;
 }
 
 .bg-blue {

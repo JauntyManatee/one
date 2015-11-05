@@ -1,11 +1,20 @@
 <div ng-if="isValidUser()">
-  <div ng-controller="FeedController" class=''>
+  <div ng-controller="FeedController">
     <nav class="w100 header">
       <div class="w15-xxs w10-xxxs plm w35-s w40 ptsm pbsm dib vam w35-sm">
-        <button ng-click="toggle('twitter')" type="button" class="f2 b-blue bg-white ptxsm pbs prs pls"><img src="static/views/img/twitter.png" height="23"/></button>
-        <button ng-click="toggle('instagram')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/instagram.png" height="32"/></button>
-        <button ng-click="toggle('soundcloud')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/sc.png" height="32"/></button>
-        <button ng-click="toggle('reddit')" type="button" class="f2 b-blue bg-white paxsm"><img src="static/views/img/reddit.png" height="32"/></button>
+
+        <button ng-click="toggle('twitter')" type="button" ng-class="postType['twitter'] ? 'bg-grey' : 'bg-white'" class="f2 b-blue ptxsm pbs prs pls">
+          <img src="static/views/img/twitter.png" height="23"/>
+        </button>
+        <button ng-click="toggle('instagram')" type="button" ng-class="postType['instagram'] ? 'bg-grey' : 'bg-white'" class="f2 b-blue bg-white paxsm">
+          <img src="static/views/img/instagram.png" height="32"/>
+        </button>
+        <button ng-click="toggle('soundcloud')" type="button" ng-class="postType['soundcloud'] ? 'bg-grey' : 'bg-white'" class="f2 b-blue bg-white paxsm">
+          <img src="static/views/img/sc.png" height="32"/>
+        </button>
+        <button ng-click="toggle('reddit')" type="button" ng-class="postType['reddit'] ? 'bg-grey' : 'bg-white'" class="f2 b-blue bg-white paxsm">
+          <img src="static/views/img/reddit.png" height="32"/>
+        </button>
       </div>
       <div class="tac pll-xxxs w50-xxxs w50-xxs w20-s w20 dib vat ptsmm">
         <img class="vat h45" src="static/views/img/one_logo.png"/>
@@ -45,8 +54,10 @@
               <div class="panel-body">
                 <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
                 <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-                <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
-                <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
+                <div>
+                  <button ng-click="favTweet(post.id_str)" class="tweet-btn">Favorite</button>
+                  <button ng-click="reTweet(post.id_str)" class="tweet-btn">Re-Tweet</button>
+                </div>
               </div>
               <time><i> {{ post.displayTime }} </i></time>    
             </div>
@@ -90,7 +101,7 @@
     <div class="m0 p0 w50">
       <form class="w100 footer-form text-center pas" role="search"> 
         <input ng-model="tweet" type="text" class="footer-form-input w50 width-s" placeholder="Post a tweet" name="srch-term" id="srch-term">
-        <button ng-click="postTweet(tweet);" class="footer-form-button pas" type="submit">Send</button>
+        <button ng-click="postTweet(tweet); tweet = null" class="footer-form-button pas" type="submit">Send</button>
 
       </form>
     </div>
