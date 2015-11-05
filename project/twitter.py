@@ -3,7 +3,6 @@
 # /tweetsfeed gets your own twitter feed
 # /twitter/stats gets your own stats 
 
-
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
 from flask import request, redirect, session
@@ -57,7 +56,6 @@ class Twitter:
       session['twitterToken'] = self.ACCESS_TOKEN[b'oauth_token']
       session['twitterSecret'] = self.ACCESS_TOKEN[b'oauth_token_secret']
       userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-      print(userTwitter, 'in authorized: userTwitter')
       userTwitter.twitterToken = session['twitterToken']
       userTwitter.twitterSecret = session['twitterSecret']
       self.db.session.commit()
@@ -67,8 +65,6 @@ class Twitter:
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
     def theTweets():
-      # print('returning instagram string')
-      # return 'twitter'
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
@@ -83,11 +79,9 @@ class Twitter:
     @app.route('/favtweet', methods=['GET','POST'])
     def favTweet():
       if(session['id']):
-        
         request_data = json.loads(request.data.decode('utf-8'))
         tweet_id = str(request_data['id'])
         fav_url = 'https://api.twitter.com/1.1/favorites/create.json?id=' + tweet_id 
-
         return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
     @app.route('/retweet', methods=['GET','POST'])
@@ -119,7 +113,6 @@ class Twitter:
           followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', session['twitterToken'], session['twitterSecret'], 'GET')
           return followers
         except:
-          print('shouldnt be here')
           return 'Null'
 
     @app.route('/twitter/following')
@@ -134,18 +127,3 @@ class Twitter:
           return following
         except:
           return 'Null'
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
