@@ -1,5 +1,5 @@
-import json, os, hashlib, pymysql, sys, bcrypt, base64
-from flask import request
+import json, os, requests, hashlib, pymysql, sys, bcrypt, base64
+from flask import request, session
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, orm, MetaData, Table, Column, String, Integer, ForeignKey
 from sqlalchemy.orm import sessionmaker
@@ -19,7 +19,7 @@ class DB_Route:
     db_url = os.environ['DB_URL']
     engine = create_engine(db_url, convert_unicode=True)
     Session = sessionmaker(bind=engine)
-    session = Session()
+    self.session = Session()
     conn = engine.connect() 
     metadata = MetaData(engine)
     Base = declarative_base()
@@ -33,15 +33,16 @@ class DB_Route:
       salt = Column(String(60))
       authToken = Column(String(200))
       twitterToken = Column(String(200))
+      twitterSecret = Column(String(200))
       instagramToken = Column(String(200))
       soundcloudToken = Column(String(200))
       redditToken = Column(String(200))
 
       def __repr__(self):
-        return "<User(username='%s', password='%s', salt='%s', authToken='%', twitterToken='%', instagramToken='%', soundcloudToken='%', redditToken='%')>" % (self.username, self.password, self.salt, self.authToken, self.twitterToken, self.instagramToken, self.soundcloudToken, self.redditToken)
+        return "<User(username='%s', password='%s', salt='%s', authToken='%s', twitterToken='%s', twitterSecret='%s', instagramToken='%s', soundcloudToken='%s', redditToken='%s')>" % (self.username, self.password, self.salt, self.authToken, self.twitterToken, self.twitterSecret, self.instagramToken, self.soundcloudToken, self.redditToken)
 
-
-    User.__table__
+    self.User = User;
+    self.User.__table__
     Table('users', MetaData(bind=None),
       Column('userID', Integer, primary_key=True, nullable=False),
       Column('username', String(60), nullable=False),
@@ -49,6 +50,7 @@ class DB_Route:
       Column('salt', String(60), nullable=False),
       Column('authToken', String(60), nullable=False),
       Column('twitterToken', String(60), nullable=True),
+      Column('twitterSecret', String(60), nullable=True),
       Column('instagramToken', String(60), nullable=True),
       Column('soundcloudToken', String(60), nullable=True),
       Column('redditToken', String(60), nullable=True), schema=None)
@@ -60,7 +62,7 @@ class DB_Route:
     def signup():
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
       username = data_string['username']
-      search_result = session.query(User).filter_by(username=username).all()
+      search_result = self.session.query(self.User).filter_by(username=username).all()
       if search_result:
         return str.encode('User already exists.')
       else:
@@ -70,31 +72,34 @@ class DB_Route:
         auth_token = base64.b64encode(os.urandom(16)).decode('utf-8')
         password = str.encode(password)
         user_pass_hash = bcrypt.hashpw(password, bin_new_salt)
-        newUser = User(username=username, password=user_pass_hash, salt=new_salt, authToken=auth_token)
-        session.add(newUser)
-        session.commit()
+        newUser = self.User(username=username, password=user_pass_hash, salt=new_salt, authToken=auth_token)
+        self.session.add(newUser)
+        self.session.commit()
+        session['id'] = auth_token
         response = json.dumps({'auth_token': auth_token})
         return response
   
     #Authenticate on login
     @app.route('/login', methods=['POST'])
     def authenticate():
+      session.clear()
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
       username = data_string['username']
-      search_result = session.query(User).filter_by(username=username).all()
+      search_result = self.session.query(self.User).filter_by(username=username).all()
       if search_result:
         user_salt = str.encode(search_result[0].salt) 
-        print(type(user_salt), 'user_salt', user_salt)
         user_password = search_result[0].password 
-        print(type(user_password), 'user_password', user_password)
         login_password = str.encode(data_string['password']) 
         bin_login_hash_pass = bcrypt.hashpw(login_password, user_salt)
         login_hash_pass = bin_login_hash_pass.decode('utf-8')
-        print(login_hash_pass, type(login_hash_pass), user_password, type(user_password))
 
         if login_hash_pass == user_password:
           auth_token = base64.b64encode(os.urandom(16)).decode('utf-8')
+          theUser = self.session.query(self.User).filter_by(username=username).first()
+          theUser.authToken = auth_token
+          self.session.commit()
           response = json.dumps({'auth_token': auth_token})
+          session['id'] = auth_token
           print('Logged in')
           return response
         else:
@@ -108,15 +113,13 @@ class DB_Route:
     @app.route('/logout', methods=['POST'])
     def logout():
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
-      print(data_string)
-      session_token = data_string['at']
-      session.query(User).filter_by(authToken=session_token).update({User.authToken: ''})
+      theUser = self.session.query(self.User).filter_by(authToken=session['id']).first()
+      theUser.authToken = ''
+      session.pop('id', None)
+      session.pop('igToken', None)
+      session.pop('soundcloudToken', None)
+      session.pop('twitterToken', None)
+      session.pop('twitterSecret', None)
+      self.session.commit()
       return str.encode('Logged out.')
 
-
-
-
-
-
-  
-  

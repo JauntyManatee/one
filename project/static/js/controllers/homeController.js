@@ -21,8 +21,8 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$location', '$windo
         $scope.verifier.errorz = "Incorrect username or password!";
         $scope.loginForm.$setPristine();
       } else if (res.data.auth_token) {
-        console.log('User added.', res.data);
-        sessionStorage.setItem('at', res.data.auth_token);
+        console.log('Logged in.', res.data);
+        localStorage.setItem('at', res.data.auth_token);
         $location.path('feed');
       }
     })
@@ -41,7 +41,7 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$location', '$windo
         $scope.loginForm.$setPristine();
       } else {
         console.log('User added.', res.data);
-        sessionStorage.setItem('at', res.data.auth_token);
+        localStorage.setItem('at', res.data.auth_token);
         $location.path('feed');
       }
     })

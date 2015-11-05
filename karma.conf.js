@@ -17,8 +17,9 @@ module.exports = function(config) {
     files: [
       'project/static/bower_components/angular/angular.js',
       'project/static/bower_components/angular-route/angular-route.js',
+      'project/static/js/directives/angular-pageslide-directive.js',
+      'project/static/bower_components/angular-sanitize/angular-sanitize.js',
       'project/static/bower_components/angular-mocks/angular-mocks.js',
-      'project/static/js/angular-pageslide-directive.min.js',
       'project/static/js/app.js',
       'project/static/js/factories/*.js',
       'project/static/js/controllers/*.js',
