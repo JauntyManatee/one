@@ -54,8 +54,10 @@
               <div class="panel-body">
                 <span><b> {{ '@' + post.user.screen_name + ':'}} </b></span>
                 <span ng-bind-html="post.text | linky | tweetLinky"> {{ post.text }} </span>
-                <button ng-click="favTweet(post.id_str)" class="btn btn-mini">Favorite</button>
-                <button ng-click="reTweet(post.id_str)" class="btn btn-mini">Re-Tweet</button>
+                <div>
+                  <button ng-click="favTweet(post.id_str)" class="tweet-btn">Favorite</button>
+                  <button ng-click="reTweet(post.id_str)" class="tweet-btn">Re-Tweet</button>
+                </div>
               </div>
               <time><i> {{ post.displayTime }} </i></time>    
             </div>
