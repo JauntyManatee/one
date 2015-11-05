@@ -120,6 +120,8 @@ class DB_Route:
       session.pop('id', None)
       session.pop('igToken', None)
       session.pop('soundcloudToken', None)
+      session.pop('twitterToken', None)
+      session.pop('twitterSecret', None)
       self.session.commit()
       return str.encode('Logged out.')
 
