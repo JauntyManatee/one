@@ -71,11 +71,12 @@ class Twitter:
       # print('returning instagram string')
       # return 'twitter'
       if(session['id']):
-        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-        twitterToken = str.encode(userTwitter.twitterToken)
-        twitterSecret = str.encode(userTwitter.twitterSecret)
+        if('twitterToken' not in session):
+          userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          session['twitterToken'] = str.encode(userTwitter.twitterToken)
+          session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
       try:
-        home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', twitterToken, twitterSecret, 'GET')
+        home_timeline = oauth_req( 'https://api.twitter.com/1.1/statuses/home_timeline.json', session['twitterToken'], session['twitterSecret'], 'GET')
         return home_timeline
       except:
         return json.dumps({})
@@ -83,47 +84,36 @@ class Twitter:
     @app.route('/favtweet', methods=['GET','POST'])
     def favTweet():
       if(session['id']):
-        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-        twitterToken = str.encode(userTwitter.twitterToken)
-        twitterSecret = str.encode(userTwitter.twitterSecret)
+        
         request_data = json.loads(request.data.decode('utf-8'))
         tweet_id = str(request_data['id'])
         fav_url = 'https://api.twitter.com/1.1/favorites/create.json?id=' + tweet_id 
 
-        return oauth_req( fav_url, twitterToken, twitterSecret, 'POST')
+        return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
     @app.route('/retweet', methods=['GET','POST'])
     def reTweet():
       if(session['id']):
-        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-        twitterToken = str.encode(userTwitter.twitterToken)
-        twitterSecret = str.encode(userTwitter.twitterSecret)
         request_data = json.loads(request.data.decode('utf-8'))
         tweet_id = str(request_data['id'])
         fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json'        
-        return oauth_req( fav_url, twitterToken, twitterSecret, 'POST')
+        return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
     @app.route('/posttweet', methods=['GET', 'POST'])
     def postTweet():
       if(session['id']):
-        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-        twitterToken = str.encode(userTwitter.twitterToken)
-        twitterSecret = str.encode(userTwitter.twitterSecret)
         request_data = json.loads(request.data.decode('utf-8'))
         tweet = str(request_data['tweet'])
         fav_url = 'https://api.twitter.com/1.1/statuses/update.json?status=' + tweet
-        return oauth_req( fav_url, twitterToken, twitterSecret, 'POST')
+        return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
     # tried to combine these but python wouldnt behave.
     # now we'll send them both back to angular and let angular comb throgh the mess
     @app.route('/twitter/followers')
     def getFollowers():
       if(session['id']):
-        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-        twitterToken = str.encode(userTwitter.twitterToken)
-        twitterSecret = str.encode(userTwitter.twitterSecret)
         try:
-          followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', twitterToken, twitterSecret, 'GET')
+          followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', session['twitterToken'], session['twitterSecret'], 'GET')
           return followers
         except:
           return 'Null'
@@ -131,11 +121,8 @@ class Twitter:
     @app.route('/twitter/following')
     def getFollowing():
       if(session['id']):
-        userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
-        twitterToken = str.encode(userTwitter.twitterToken)
-        twitterSecret = str.encode(userTwitter.twitterSecret)
         try:
-          following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', twitterToken, twitterSecret, 'GET')
+          following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', session['twitterToken'], session['twitterSecret'], 'GET')
           return following
         except:
           return 'Null'
