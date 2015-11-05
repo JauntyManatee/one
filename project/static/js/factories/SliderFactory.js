@@ -25,8 +25,8 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
           method : 'GET',
           url: '/twitter/followers'
         }).then(function(followers){
-          return {followers:followers, following:following}
-        })
+          return {followers:followers, following:following};
+        });
     })
     .catch(function(err){
       return err;
@@ -42,32 +42,30 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
         'followers' : r['data']['counts']['followed_by'],
         'following' : r['data']['counts']['follows']
       };
-
     });
   };
 
   var _twitterFollow = function () {
     return getTwitterStats().then(function (r) {
-      if(r['followers']['data']['ids']===undefined){
+      if(r['followers'] === undefined){
         return null;
       }
       return {
         'followers' : r['followers']['data']['ids'].length,
         'following' : r['following']['data']['ids'].length
       }; 
-      
     });
   };
 
   var _soundcloudFollow = function () {
     return getSoundcloudStats().then(function (r) {
       if(r['data']['followers_count']===undefined){
-        return null
+        return null;
       }
       return {
         'followers' : r['data']['followers_count'],
         'following' : r['data']['followings_count']
-      }
+      };
     });
   };
 
@@ -117,7 +115,7 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
                 .catch(function(twitterErr){
                   base['twitter'] = null;
                   resolve(base);
-                })
+                });
             })
             .catch(function(soundcloudErr){
               base['soundcloud'] = null;
@@ -129,15 +127,14 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
                 .catch(function(twitterErr){
                   base['twitter'] = null;
                   resolve(base);
-                })
-            })
-
-        })
+                });
+            });
+        });
     })
     .then(function (obj) {
-      var arr = []
+      var arr = [];
       for(var key in obj){
-        arr.push({media:key, counts: obj[key]})
+        arr.push({media:key, counts: obj[key]});
       }
       console.log(arr);
       return arr;
