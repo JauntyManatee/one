@@ -54,13 +54,12 @@ class Twitter:
       client = oauth.Client(self.CONSUMER, token)
       resp, content2 = client.request(access_token_url, "POST")
       self.ACCESS_TOKEN = dict(urllib.parse.parse_qsl(content2))
-      twitToke = self.ACCESS_TOKEN[b'oauth_token']
-      twitSecret = self.ACCESS_TOKEN[b'oauth_token_secret']
-      print(session['id'], 'so sessiony')
+      session['twitterToken'] = self.ACCESS_TOKEN[b'oauth_token']
+      session['twitterSecret'] = self.ACCESS_TOKEN[b'oauth_token_secret']
       userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
       print(userTwitter, 'in authorized: userTwitter')
-      userTwitter.twitterToken = twitToke
-      userTwitter.twitterSecret = twitSecret
+      userTwitter.twitterToken = session['twitterToken']
+      userTwitter.twitterSecret = session['twitterSecret']
       self.db.session.commit()
       return redirect(os.environ['REDIRECT_URI']+'/#/feed')
 
@@ -112,15 +111,24 @@ class Twitter:
     @app.route('/twitter/followers')
     def getFollowers():
       if(session['id']):
+        if('twitterToken' not in session):
+          userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          session['twitterToken'] = str.encode(userTwitter.twitterToken)
+          session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
           followers = oauth_req('https://api.twitter.com/1.1/followers/ids.json', session['twitterToken'], session['twitterSecret'], 'GET')
           return followers
         except:
+          print('shouldnt be here')
           return 'Null'
 
     @app.route('/twitter/following')
     def getFollowing():
       if(session['id']):
+        if('twitterToken' not in session):
+          userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          session['twitterToken'] = str.encode(userTwitter.twitterToken)
+          session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
           following = oauth_req('https://api.twitter.com/1.1/friends/ids.json', session['twitterToken'], session['twitterSecret'], 'GET')
           return following
