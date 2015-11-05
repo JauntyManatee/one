@@ -79,6 +79,9 @@ class Instagram:
     @app.route('/instagram/stats')
     def getSelfStats():
       if(session['id']):
+        if('igToken' not in session):
+          user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          session['igToken'] = user.instagramToken
         try:
           url = 'https://api.instagram.com/v1/users/self?access_token=%s' % session['igToken']
           response = requests.get(url)

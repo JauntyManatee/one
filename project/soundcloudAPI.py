@@ -46,6 +46,9 @@ class Soundcloud:
 
     @app.route('/soundcloud/stats')
     def soundStats():
+      if ('soundcloudToken' not in session):
+        user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+        session['soundcloudToken'] = user.soundcloudToken
       try:
         client = soundcloud.Client(access_token=session['soundcloudToken'])
         response = client.get('me')
