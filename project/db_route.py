@@ -35,13 +35,11 @@ class DB_Route:
       twitterToken = Column(String(200))
       twitterSecret = Column(String(200))
       instagramToken = Column(String(200))
-      instagramSecret = Column(String(200))
       soundcloudToken = Column(String(200))
-      soundcloudSecret = Column(String(200))
       redditToken = Column(String(200))
 
       def __repr__(self):
-        return "<User(username='%s', password='%s', salt='%s', authToken='%s', twitterToken='%s', twitterSecret='%s', instagramToken='%s', instagramSecret='%s', soundcloudToken='%s', soundcloudSecret='%s', redditToken='%s')>" % (self.username, self.password, self.salt, self.authToken, self.twitterToken, self.twitterSecret, self.instagramToken, self.instagramSecret, self.soundcloudToken, self.soundcloudSecret, self.redditToken)
+        return "<User(username='%s', password='%s', salt='%s', authToken='%s', twitterToken='%s', twitterSecret='%s', instagramToken='%s', soundcloudToken='%s', redditToken='%s')>" % (self.username, self.password, self.salt, self.authToken, self.twitterToken, self.twitterSecret, self.instagramToken, self.soundcloudToken, self.redditToken)
 
     self.User = User;
     self.User.__table__
@@ -54,9 +52,7 @@ class DB_Route:
       Column('twitterToken', String(60), nullable=True),
       Column('twitterSecret', String(60), nullable=True),
       Column('instagramToken', String(60), nullable=True),
-      Column('instagramSecret', String(60), nullable=True),
       Column('soundcloudToken', String(60), nullable=True),
-      Column('soundcloudSecret', String(60), nullable=True),
       Column('redditToken', String(60), nullable=True), schema=None)
 
     Base.metadata.create_all(engine)
@@ -123,6 +119,8 @@ class DB_Route:
       print(theUser)
       theUser.authToken = ''
       session.pop('id', None)
+      session.pop('igToken', None)
+      session.pop('soundcloudToken', None)
       self.session.commit()
       return str.encode('Logged out.')
 

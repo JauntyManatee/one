@@ -7,7 +7,7 @@
 
 import flask, os, soundcloud, json, collections
 from threading import Thread
-from flask import request, redirect
+from flask import request, redirect, session
 
 
 client = soundcloud.Client(
@@ -34,24 +34,24 @@ class Soundcloud:
       try:
         code = request.args.get('code')
         access_token = client.exchange_token(code)
-        self.SOUNDCLOUD_TOKEN = access_token.access_token
+        user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+        user.soundcloudToken = access_token.access_token
+        self.db.session.commit()
+        session['soundcloudToken'] = access_token.access_token
         print("Hi there, %s" % client.get('/me').username)
       except:
         print('soundcloud error in soundAuth: token shake')
       finally: 
         return redirect(os.environ['REDIRECT_URI'] +'/#/feed')
 
-
     @app.route('/soundcloud/stats')
     def soundStats():
       try:
-        client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
+        client = soundcloud.Client(access_token=session['soundcloudToken'])
         response = client.get('me')
         return response.raw_data  
       except:
         return json.dumps({})
-
-
 
     qmbd = collections.deque()
     self.embedsLeft = 0
@@ -70,11 +70,13 @@ class Soundcloud:
     def soundStream():
       # print('returning string soundcloud')
       # return 'soundcloud'
+      if ('soundcloudToken' not in session):
+        user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+        session['soundcloudToken'] = user.soundcloudToken
       try:
-        client = soundcloud.Client(access_token=self.SOUNDCLOUD_TOKEN)
+        client = soundcloud.Client(access_token=session['soundcloudToken'])
       except:
         return 'null'
-
 
       #if there's no data in our q to send to client, lets get some!
       if(self.embedsLeft == 0):
