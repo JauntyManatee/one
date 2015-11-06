@@ -14,8 +14,6 @@ class DB_Route:
   def __init__(self, app):
 
     # pw = ':hr33'
-    # if(os.environ['runtime'] == 'local'):
-    #   pw = ''
     db_url = os.environ['DB_URL']
     engine = create_engine(db_url, convert_unicode=True)
     Session = sessionmaker(bind=engine)
@@ -23,7 +21,6 @@ class DB_Route:
     conn = engine.connect() 
     metadata = MetaData(engine)
     Base = declarative_base()
-   # login_manager = LoginManager()
 
     class User(Base):
       __tablename__ = 'users'
@@ -60,6 +57,7 @@ class DB_Route:
     #Sign Up
     @app.route('/signup', methods=['POST'])
     def signup():
+      session.clear()
       data_string = json.loads(request.data.decode('utf-8', 'strict').replace("'", "\""))
       username = data_string['username']
       search_result = self.session.query(self.User).filter_by(username=username).all()
@@ -100,7 +98,6 @@ class DB_Route:
           self.session.commit()
           response = json.dumps({'auth_token': auth_token})
           session['id'] = auth_token
-          print('Logged in')
           return response
         else:
           print('Incorrect username or pass.')

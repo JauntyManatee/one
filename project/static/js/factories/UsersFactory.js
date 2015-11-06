@@ -11,7 +11,6 @@ app.factory('UsersFactory', ['$location', '$http',
       },
 
       login: function(user) {
-       console.log('factory');
         return $http({
           method: 'POST',
           url: '/login',

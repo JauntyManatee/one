@@ -30,7 +30,6 @@ class Twitter:
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/activate')
     def getTweets():
-      
       client = oauth.Client(self.CONSUMER)
       resp, content = client.request(request_token_url, "GET")
       if resp['status'] != '200':
@@ -40,7 +39,6 @@ class Twitter:
       if(session['id']):
         user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
         if(user.twitterToken):
-          # self.twitterToken = user.twitterToken
           return redirect(os.environ['REDIRECT_URI']+'/#/feed')  
       return redirect(Rurl)
 
@@ -68,6 +66,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
       try:
@@ -107,6 +107,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
@@ -120,6 +122,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
