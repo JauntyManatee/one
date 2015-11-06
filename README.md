@@ -24,11 +24,15 @@
 
 ## How to set up our app?
 
+From within the root directory:
+
+```sh
 - brew install python3
 - virtualenv venv
 - pip3 install -r requirements.txt
 - npm install
 - bower install
+```
 
 ## Development
 
