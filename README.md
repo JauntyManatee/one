@@ -4,9 +4,9 @@
 
 ## Team
 
-  - __Product Owner__: Ryan wholey
-  - __Scrum Master__: Brian Graham
-  - __Development Team Members__: Ryan Wholey, Brian Graham, Niraj Vora, Robert Forloine
+  - __Product Owner__:            Ryan wholey
+  - __Scrum Master__:             Brian Graham
+  - __Development Team Members__: Niraj Vora, Robert Forloine, Brian Graham and Ryan Wholey
 
 ## Table of Contents
 
