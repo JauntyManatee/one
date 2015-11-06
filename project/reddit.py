@@ -7,14 +7,14 @@ class Reddit:
   
   def __init__(self, app):
     
-    self.REDDIT_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/redditLand'
+    self.REDDIT_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/reddit/redirect'
     #'http://localhost:5000/redditLand'
     self.REDDIT_STATE = str(uuid4())
     self.REDDIT_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by /u/huligan27'
     self.REDDIT_TOKEN = ''
 
     #initial auth route, sends user to reddit auth, we also send our server params
-    @app.route('/redditAuth')
+    @app.route('/reddit/auth')
     def redditAuth():
       params = {
         "client_id": os.environ['REDDIT_CLIENT_ID'],
@@ -29,7 +29,7 @@ class Reddit:
 
     #reddit landing, after auth above, user redirected here
     #code is provided which allows us to grab user token using 'get_token'
-    @app.route('/redditLand')
+    @app.route('/reddit/redirect')
     def redditLand():
       params = request.args
       REDDIT_CODE = params.get('code')
