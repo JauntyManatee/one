@@ -1,8 +1,10 @@
-
+# Client Facing
 # /soundcloud/stats pulls stats for user
-# /sound is our auth route
-# /soundAuth is our redirect
-# /soundStream gets embeds for own sound feed
+# /soundcloud/auth is our auth route
+
+# Server Facing
+# /soundcloud/redirect for OAuth initiation
+# /soundcloud/feed for OAuth landing
 
 
 import flask, os, soundcloud, json, collections

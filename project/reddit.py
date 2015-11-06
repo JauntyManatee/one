@@ -1,3 +1,11 @@
+# Client Facing
+# /reddit/rss/<feed> for pulling desired catagories, no auth needed
+# /reddit/hot current feed to pull from 'hot' /r/pics, no auth needed
+# /reddit/me grabs info about self
+
+# Server Facing
+# /reddit/auth for OAuth initiation
+# /reddit/rediret for OAuth landing
 import os, urllib.parse, requests, flask, json
 
 from uuid import uuid4
