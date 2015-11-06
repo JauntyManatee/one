@@ -3,14 +3,14 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
   var getTweets = function ( ) {
     return $http({
       method: 'GET',
-      url: '/tweetsfeed'
+      url: 'twitter/feed'
     });
   };
  
   var favTweet = function ( id ) {
     return $http({
       method: 'POST',
-      url: '/favtweet',
+      url: 'twitter/favtweet',
       data: { id: id }
     });
   };
@@ -18,7 +18,7 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
   var reTweet = function ( id ) {
     return $http({
       method: 'POST',
-      url: '/retweet',
+      url: 'twitter/retweet',
       data: { id: id }
     });
   };
@@ -26,7 +26,7 @@ app.factory('TwitterFactory',['$http', function ( $http ) {
   var postTweet = function ( tweet ) {
     return $http({
       method: 'POST',
-      url: '/posttweet',
+      url: 'twitter/posttweet',
       data: { tweet: tweet}
     });
   };

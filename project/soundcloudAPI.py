@@ -13,7 +13,7 @@ from flask import request, redirect, session
 client = soundcloud.Client(
   client_id= os.environ['SOUNDCLOUD_API_KEY'],
   client_secret= os.environ['SOUNDCLOUD_API_SECRET'],
-  redirect_uri= os.environ['REDIRECT_URI'] + '/soundAuth'
+  redirect_uri= os.environ['REDIRECT_URI'] + '/soundcloud/redirect'
 )
 
 class Soundcloud:
@@ -24,12 +24,12 @@ class Soundcloud:
     self.SOUNDCLOUD_TOKEN = ''
 
     #authorization route
-    @app.route('/sound')
+    @app.route('/soundcloud/auth')
     def sound():
       return redirect(client.authorize_url())
 
     #mid handshake route, retrieves access token
-    @app.route('/soundAuth')
+    @app.route('/soundcloud/redirect')
     def soundAuth():
       try:
         code = request.args.get('code')
@@ -68,7 +68,7 @@ class Soundcloud:
         self.embedsLeft -= 1
         pass
 
-    @app.route('/soundStream')
+    @app.route('/soundcloud/stream')
     def soundStream():
       if ('soundcloudToken' not in session):
         user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
