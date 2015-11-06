@@ -14,6 +14,7 @@
 1. [Development Set-Up](#Development Set-Up)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Stack](#stack) 
+    1. [Routes](#routes) 
     1. [Tasks](#tasks)
 1. [Contributing](#contributing)
 
