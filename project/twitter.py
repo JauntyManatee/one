@@ -1,7 +1,10 @@
-# /twitter/auth is our twitter activation page
-# /twitter/redirect is our twitter landing page
+# Client Facing
 # /twitter/feed gets your own twitter feed
 # /twitter/stats gets your own stats 
+
+# Server Facing
+# /twitter/auth for OAuth initiation
+# /twitter/redirect for OAuth landing
 
 import os, urllib.parse, requests, flask, json
 import oauth2 as oauth
@@ -27,6 +30,7 @@ class Twitter:
       client = oauth.Client(self.CONSUMER, token)
       resp, content = client.request( url, method=http_method)
       return content
+      
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/twitter/auth')
     def getTweets():
@@ -100,8 +104,6 @@ class Twitter:
         fav_url = 'https://api.twitter.com/1.1/statuses/update.json?status=' + tweet
         return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
-    # tried to combine these but python wouldnt behave.
-    # now we'll send them both back to angular and let angular comb throgh the mess
     @app.route('/twitter/followers')
     def getFollowers():
       if(session['id']):
