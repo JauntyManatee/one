@@ -38,10 +38,10 @@
 
 - Python 3
 - Flask
+- MySQL
 - Angular
 - Tachyons
 - Bootstrap
-- MySQL
 
 ### Roadmap
 
