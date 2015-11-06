@@ -1,4 +1,4 @@
-<img src="/project/static/views/img/logo.png"/>
+<img src="/project/static/views/img/logo.png" height="32px"/>
 
 > One Feed for Twitter, Instagram, SoundCloud and Reddit
 
