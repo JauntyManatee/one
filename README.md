@@ -11,8 +11,7 @@
 ## Table of Contents
 
 1. [Usage](#Usage)
-1. [Set Up](#set-up)
-1. [Development](#development)
+1. [Development Set-Up](#Development Set-Up)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
 1. [Team](#team)
@@ -22,9 +21,10 @@
 
 > Some usage instructions
 
-## How to set up our app?
+## Development Set-Up
 
-From within the root directory:
+###Installing Dependencies
+   From within the root directory:
 
 ```sh
 - brew install python3
@@ -32,18 +32,6 @@ From within the root directory:
 - pip3 install -r requirements.txt
 - npm install
 - bower install
-```
-
-## Development
-
-### Installing Dependencies
-
-From within the root directory:
-
-```sh
-sudo npm install -g bower
-npm install
-bower install
 ```
 
 ### Roadmap
