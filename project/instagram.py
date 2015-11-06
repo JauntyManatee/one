@@ -1,8 +1,11 @@
-# /instagram/ownGallery: pulls data on all of your own gallery posts
-# /instagram/stats: pulls your profile data & your followers/following numbers
-# /instagram/feed: grabs your own feed and returns embeds
-# /instagram/auth 3 way handshake initial authorization route
-# /instagram/redirect is ig landing page
+# Client Facing
+# /instagram/ownGallery pulls data on all of your own gallery posts
+# /instagram/stats pulls your profile data & your followers/following numbers
+# /instagram/feed Client facing : grabs your own feed and returns embeds
+
+# Server Facing
+# /instagram/auth for OAuth initiation
+# /instagram/redirect for OAuth landing
 
 import os, requests, flask, json
 from flask import request, redirect, session
