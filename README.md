@@ -13,8 +13,8 @@
 1. [Usage](#Usage)
 1. [Development Set-Up](#Development Set-Up)
     1. [Installing Dependencies](#installing-dependencies)
+    1. [Stack](#stack) 
     1. [Tasks](#tasks)
-1. [Team](#team)
 1. [Contributing](#contributing)
 
 ## Usage
@@ -34,10 +34,18 @@
 - bower install
 ```
 
+###Stack
+
+- Python 3
+- Flask
+- Angular
+- Tachyons
+- Bootstrap
+- MySQL
+
 ### Roadmap
 
 View the project roadmap [here](https://github.com/JauntyManatee/one/issues)
-
 
 ## Contributing
 
