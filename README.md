@@ -1,6 +1,6 @@
 <img src="/project/static/views/img/logo.png" height="64px"/>
 
-> One Feed for Twitter, Instagram, SoundCloud and Reddit
+> One Social Feed for Twitter, Instagram, SoundCloud and Reddit
 
 ## Team
 
@@ -36,7 +36,7 @@
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/JauntyManatee/one/issues)
 
 
 ## Contributing
