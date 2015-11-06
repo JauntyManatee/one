@@ -1,6 +1,6 @@
-# /activate is our twitter activation page
-# /authorized is our twitter landing page
-# /tweetsfeed gets your own twitter feed
+# /twitter/auth is our twitter activation page
+# /twitter/redirect is our twitter landing page
+# /twitter/feed gets your own twitter feed
 # /twitter/stats gets your own stats 
 
 import os, urllib.parse, requests, flask, json
@@ -29,9 +29,8 @@ class Twitter:
       return content
 
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
-    @app.route('/activate')
+    @app.route('/twitter/auth')
     def getTweets():
-      
       client = oauth.Client(self.CONSUMER)
       resp, content = client.request(request_token_url, "GET")
       if resp['status'] != '200':
@@ -41,12 +40,11 @@ class Twitter:
       if(session['id']):
         user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
         if(user.twitterToken):
-          # self.twitterToken = user.twitterToken
           return redirect(os.environ['REDIRECT_URI']+'/#/feed')  
       return redirect(Rurl)
 
     #This will grab the oauth token and make a request to access_token_url to let Twitter know all is well
-    @app.route('/authorized')
+    @app.route('/twitter/redirect')
     def getToken():
       token = oauth.Token(self.REQUEST_TOKEN[b'oauth_token'].decode('utf-8'),
           self.REQUEST_TOKEN[b'oauth_token_secret'].decode('utf-8'))
@@ -64,11 +62,13 @@ class Twitter:
 
     # After Authorized...redirect to tweetsfeed which will make a call
     # to grab the users TimeLine (from APIfactory)
-    @app.route('/tweetsfeed')
+    @app.route('/twitter/feed')
     def theTweets():
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
       try:
@@ -77,7 +77,7 @@ class Twitter:
       except:
         return json.dumps({})
 
-    @app.route('/favtweet', methods=['GET','POST'])
+    @app.route('/twitter/favtweet', methods=['GET','POST'])
     def favTweet():
       if(session['id']):
         request_data = json.loads(request.data.decode('utf-8'))
@@ -85,7 +85,7 @@ class Twitter:
         fav_url = 'https://api.twitter.com/1.1/favorites/create.json?id=' + tweet_id 
         return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
-    @app.route('/retweet', methods=['GET','POST'])
+    @app.route('/twitter/retweet', methods=['GET','POST'])
     def reTweet():
       if(session['id']):
         request_data = json.loads(request.data.decode('utf-8'))
@@ -93,7 +93,7 @@ class Twitter:
         fav_url = 'https://api.twitter.com/1.1/statuses/retweet/' + tweet_id + '.json'        
         return oauth_req( fav_url, session['twitterToken'], session['twitterSecret'], 'POST')
 
-    @app.route('/posttweet', methods=['GET', 'POST'])
+    @app.route('/twitter/posttweet', methods=['GET', 'POST'])
     def postTweet():
       if(session['id']):
         request_data = json.loads(request.data.decode('utf-8'))
@@ -108,6 +108,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
@@ -121,6 +123,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:

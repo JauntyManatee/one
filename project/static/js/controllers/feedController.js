@@ -15,7 +15,7 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
 
   var buildFeed = function (data, type, date) { 
     var theFeed  = [], 
-       theDate, htmlFrame, obj;
+        theDate, htmlFrame, obj;
     angular.forEach(data, function (item) {
       var append = true;
       if (type === 'reddit') {
@@ -62,14 +62,14 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
     return theFeed;
   };
 
-  $scope.isValidUser = function () {
-    var user = localStorage.getItem('at');
-    if (!user) {
-      $location.path('home');
-    } else {
-      return true;
-    }    
-  };
+  // $scope.isValidUser = function () {
+  //   var user = localStorage.getItem('at');
+  //   if (!user) {
+  //     $location.path('home');
+  //   } else {
+  //     return true;
+  //   }    
+  // };
 
   $scope.getTweets = function ( ) {
     TwitterFactory.getTweets().then(function ( data ) {
@@ -81,20 +81,22 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
   };
 
   $scope.favTweet = function ( id ) {
-    TwitterFactory.favTweet(id).then(function ( response ) {
-      console.log(response);
-    });
+    TwitterFactory.favTweet(id);
   };
 
   $scope.reTweet = function ( id ) {
-    TwitterFactory.reTweet(id).then(function ( response ) {
-      console.log(response);
-    });
+    TwitterFactory.reTweet(id);
   };
 
   $scope.postTweet = function ( tweet ) {
     var array = tweet.split("");
     for (var i = 0; i < array.length; i++) {
+      // space as %20
+      // @ as %40
+      // # as %23
+      // & as %26
+      // colon as %3A
+      // forward slash as %2F
       switch(array[i]) {
         case ' ':
           array[i] = '%20';
@@ -117,17 +119,9 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
         default:
           array[i] = array[i];
       }
-      // space as %20
-      // @ as %40
-      // # as %23
-      // & as %26
-      // colon as %3A
-      // forward slash as %2F
     }
     tweet = array.join("");
-    TwitterFactory.postTweet( tweet ).then(function ( response ) {
-      console.log(response);
-    });
+    TwitterFactory.postTweet( tweet );
   };
 
   $scope.getInstaFeed = function ( ) {
@@ -179,13 +173,13 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       var seshToken = localStorage.getItem('at');
       switch(type) {
         case 'twitter':
-          window.location.href = '/activate';
+          window.location.href = '/twitter/auth';
           break;
         case 'instagram':
-          window.location.href = '/igAuth';
+          window.location.href = '/instagram/auth';
           break;
         case 'soundcloud':
-          window.location.href = '/sound';
+          window.location.href = '/soundcloud/auth';
           break;
         case 'reddit':
           localStorage.redditToggle = true;
