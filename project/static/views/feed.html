@@ -62,9 +62,9 @@
               <time><i> {{ post.displayTime }} </i></time>    
             </div>
             <!--~~~~~~~~~INSTAGRAM~~~~~~~~~~~~~-->
-            <div class="panel panel-primary" ng-if="post.type === 'instagram'"> 
+            <div class="panel panel-primary tac" ng-if="post.type === 'instagram'"> 
               <div class="tac ptxs pbxs"><img class="h45" src='static/views/img/instagram.png'/></div>
-              <div class="embed" ng-if="post.type === 'instagram'" ng-bind-html="post.frame" onerror='this.style.display="none"'></div>   
+              <div class="tac w100 pp" ng-if="post.type === 'instagram'" ng-bind-html="post.frame" onerror='this.style.display="none"'></div>   
             </div>
             <!--~~~~~~~~~SOUNDCLOUD~~~~~~~~~~~~~-->
             <div class="panel panel-primary" ng-if="post.type === 'soundcloud'">   
@@ -83,15 +83,15 @@
       <div id="slideout">
         <h2>My Metrics</h2>
         <poseidon>
-        <p>Followers</p>
+        <p class='plm'>Followers</p>
         <div id="pie">
           <svg style="height:300px;width:300px;"></svg>
         </div>
-        <p>Following</p>
+        <p class='plm'>Following</p>
         <div id="pie2">
           <svg style="height:300px;width:300px;"></svg>
         </div>
-        <p>Your Feed</p>
+        <p class='plm'>Your Feed</p>
         <div id="pie3">
           <svg style="height:300px;width:300px;"></svg>
         </div>
