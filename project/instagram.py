@@ -1,8 +1,8 @@
 # /instagram/ownGallery: pulls data on all of your own gallery posts
 # /instagram/stats: pulls your profile data & your followers/following numbers
 # /instagram/feed: grabs your own feed and returns embeds
-# /igAuth ig auth route
-# /igLand is ig landing page
+# /instagram/auth 3 way handshake initial authorization route
+# /instagram/redirect is ig landing page
 
 import os, requests, flask, json
 from flask import request, redirect, session
@@ -14,18 +14,18 @@ class Instagram:
 
   def __init__(self, app, db):
     self.db = db
-    self.IG_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/igLand'
+    self.IG_REDIRECT_URI = os.environ['REDIRECT_URI'] + '/instagram/redirect'
     self.IG_USER_AGENT = 'Chrome-Python:ONE/1.0.1 by huligan27'
     # self.IG_TOKEN = ''
     self.IG_USER = ''
     self.embedsLeft = 0
 
-    @app.route('/igAuth')
+    @app.route('/instagram/auth')
     def igAuth():
       link = 'https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code' % (os.environ['IG_CLIENT_ID'], self.IG_REDIRECT_URI)
       return redirect(link)
 
-    @app.route('/igLand')
+    @app.route('/instagram/redirect')
     def igLand():
       params = request.args
       CODE = params.get('code')

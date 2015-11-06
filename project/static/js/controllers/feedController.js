@@ -173,13 +173,13 @@ app.controller('FeedController', ['$scope', 'PanelFactory', 'RedditFactory','Twi
       var seshToken = localStorage.getItem('at');
       switch(type) {
         case 'twitter':
-          window.location.href = '/activate';
+          window.location.href = '/twitter/auth';
           break;
         case 'instagram':
-          window.location.href = '/igAuth';
+          window.location.href = '/instagram/auth';
           break;
         case 'soundcloud':
-          window.location.href = '/sound';
+          window.location.href = '/soundcloud/auth';
           break;
         case 'reddit':
           localStorage.redditToggle = true;
