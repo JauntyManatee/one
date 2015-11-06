@@ -19,7 +19,7 @@
 
 ## Usage
 
-> Some usage instructions
+> <img src="/project/static/views/img/logo.png" height="16px"/> allows you to have your Twitter, Instagram, SoundCloud and the Reddit front page in one feed. 
 
 ## Development Set-Up
 
