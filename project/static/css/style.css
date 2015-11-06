@@ -14,6 +14,12 @@ header {
 
 }
 
+.pp {
+  padding-left:10%;
+  padding-right:10%;
+  padding-bottom:10px;
+}
+
 .loader{
   padding-top: 100px;
 }
