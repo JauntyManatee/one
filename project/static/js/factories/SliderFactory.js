@@ -47,7 +47,7 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
 
   var _twitterFollow = function () {
     return getTwitterStats().then(function (r) {
-      if(r['followers'] === undefined){
+      if(r['followers']['data'] === 'Null'){
         return null;
       }
       return {
@@ -136,7 +136,6 @@ app.factory('SliderFactory', ['$http','$q', function ( $http, $q ) {
       for(var key in obj){
         arr.push({media:key, counts: obj[key]});
       }
-      console.log(arr);
       return arr;
     });
   };

@@ -17,12 +17,9 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$location', '$windo
     UsersFactory.login(user)
     .then(function(res) {
       if(res.data === 'Incorrect username or password.') {
-        console.log('Incorrect username or password');
         $scope.verifier.errorz = "Incorrect username or password!";
         $scope.loginForm.$setPristine();
       } else if (res.data.auth_token) {
-        console.log('Logged in.', res.data);
-        localStorage.setItem('at', res.data.auth_token);
         $location.path('feed');
       }
     })
@@ -40,8 +37,6 @@ app.controller('HomeController', ['$scope', 'UsersFactory', '$location', '$windo
         $scope.verifier.errorz = "Incorrect username or password!";
         $scope.loginForm.$setPristine();
       } else {
-        console.log('User added.', res.data);
-        localStorage.setItem('at', res.data.auth_token);
         $location.path('feed');
       }
     })

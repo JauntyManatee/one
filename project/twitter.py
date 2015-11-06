@@ -39,7 +39,6 @@ class Twitter:
       if(session['id']):
         user = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
         if(user.twitterToken):
-          # self.twitterToken = user.twitterToken
           return redirect(os.environ['REDIRECT_URI']+'/#/feed')  
       return redirect(Rurl)
 
@@ -64,10 +63,11 @@ class Twitter:
     # to grab the users TimeLine (from APIfactory)
     @app.route('/tweetsfeed')
     def theTweets():
-      print('called twitter, hers your id', session['id'])
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
       try:
@@ -107,6 +107,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
@@ -120,6 +122,8 @@ class Twitter:
       if(session['id']):
         if('twitterToken' not in session):
           userTwitter = self.db.session.query(self.db.User).filter_by(authToken=session['id']).first()
+          if userTwitter.twitterToken is None:
+            return 'Null'
           session['twitterToken'] = str.encode(userTwitter.twitterToken)
           session['twitterSecret'] = str.encode(userTwitter.twitterSecret)
         try:
