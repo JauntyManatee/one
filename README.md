@@ -1,6 +1,6 @@
-# one
+<img src="/project/static/views/img/logo.png"/>
 
-> Pithy project description: a single source of all social media
+> One Feed for Twitter, Instagram, SoundCloud and Reddit
 
 ## Team
 
@@ -11,7 +11,7 @@
 ## Table of Contents
 
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
+1. [Set Up](#set-up)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
@@ -22,13 +22,13 @@
 
 > Some usage instructions
 
-## Requirements
+## How to set up our app?
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- brew install python3
+- virtualenv venv
+- pip3 install -r requirements.txt
+- npm install
+- bower install
 
 ## Development
 
