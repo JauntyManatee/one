@@ -19,7 +19,7 @@
 
 ## Usage
 
-> <img src="/project/static/views/img/logo.png" height="16px" style="text-align: bottom"/> allows you to have your Twitter, Instagram, SoundCloud and the Reddit front page in one feed. 
+> <img src="/project/static/views/img/logo.png" height="16px" style="text-align: bottom"/> allows you to have your Twitter, Instagram, SoundCloud and the Reddit front page in one feed. In addition, tweet directly from the app and view social media metrics about your social influence accross your accounts.
 
 ## Development Set-Up
 
