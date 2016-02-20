@@ -30,7 +30,6 @@ class Twitter:
       client = oauth.Client(self.CONSUMER, token)
       resp, content = client.request( url, method=http_method)
       return content
-      
     # This Route will redirect user for Twitter Verification, then redirect when Authorized
     @app.route('/twitter/auth')
     def getTweets():
