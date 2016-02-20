@@ -1,3 +1,4 @@
+auth.py
 node_modules
 project/npm-debug.log
 npm-debug.log
@@ -12,3 +13,4 @@ venv
 .module_cache
 project/auth.py
 project/PGDATA
+auth.py
